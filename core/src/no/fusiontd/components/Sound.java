@@ -1,4 +1,6 @@
 package no.fusiontd.components;
 
-public class Sound {
+import com.artemis.Component;
+
+public class Sound extends Component{
 }

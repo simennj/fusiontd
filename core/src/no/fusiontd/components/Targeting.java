@@ -1,4 +1,6 @@
 package no.fusiontd.components;
 
-public class Targeting {
+import com.artemis.Component;
+
+public class Targeting extends Component{
 }

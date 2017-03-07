@@ -1,4 +1,6 @@
 package no.fusiontd.components;
 
-public class Collision {
+import com.artemis.Component;
+
+public class Collision extends Component {
 }

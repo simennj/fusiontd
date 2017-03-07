@@ -1,4 +1,6 @@
 package no.fusiontd.components;
 
-public class Selectable {
+import com.artemis.Component;
+
+public class Selectable extends Component{
 }

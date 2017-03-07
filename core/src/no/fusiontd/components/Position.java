@@ -1,4 +1,6 @@
 package no.fusiontd.components;
 
-public class Position {
+import com.artemis.Component;
+
+public class Position extends Component{
 }

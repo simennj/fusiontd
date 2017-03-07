@@ -1,4 +1,6 @@
 package no.fusiontd.components;
 
-public class Durability {
+import com.artemis.Component;
+
+public class Durability extends Component{
 }

@@ -1,4 +1,6 @@
 package no.fusiontd.components;
 
-public class Sprite {
+import com.artemis.Component;
+
+public class Sprite extends Component{
 }

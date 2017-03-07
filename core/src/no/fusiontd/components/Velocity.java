@@ -1,4 +1,6 @@
 package no.fusiontd.components;
 
-public class Velocity {
+import com.artemis.Component;
+
+public class Velocity extends Component{
 }

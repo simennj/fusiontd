@@ -1,4 +1,6 @@
 package no.fusiontd.components;
 
-public class StatusEffect {
+import com.artemis.Component;
+
+public class StatusEffect extends Component{
 }
