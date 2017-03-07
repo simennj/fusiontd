@@ -9,7 +9,7 @@ public class Map {
 
     public Map() {
         map = new Integer[32][32];
-        img = new Texture("badlogic.jpg");
+        img = new Texture("tiles/024.png");
     }
 
 

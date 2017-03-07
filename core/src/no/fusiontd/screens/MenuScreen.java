@@ -23,7 +23,7 @@ public class MenuScreen implements Screen, InputProcessor {
     public void show() {
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
-        img = new Texture("badlogic.jpg");
+        img = new Texture("ui/green_button00.png");
     }
 
     @Override
