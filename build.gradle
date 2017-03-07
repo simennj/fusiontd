@@ -78,6 +78,7 @@ project(":core") {
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile "kryonet:kryonet:2.21"
+        compile "net.onedaybeard.artemis:artemis-odb:2.1.0"
     }
 }
 
