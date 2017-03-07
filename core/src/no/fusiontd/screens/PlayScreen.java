@@ -1,20 +1,23 @@
 package no.fusiontd.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.fusiontd.FusionTD;
 import no.fusiontd.game.Map;
 
 public class PlayScreen implements Screen, InputProcessor {
 
+    public static final int WIDTH = 1920, HEIGHT = 1080;
+    public int w, h;
+
     private FusionTD game;
     private Map map;
     private SpriteBatch batch;
+    private OrthographicCamera cam;
 
     public PlayScreen(FusionTD game) {
         this.game = game;
@@ -23,6 +26,9 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public void show() {
+        cam = new OrthographicCamera(WIDTH, HEIGHT);
+        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
+        cam.update();
         map = new Map();
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
@@ -32,6 +38,7 @@ public class PlayScreen implements Screen, InputProcessor {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.setProjectionMatrix(cam.combined);
         batch.begin();
         map.draw(delta, batch);
         batch.end();
@@ -39,7 +46,8 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public void resize(int width, int height) {
-
+        w = width;
+        h = height;
     }
 
     @Override
@@ -63,22 +71,8 @@ public class PlayScreen implements Screen, InputProcessor {
     }
 
     @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        map.placeTower(screenX * WIDTH / w, HEIGHT - screenY * HEIGHT / h);
         return false;
     }
 
@@ -94,6 +88,21 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
         return false;
     }
 
