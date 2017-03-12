@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class Map {
     private int[][] map;
-    private Texture groundTex, roadTex, towerWhiteTex, towerBlueTex;
+    private Texture groundTex, roadTex, towerWhiteTex, towerBlueTex, pathStartTex, pathEndTex;
     private static final int TILESIZE = 128, TILEROWS = 8, TILECOLS = 15;
 
     public Map() {
@@ -19,6 +19,8 @@ public class Map {
         roadTex = new Texture("tiles/050.png");
         towerBlueTex = new Texture("tiles/128.png");
         towerWhiteTex = new Texture("tiles/123.png");
+        pathStartTex = new Texture("tiles/123.png");
+        pathEndTex = new Texture("tiles/123.png");
     }
 
 
@@ -47,7 +49,9 @@ public class Map {
     }
 
 
-    public void spawn() {
+    public void creepSpawn() {
+    }
 
+    public void pathFinder(){
     }
 }
