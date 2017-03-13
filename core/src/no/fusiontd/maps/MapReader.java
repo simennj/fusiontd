@@ -10,7 +10,6 @@ public class MapReader {
 
         String level = Gdx.files.internal("maps/" + mapName).readString().replace("\r\n", "\n").replace("\r", "\n").replace("\n", "");
         char[] oneline = level.toCharArray();
-        System.out.println(oneline);
 
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < cols; x++) {
