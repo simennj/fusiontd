@@ -15,7 +15,7 @@ public class MapReader {
 
             for (int x = 0; x < rows; x++) {
 
-                switch (oneline[x + y*(rows)]) {
+                switch (oneline[x + (cols - 1 - y)*(rows)]) {
                     case '0': map[y][x] = 0;
                         break;
                     case '1': map[y][x] = 1;
