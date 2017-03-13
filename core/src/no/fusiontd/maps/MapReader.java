@@ -6,16 +6,15 @@ public class MapReader {
 
     public int[][] loadMap(String mapName, int rows, int cols) {
 
-        int[][] map = new int[cols][rows];
+        int[][] map = new int[rows][cols];
 
         String level = Gdx.files.internal("maps/" + mapName).readString().replace("\r\n", "\n").replace("\r", "\n").replace("\n", "");
         char[] oneline = level.toCharArray();
+        System.out.println(oneline);
 
-        for (int y = 0; y < cols; y++) {
-
-            for (int x = 0; x < rows; x++) {
-
-                switch (oneline[x + (cols - 1 - y)*(rows)]) {
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
+                switch (oneline[x + y*cols]) {
                     case '0': map[y][x] = 0;
                         break;
                     case '1': map[y][x] = 1;

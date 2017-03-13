@@ -12,7 +12,7 @@ public class Map {
     private MapReader mapReader = new MapReader();
 
     public Map() {
-        map = mapReader.loadMap("testmap.txt", TILECOLS, TILEROWS);
+        map = mapReader.loadMap("testmap.txt", TILEROWS, TILECOLS);
     }
 
     public int getTower(int x, int y) {
