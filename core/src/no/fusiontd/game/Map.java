@@ -18,9 +18,10 @@ public class Map {
     private int[][] map;
     public final int TILESIZE = 1, TILEROWS = 9, TILECOLS = 16;
     private MapReader mapReader = new MapReader();
+    private List<Point2D> path;
 
     public Map() {
-        map = mapReader.loadMap("testmap.txt", TILEROWS, TILECOLS);
+        map = mapReader.loadMap("testmap.txt", TILEROWS, TILECOLS); path = findPath(map);
     }
 
     public int getTower(int x, int y) {
@@ -48,15 +49,15 @@ public class Map {
 
 
         // Remembers which cells have been checked
-        boolean[][] checked = new boolean[TILECOLS][TILEROWS]; // default value is false
+        boolean[][] checked = new boolean[TILEROWS][TILECOLS]; // default value is false
 
         List<Point2D> points = new ArrayList<Point2D>();
         Point2D startPoint = null;
         Point2D endPoint = null;
 
         //Iterate over matrix to find start and end point
-        for (int i = 0; i < TILECOLS; i++){
-            for (int j = 0; j < TILEROWS; j++){
+        for (int i = 0; i < TILEROWS; i++){
+            for (int j = 0; j < TILECOLS; j++){
 
                 if (adj[i][j] == 4){
 
@@ -70,7 +71,6 @@ public class Map {
                     endPoint = new Point2D.Double(i, j);
                     checked[i][j] = true;
                 }
-
             }
         }
 
