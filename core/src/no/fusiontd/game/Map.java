@@ -44,7 +44,7 @@ public class Map {
     public void creepSpawn(int spawnNumber){
     }
 
-    public static List<Point2D> findPath(int[][] adj){
+    public List<Point2D> findPath(int[][] adj){
 
 
         // Remembers which cells have been checked
