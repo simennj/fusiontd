@@ -46,8 +46,7 @@ public class Map {
     }
 
     public List<Point2D> findPath(int[][] adj){
-
-
+        //Function that takes a map as input, and returns a list (with Point2D-objects) of path as a return value.
         // Remembers which cells have been checked
         boolean[][] checked = new boolean[TILEROWS][TILECOLS]; // default value is false
 
