@@ -1,13 +1,21 @@
 package no.fusiontd.screens;
 
+import com.artemis.Aspect;
+import com.artemis.World;
+import com.artemis.WorldConfiguration;
+import com.artemis.WorldConfigurationBuilder;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.fusiontd.FusionTD;
+import no.fusiontd.components.Position;
+import no.fusiontd.components.Velocity;
 import no.fusiontd.game.Map;
+import no.fusiontd.systems.VelocitySystem;
 
 public class PlayScreen implements Screen, InputProcessor {
 
@@ -18,10 +26,17 @@ public class PlayScreen implements Screen, InputProcessor {
     private Map map;
     private SpriteBatch batch;
     private OrthographicCamera cam;
-
+    private Texture velocitySystemTest;
     public PlayScreen(FusionTD game) {
         this.game = game;
     }
+
+    WorldConfiguration config = new WorldConfigurationBuilder()
+            .with(
+                    new VelocitySystem()
+                    ).build();
+    World world = new World(config);
+    int testEntity = world.create();
 
 
     @Override
@@ -32,6 +47,9 @@ public class PlayScreen implements Screen, InputProcessor {
         map = new Map();
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
+        velocitySystemTest = new Texture("tiles/019.png");
+        Position.mapper.create(testEntity);
+        Velocity.mapper.create(testEntity);
     }
 
     @Override
@@ -41,6 +59,7 @@ public class PlayScreen implements Screen, InputProcessor {
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
         map.draw(delta, batch);
+        batch.draw(velocitySystemTest,world.getEntity(testEntity).getComponent(Position.class).vec.x,world.getEntity(testEntity).getComponent(Position.class).vec.y);
         batch.end();
     }
 
