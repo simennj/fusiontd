@@ -6,30 +6,16 @@ public class MapReader {
 
     public int[][] loadMap(String mapName, int rows, int cols) {
 
-        int[][] map = new int[cols][rows];
+        int[][] map = new int[rows][cols];
 
-        String level = Gdx.files.internal("maps/" + mapName).readString().replace("\r\n", "\n").replace("\r", "\n").replace("\n", "");
-        char[] oneline = level.toCharArray();
+        // \\R matches any newline char
+        String[] level = Gdx.files.internal("maps/" + mapName).readString().split("\\R");
 
-        for (int y = 0; y < cols; y++) {
-
-            for (int x = 0; x < rows; x++) {
-
-                switch (oneline[x + y*(rows)]) {
-                    case '0': map[y][x] = 0;
-                        break;
-                    case '1': map[y][x] = 1;
-                        break;
-                    case '2': map[y][x] = 2;
-                        break;
-                    case '3': map[y][x] = 3;
-                        break;
-                    case '4': map[y][x] = 4;
-                        break;
-                    case '5': map[y][x] = 5;
-                        break;
-                    default: map[y][x] = 0;
-                }
+        int y_max = rows - 1;
+        for (int y = 0; y < rows; y++) {
+            char[] row = level[y].toCharArray();
+            for (int x = 0; x < cols; x++) {
+                map[y_max - y][x] = Character.getNumericValue(row[x]);
             }
         }
         return map;

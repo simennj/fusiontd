@@ -1,9 +1,5 @@
 package no.fusiontd.screens;
 
-import com.artemis.Aspect;
-import com.artemis.World;
-import com.artemis.WorldConfiguration;
-import com.artemis.WorldConfigurationBuilder;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -12,61 +8,113 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.fusiontd.FusionTD;
-import no.fusiontd.components.Position;
-import no.fusiontd.components.Velocity;
+import no.fusiontd.game.GameController;
 import no.fusiontd.game.Map;
-import no.fusiontd.systems.VelocitySystem;
 
-public class PlayScreen implements Screen, InputProcessor {
+public class PlayScreen implements Screen {
 
-    public static final int WIDTH = 1920, HEIGHT = 1080;
-    public int w, h;
+    public static final float WIDTH = 16, HEIGHT = 9;
+    public float w, h;
 
     private FusionTD game;
     private Map map;
+    private GameController controller;
     private SpriteBatch batch;
-    private OrthographicCamera cam;
-    private Texture velocitySystemTest;
+    private OrthographicCamera camera;
+    private float aspectRatio;
+    private int screenWidth, screenHeight;
+    private float heightOffset, widthOffset;
+
+    private Texture groundTex, roadTex, towerWhiteTex, towerBlueTex, pathStartTex, pathEndTex;
+
+
     public PlayScreen(FusionTD game) {
         this.game = game;
     }
 
-    WorldConfiguration config = new WorldConfigurationBuilder()
-            .with(
-                    new VelocitySystem()
-                    ).build();
-    World world = new World(config);
-    int testEntity = world.create();
-
 
     @Override
     public void show() {
-        cam = new OrthographicCamera(WIDTH, HEIGHT);
-        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-        cam.update();
+        camera = new OrthographicCamera(WIDTH, HEIGHT);
         map = new Map();
-        Gdx.input.setInputProcessor(this);
+        controller = new GameController(map, this);
+        Gdx.input.setInputProcessor(controller);
         batch = new SpriteBatch();
-        velocitySystemTest = new Texture("tiles/019.png");
-        Position.mapper.create(testEntity);
-        Velocity.mapper.create(testEntity);
+        initializeTextures();
+    }
+
+    public void initializeTextures() {
+        groundTex = new Texture("tiles/024.png");
+        roadTex = new Texture("tiles/050.png");
+        towerBlueTex = new Texture("tiles/128.png");
+        towerWhiteTex = new Texture("tiles/123.png");
+        pathStartTex = new Texture("tiles/091.png");
+        pathEndTex = new Texture("tiles/090.png");
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(cam.combined);
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        map.draw(delta, batch);
-        batch.draw(velocitySystemTest,world.getEntity(testEntity).getComponent(Position.class).vec.x,world.getEntity(testEntity).getComponent(Position.class).vec.y);
+        drawMap(map, delta, batch);
         batch.end();
+    }
+
+    private void drawMap(Map map, float delta, SpriteBatch batch) {
+        for (int r = 0; r < map.TILEROWS; r++) {
+            for (int c = 0; c < map.TILECOLS; c++) {
+                batch.draw(getSprite(map.getTower(c, r)), c * map.TILESIZE, r * map.TILESIZE, map.TILESIZE, map.TILESIZE);
+            }
+        }
+    }
+
+    private Texture getSprite(int type) {
+        switch (type) {
+            case 0:
+                return groundTex;
+            case 1:
+                return roadTex;
+            case 2:
+                return towerWhiteTex;
+            case 3:
+                return towerBlueTex;
+            case 4:
+                return pathStartTex;
+            case 5:
+                return pathEndTex;
+            default:
+                return groundTex;
+        }
+    }
+
+    public float getCameraX(int screenX) {
+        return (screenX - widthOffset) * w / screenWidth;
+    }
+
+    public float getCameraY(int screenY) {
+        return HEIGHT - (screenY - heightOffset) * h / screenHeight;
     }
 
     @Override
     public void resize(int width, int height) {
-        w = width;
-        h = height;
+        screenWidth = width;
+        screenHeight = height;
+        aspectRatio = (float) (width) / (float) (height);
+        if (aspectRatio > 16.0 / 9.0) {
+            camera.viewportWidth = w = (HEIGHT * aspectRatio);
+            camera.viewportHeight = h = HEIGHT;
+            heightOffset = 0;
+            widthOffset = (screenWidth - WIDTH * screenWidth / w) / 2;
+        } else {
+            camera.viewportHeight = h = (WIDTH / aspectRatio);
+            camera.viewportWidth = w = WIDTH;
+            heightOffset = (screenHeight - HEIGHT * screenHeight / h) / 2;
+            widthOffset = 0;
+        }
+        camera.position.set(WIDTH / 2, HEIGHT / 2, 0);
+        camera.update();
     }
 
     @Override
@@ -86,47 +134,7 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-        batch.dispose();
+
     }
 
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        map.placeTower(screenX * WIDTH / w, HEIGHT - screenY * HEIGHT / h);
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
 }
