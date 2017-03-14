@@ -39,7 +39,7 @@ public class RenderSystem extends EntitySystem {
         Position pos = mPos.get(e);
         Render rend = mRend.get(e);
         Rotation rot = mRot.get(e);
-        rend.setPosition(pos.x, pos.y);
+        rend.setPosition(pos.vec.x, pos.vec.y);
         rend.setRotation(rot.rotation);
         rend.draw(batch);
     }
