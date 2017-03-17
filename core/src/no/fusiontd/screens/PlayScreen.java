@@ -65,7 +65,7 @@ public class PlayScreen implements Screen {
     private void drawMap(Map map, float delta, SpriteBatch batch) {
         for (int r = 0; r < map.TILEROWS; r++) {
             for (int c = 0; c < map.TILECOLS; c++) {
-                batch.draw(getSprite(map.getTower(c, r)), c * map.TILESIZE, r * map.TILESIZE, map.TILESIZE, map.TILESIZE);
+                batch.draw(getSprite(map.getTile(r, c)), c * map.TILESIZE, r * map.TILESIZE, map.TILESIZE, map.TILESIZE);
             }
         }
     }

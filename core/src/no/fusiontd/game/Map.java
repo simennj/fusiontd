@@ -24,8 +24,12 @@ public class Map {
         map = mapReader.loadMap("testmap.txt", TILEROWS, TILECOLS); path = findPath(map);
     }
 
-    public int getTower(int x, int y) {
-        return map[y][x];
+    public int getTile(float x, float y) {
+        return getTile((int) x, (int) y);
+    }
+
+    public int getTile(int x, int y) {
+        return map[x][y];
     }
 
     public void placeTower(float x, float y) {
@@ -42,7 +46,11 @@ public class Map {
     }
 
 
-    public void creepSpawn(int spawnNumber){
+    public void creepSpawn(float x, float y, int spawnNumber) {creepSpawn((int) x, (int) y, spawnNumber); }
+
+    public void creepSpawn(int x, int y, int spawnNumber){
+        if (map[MathUtils.clamp(y/TILESIZE, 0, TILEROWS-1)][MathUtils.clamp(x/TILESIZE, 0, TILECOLS-1)] == 4 )
+        { } // spawn creeps
     }
 
     public List<Point2D> findPath(int[][] adj){

@@ -1,6 +1,8 @@
 package no.fusiontd.game;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.MathUtils;
+
 import no.fusiontd.screens.PlayScreen;
 
 public class GameController implements InputProcessor {
@@ -35,7 +37,16 @@ public class GameController implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        model.placeTower(view.getCameraX(screenX), view.getCameraY(screenY));
+        if (model.getTile(MathUtils.clamp(view.getCameraY(screenY), 0, model.TILEROWS-1),MathUtils.clamp(view.getCameraX(screenX), 0, model.TILECOLS-1)) == 4){
+            model.creepSpawn(view.getCameraX(screenX), view.getCameraY(screenY),1);
+            return false;
+        }
+        else if (model.getTile(MathUtils.clamp(view.getCameraY(screenY), 0, model.TILEROWS-1),MathUtils.clamp(view.getCameraX(screenX), 0, model.TILECOLS-1)) == 0 ||
+                model.getTile(MathUtils.clamp(view.getCameraY(screenY), 0, model.TILEROWS-1),MathUtils.clamp(view.getCameraX(screenX), 0, model.TILECOLS-1)) == 2 ||
+                model.getTile(MathUtils.clamp(view.getCameraY(screenY), 0, model.TILEROWS-1),MathUtils.clamp(view.getCameraX(screenX), 0, model.TILECOLS-1)) == 3 ) {
+            model.placeTower(view.getCameraX(screenX), view.getCameraY(screenY));
+            return false;
+        }
         return false;
     }
 
