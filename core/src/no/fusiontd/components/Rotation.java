@@ -5,6 +5,9 @@ import com.artemis.Component;
 public class Rotation extends Component{
     public float rotation;
 
+    public Rotation() {
+        this(0);
+    }
     public Rotation(float r) {
         this.rotation = r;
     }
