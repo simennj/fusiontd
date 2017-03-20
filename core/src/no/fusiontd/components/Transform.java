@@ -1,8 +1,7 @@
 package no.fusiontd.components;
 
-import com.artemis.Component;
 
+import com.badlogic.ashley.core.Component;
 
-
-public class Transform extends Component {
+public class Transform implements Component {
 }

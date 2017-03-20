@@ -1,40 +1,26 @@
 package no.fusiontd.systems;
 
 
-import com.artemis.Aspect;
-import com.artemis.ComponentMapper;
-import com.artemis.Entity;
-import com.artemis.EntitySystem;
-import com.artemis.systems.EntityProcessingSystem;
-import com.artemis.utils.Bag;
-
+import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.systems.IteratingSystem;
 import no.fusiontd.components.Collision;
 import no.fusiontd.components.Position;
 import no.fusiontd.components.Type;
 
-public class CollisionSystem extends EntitySystem {
+public class CollisionSystem extends IteratingSystem {
 
     ComponentMapper<Collision> mCol;
     ComponentMapper<Position>  mPos;
 
 
-    public CollisionSystem(Aspect.Builder aspect) {
-        super(Aspect.all(Collision.class, Position.class, Type.class));
-    }
-
-
-    protected void process(Entity e) {
-        Bag<Entity> entities = getEntities();
-
-
-
-
-
-
+    public CollisionSystem() {
+        super(Family.all(Collision.class, Position.class, Type.class).get());
     }
 
     @Override
-    protected void processSystem() {
+    protected void processEntity(Entity entity, float deltaTime) {
 
     }
 }

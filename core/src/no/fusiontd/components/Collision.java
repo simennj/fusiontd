@@ -1,15 +1,8 @@
 package no.fusiontd.components;
 
-import com.artemis.Component;
+import com.badlogic.ashley.core.Component;
 
-public class Collision extends Component {
-    int radius;
-
-    Collision() {
-        this.radius = radius;
-    }
-
-
-
+public class Collision implements Component {
+    public int radius;
 
 }

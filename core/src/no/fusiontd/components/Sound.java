@@ -1,6 +1,6 @@
 package no.fusiontd.components;
 
-import com.artemis.Component;
+import com.badlogic.ashley.core.Component;
 
-public class Sound extends Component{
+public class Sound implements Component {
 }

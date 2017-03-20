@@ -1,8 +1,8 @@
 package no.fusiontd.components;
 
-import com.artemis.Component;
+import com.badlogic.ashley.core.Component;
 
-public class StatusEffect extends Component{
+public class StatusEffect implements Component {
     int status;
 
     StatusEffect(int newStatus) {

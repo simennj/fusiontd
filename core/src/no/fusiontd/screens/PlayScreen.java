@@ -1,7 +1,6 @@
 package no.fusiontd.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -27,7 +26,6 @@ public class PlayScreen implements Screen {
 
     private Texture groundTex, roadTex, towerWhiteTex, towerBlueTex, pathStartTex, pathEndTex;
 
-
     public PlayScreen(FusionTD game) {
         this.game = game;
     }
@@ -43,7 +41,7 @@ public class PlayScreen implements Screen {
         initializeTextures();
     }
 
-    public void initializeTextures() {
+    private void initializeTextures() {
         groundTex = new Texture("tiles/024.png");
         roadTex = new Texture("tiles/050.png");
         towerBlueTex = new Texture("tiles/128.png");

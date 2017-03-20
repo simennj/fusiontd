@@ -1,8 +1,8 @@
 package no.fusiontd.components;
 
-import com.artemis.Component;
+import com.badlogic.ashley.core.Component;
 
-public class Selectable extends Component{
+public class Selectable implements Component {
     boolean isSelectable;
 
     Selectable(boolean check) {

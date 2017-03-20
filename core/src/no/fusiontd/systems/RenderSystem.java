@@ -1,16 +1,15 @@
 package no.fusiontd.systems;
 
-import com.artemis.Aspect;
-import com.artemis.ComponentMapper;
-import com.artemis.Entity;
-import com.artemis.EntitySystem;
-import com.artemis.utils.Bag;
+import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.fusiontd.components.Position;
 import no.fusiontd.components.Render;
 import no.fusiontd.components.Rotation;
 
-public class RenderSystem extends EntitySystem {
+public class RenderSystem extends IteratingSystem {
     private final SpriteBatch batch;
 
     ComponentMapper<Position> mPos;
@@ -18,29 +17,17 @@ public class RenderSystem extends EntitySystem {
     ComponentMapper<Rotation> mRot;
 
     public RenderSystem(SpriteBatch batch) {
-        super(Aspect.all(Position.class, Rotation.class, Render.class));
+        super(Family.all(Position.class, Rotation.class, Render.class).get());
         this.batch = batch;
     }
 
     @Override
-    protected void processSystem() {
-        Bag<Entity> entities = getEntities();
-
-
-        for(Entity e: entities) {
-            process(e);
-            
-        }
-    }
-
-    protected void process (Entity e) {
-        Position pos = mPos.get(e);
-        Render rend = mRend.get(e);
-        Rotation rot = mRot.get(e);
-        rend.setPosition(pos.vec.x, pos.vec.y);
+    protected void processEntity(Entity entity, float deltaTime) {
+        Position pos = mPos.get(entity);
+        Render rend = mRend.get(entity);
+        Rotation rot = mRot.get(entity);
+        rend.setPosition(pos.x, pos.y);
         rend.setRotation(rot.rotation);
         rend.draw(batch);
     }
-
-
 }
