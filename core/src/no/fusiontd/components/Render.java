@@ -2,52 +2,58 @@ package no.fusiontd.components;
 
 import com.artemis.Component;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 public class Render extends Component {
 
-    Sprite Sprite;
+    Sprite sprite;
+
+    public Render() {
+        this(new TextureRegion(new Texture("tiles/128.png")));
+    }
 
     public Render(TextureRegion rect) {
-        Sprite = new Sprite(rect);
+        this(rect, 1, 1);
     }
 
     public Render(TextureRegion rect, float w, float h) {
-        this(rect);
-        Sprite.setSize(w,h);
+        sprite = new Sprite(rect);
+        setScale(1, 1);
     }
 
     public void setRegion(TextureRegion rect) {
-        Sprite.setRegion(rect);
+        sprite.setRegion(rect);
     }
+
     public void setOrigin(float xCoord, float yCoord) {
-        Sprite.setOrigin(xCoord,yCoord);
+        sprite.setOrigin(xCoord, yCoord);
     }
 
     public void setSize(float w, float h) {
-        Sprite.setSize(w,h);
+        sprite.setSize(w, h);
     }
 
     public void setPosition(float x, float y) {
-        Sprite.setPosition(x - Sprite.getOriginX(), y - Sprite.getOriginY());
+        sprite.setPosition(x - sprite.getOriginX(), y - sprite.getOriginY());
     }
 
     public void setRotation(float degrees) {
-        Sprite.setRotation(degrees);
+        sprite.setRotation(degrees);
     }
 
     public void setScale(float x, float y) {
-        Sprite.setScale(x, y);
+        sprite.setScale(x / 128, y / 128);
     }
 
     public void setColor(Color col) {
-        Sprite.setColor(col);
+        sprite.setColor(col);
     }
 
     public void draw(SpriteBatch batch) {
-        Sprite.draw(batch);
+        sprite.draw(batch);
     }
 
 }
