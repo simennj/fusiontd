@@ -32,6 +32,7 @@ public class RenderSystem extends EntitySystem {
 
         for(Entity e: entities) {
             process(e);
+            
         }
     }
 

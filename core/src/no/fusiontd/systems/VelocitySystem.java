@@ -15,9 +15,6 @@ import no.fusiontd.components.Velocity;
 public class VelocitySystem extends EntityProcessingSystem {
     ComponentMapper<Position> mPos;
     ComponentMapper<Velocity> mVel;
-    ComponentMapper<Render> mRend;
-    float delta = 1/60;
-
     public VelocitySystem() {
         super(Aspect.all(Position.class, Velocity.class));
     }
