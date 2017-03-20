@@ -24,6 +24,7 @@ public class PlayScreen implements Screen {
     private float tilesize;
     private int screenWidth, screenHeight;
     private float heightOffset, widthOffset;
+    private State state = State.RUN;
 
     private Texture groundTex, roadTex, towerWhiteTex, towerBlueTex, pathStartTex, pathEndTex;
 
@@ -55,12 +56,20 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 1, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        drawMap(map, batch);
-        batch.end();
+
+        switch(state) {
+            case RUN:
+                Gdx.gl.glClearColor(0, 1, 0, 1);
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                batch.setProjectionMatrix(camera.combined);
+                batch.begin();
+                drawMap(map, batch);
+                batch.end();
+                break;
+            case PAUSE:
+                //Do nothing
+                break;
+        }
     }
 
     private void drawMap(Map map, SpriteBatch batch) {
@@ -120,12 +129,19 @@ public class PlayScreen implements Screen {
 
     @Override
     public void pause() {
-
+        this.state = State.PAUSE;
+        //When the state is set to Pause, it causes the Render method to do nothing.
     }
 
     @Override
     public void resume() {
+        this.state = State.RUN;
+        //With the state set to run, the Render method is set to run normally.
+    }
 
+    public enum State{
+        PAUSE,
+        RUN,
     }
 
     @Override
