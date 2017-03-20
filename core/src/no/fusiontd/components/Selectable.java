@@ -5,7 +5,7 @@ import com.artemis.Component;
 public class Selectable extends Component{
     boolean isSelectable;
 
-    Selectable(boolean check) {
+    public Selectable(boolean check) {
         isSelectable = check;
     }
 }
