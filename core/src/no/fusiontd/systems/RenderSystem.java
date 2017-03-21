@@ -12,9 +12,9 @@ import no.fusiontd.components.Rotation;
 public class RenderSystem extends IteratingSystem {
     private final SpriteBatch batch;
 
-    ComponentMapper<Position> mPos;
-    ComponentMapper<Render> mRend;
-    ComponentMapper<Rotation> mRot;
+    ComponentMapper<Position> mPos = ComponentMapper.getFor(Position.class);
+    ComponentMapper<Render> mRend = ComponentMapper.getFor(Render.class);
+    ComponentMapper<Rotation> mRot = ComponentMapper.getFor(Rotation.class);
 
     public RenderSystem(SpriteBatch batch) {
         super(Family.all(Position.class, Rotation.class, Render.class).get());

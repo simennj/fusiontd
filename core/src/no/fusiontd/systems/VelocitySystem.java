@@ -9,8 +9,8 @@ import no.fusiontd.components.Velocity;
 
 
 public class VelocitySystem extends IteratingSystem {
-    ComponentMapper<Position> mPos;
-    ComponentMapper<Velocity> mVel;
+    ComponentMapper<Position> mPos = ComponentMapper.getFor(Position.class);
+    ComponentMapper<Velocity> mVel = ComponentMapper.getFor(Velocity.class);
 
     public VelocitySystem() {
         super(Family.all(Position.class, Velocity.class).get());
@@ -20,7 +20,7 @@ public class VelocitySystem extends IteratingSystem {
     protected void processEntity(Entity e, float deltatime) {
         Velocity vel = mVel.get(e);
         Position pos = mPos.get(e);
-        pos.add(vel.scl(deltatime));
+        pos.mulAdd(vel, deltatime);
     }
 
 }
