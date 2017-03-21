@@ -1,17 +1,11 @@
 package no.fusiontd.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.sun.glass.ui.EventLoop;
-
-import javax.print.attribute.standard.RequestingUserName;
-
-import javafx.concurrent.Worker;
 import no.fusiontd.FusionTD;
 import no.fusiontd.game.GameController;
 import no.fusiontd.game.Map;
@@ -27,6 +21,7 @@ public class PlayScreen implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private float aspectRatio;
+    private float tilesize;
     private int screenWidth, screenHeight;
     private float heightOffset, widthOffset;
     private State state = State.RUN;
@@ -43,6 +38,7 @@ public class PlayScreen implements Screen {
     public void show() {
         camera = new OrthographicCamera(WIDTH, HEIGHT);
         map = new Map();
+        tilesize = Math.min(WIDTH / map.TILECOLS, HEIGHT / map.TILEROWS);
         controller = new GameController(map, this);
         Gdx.input.setInputProcessor(controller);
         batch = new SpriteBatch();
@@ -67,7 +63,7 @@ public class PlayScreen implements Screen {
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                 batch.setProjectionMatrix(camera.combined);
                 batch.begin();
-                drawMap(map, delta, batch);
+                drawMap(map, batch);
                 batch.end();
                 break;
             case PAUSE:
@@ -76,10 +72,10 @@ public class PlayScreen implements Screen {
         }
     }
 
-    private void drawMap(Map map, float delta, SpriteBatch batch) {
-        for (int r = 0; r < map.TILEROWS; r++) {
-            for (int c = 0; c < map.TILECOLS; c++) {
-                batch.draw(getSprite(map.getTile(r, c)), c * map.TILESIZE, r * map.TILESIZE, map.TILESIZE, map.TILESIZE);
+    private void drawMap(Map map, SpriteBatch batch) {
+        for (int y = 0; y < map.TILEROWS; y++) {
+            for (int x = 0; x < map.TILECOLS; x++) {
+                batch.draw(getSprite(map.getTile(x, y)), x * tilesize, y * tilesize, tilesize, tilesize);
             }
         }
     }
