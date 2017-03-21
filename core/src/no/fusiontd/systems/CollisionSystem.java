@@ -9,6 +9,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 
 import no.fusiontd.components.Durability;
 import no.fusiontd.components.Position;
+import no.fusiontd.components.Timer;
 import no.fusiontd.components.Type;
 import no.fusiontd.components.Attack;
 import no.fusiontd.components.Attackable;
@@ -20,6 +21,7 @@ public class CollisionSystem extends IteratingSystem {
     ComponentMapper<Attackable> mAttab;
     ComponentMapper<Position>  mPos;
     ComponentMapper<Durability> mDur;
+    ComponentMapper<Timer> mTime;
     float dx, dy, distance;
     int creepLife, projLife;
 
@@ -45,7 +47,6 @@ public class CollisionSystem extends IteratingSystem {
     }
 
     void CollisionHandler(Entity proj, Entity creep) {
-        if(mDur.has(proj)) {
             System.out.println("Kollisjon");
             creepLife = mDur.get(creep).life;
             projLife = mDur.get(proj).life;
@@ -59,7 +60,7 @@ public class CollisionSystem extends IteratingSystem {
             if (mDur.get(proj).life <= 0) {
                 proj.removeAll();
             }
-        }
+
 
 
 
