@@ -6,11 +6,10 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
-import no.fusiontd.components.Collision;
-import no.fusiontd.components.Position;
-import no.fusiontd.components.Type;
 import no.fusiontd.components.Attack;
 import no.fusiontd.components.Attackable;
+import no.fusiontd.components.Position;
+import no.fusiontd.components.Type;
 
 public class CollisionSystem extends IteratingSystem {
 
