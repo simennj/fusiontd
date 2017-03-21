@@ -3,10 +3,10 @@ package no.fusiontd.components;
 import com.badlogic.ashley.core.Component;
 
 
-public class attackable implements Component {
+public class Attackable implements Component {
     public int creepradius;
 
-    public attackable(int newRadius){
+    public Attackable(int newRadius){
         this.creepradius = newRadius;
     }
 }
