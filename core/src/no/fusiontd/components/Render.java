@@ -17,12 +17,12 @@ public class Render extends Sprite implements Component {
 
     @Override
     public void setPosition(float x, float y) {
-        this.setPosition(x - this.getOriginX(), y - this.getOriginY());
+        super.setPosition(x - super.getOriginX(), y - super.getOriginY());
     }
 
     @Override
     public void setScale(float x, float y) {
-        this.setScale(x / 128, y / 128);
+        super.setScale(x / 128, y / 128);
     }
 
 }
