@@ -28,7 +28,6 @@ public class PlayScreen implements Screen {
 
     private Texture groundTex, roadTex, towerWhiteTex, towerBlueTex, pathStartTex, pathEndTex;
 
-
     public PlayScreen(FusionTD game) {
         this.game = game;
     }
@@ -45,7 +44,7 @@ public class PlayScreen implements Screen {
         initializeTextures();
     }
 
-    public void initializeTextures() {
+    private void initializeTextures() {
         groundTex = new Texture("tiles/024.png");
         roadTex = new Texture("tiles/050.png");
         towerBlueTex = new Texture("tiles/128.png");

@@ -1,11 +1,9 @@
 package no.fusiontd.components;
 
-import com.artemis.Component;
+import com.badlogic.ashley.core.Component;
 
-
-
-public class Type extends Component {
-    public String type;
+public class Type implements Component {
+    String type;
 
     public Type(String newT){
         this.type = newT;
