@@ -1,15 +1,10 @@
 package no.fusiontd.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Render extends Sprite implements Component {
-
-    public Render() {
-        this(new TextureRegion(new Texture("tiles/128.png")));
-    }
 
     public Render(TextureRegion rect) {
         this(rect, 1, 1);
