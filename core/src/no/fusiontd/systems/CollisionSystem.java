@@ -30,6 +30,7 @@ public class CollisionSystem extends IteratingSystem {
         Position projPos = mPos.get(entity);
         Attack projAtt = mAttack.get(entity);
         for (Entity creep : creeps) {
+
             dx = projPos.x - creep.getComponent(Position.class).x;
             dy = projPos.y - creep.getComponent(Position.class).y;
             distance = (float)Math.sqrt(dx*dx + dy*dy);
