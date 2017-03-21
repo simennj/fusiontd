@@ -1,12 +1,19 @@
 package no.fusiontd.screens;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import no.fusiontd.FusionTD;
+import no.fusiontd.components.Position;
+import no.fusiontd.components.Render;
+import no.fusiontd.components.Rotation;
+import no.fusiontd.components.Velocity;
+import no.fusiontd.game.EntityComponentManager;
 import no.fusiontd.game.GameController;
 import no.fusiontd.game.Map;
 
@@ -14,11 +21,11 @@ public class PlayScreen implements Screen {
 
     public static final float WIDTH = 16, HEIGHT = 9;
     public float w, h;
-
+    public SpriteBatch batch;
+    public EntityComponentManager engine;
     private FusionTD game;
     private Map map;
     private GameController controller;
-    private SpriteBatch batch;
     private OrthographicCamera camera;
     private float aspectRatio;
     private float tilesize;
@@ -42,6 +49,8 @@ public class PlayScreen implements Screen {
         Gdx.input.setInputProcessor(controller);
         batch = new SpriteBatch();
         initializeTextures();
+        engine = new EntityComponentManager(this);
+        engine.addEntity(new Entity().add(new Position()).add(new Rotation()).add(new Render(new TextureRegion(new Texture("tiles/246.png")))).add(new Velocity(1, 1)));
     }
 
     private void initializeTextures() {
@@ -63,6 +72,7 @@ public class PlayScreen implements Screen {
                 batch.setProjectionMatrix(camera.combined);
                 batch.begin();
                 drawMap(map, batch);
+                engine.update(delta);
                 batch.end();
                 break;
             case PAUSE:
@@ -138,11 +148,6 @@ public class PlayScreen implements Screen {
         //With the state set to run, the Render method is set to run normally.
     }
 
-    public enum State{
-        PAUSE,
-        RUN,
-    }
-
     @Override
     public void hide() {
 
@@ -151,6 +156,11 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public enum State {
+        PAUSE,
+        RUN,
     }
 
 }
