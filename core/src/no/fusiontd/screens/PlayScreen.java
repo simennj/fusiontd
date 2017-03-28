@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import no.fusiontd.FusionTD;
 import no.fusiontd.components.Position;
@@ -34,7 +35,13 @@ public class PlayScreen implements Screen, InputProcessor {
     private float heightOffset, widthOffset;
     private State state = State.RUN;
 
-    private Texture groundTex, roadTex, towerWhiteTex, towerBlueTex, pathStartTex, pathEndTex;
+    private TextureAtlas tileAtlas = new TextureAtlas("tiles.atlas");
+    private TextureAtlas.AtlasRegion groundTex;
+    private TextureAtlas.AtlasRegion roadTex;
+    private TextureAtlas.AtlasRegion towerWhiteTex;
+    private TextureAtlas.AtlasRegion towerBlueTex;
+    private TextureAtlas.AtlasRegion pathStartTex;
+    private TextureAtlas.AtlasRegion pathEndTex;
 
     public PlayScreen(FusionTD game) {
         this.game = game;
@@ -55,18 +62,18 @@ public class PlayScreen implements Screen, InputProcessor {
     }
 
     private void initializeTextures() {
-        groundTex = new Texture("tiles/024.png");
-        roadTex = new Texture("tiles/050.png");
-        towerBlueTex = new Texture("tiles/128.png");
-        towerWhiteTex = new Texture("tiles/123.png");
-        pathStartTex = new Texture("tiles/091.png");
-        pathEndTex = new Texture("tiles/090.png");
+        groundTex = tileAtlas.findRegion("024");
+        roadTex = tileAtlas.findRegion("050");
+        towerBlueTex = tileAtlas.findRegion("128");
+        towerWhiteTex = tileAtlas.findRegion("123");
+        pathStartTex = tileAtlas.findRegion("091");
+        pathEndTex = tileAtlas.findRegion("090");
     }
 
     @Override
     public void render(float delta) {
 
-        switch(state) {
+        switch (state) {
             case RUN:
                 Gdx.gl.glClearColor(0, 1, 0, 1);
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -90,7 +97,7 @@ public class PlayScreen implements Screen, InputProcessor {
         }
     }
 
-    private Texture getSprite(int type) {
+    private TextureAtlas.AtlasRegion getSprite(int type) {
         switch (type) {
             case 0:
                 return groundTex;
