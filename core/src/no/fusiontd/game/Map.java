@@ -1,6 +1,8 @@
 package no.fusiontd.game;
 
+import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import no.fusiontd.maps.MapReader;
 
 import java.awt.geom.Point2D;
@@ -11,13 +13,13 @@ import java.util.Queue;
 
 public class Map {
     public final int TILEROWS = 9, TILECOLS = 16;
+    public CatmullRomSpline<Vector2> path;
     private int[][] map;
     private MapReader mapReader = new MapReader();
-    private List<Point2D> path;
 
     public Map() {
         map = mapReader.loadMap("testmap.txt", TILEROWS, TILECOLS);
-        path = findPath(map);
+        path = getPath();
     }
 
     public int getTile(float x, float y) {
@@ -122,4 +124,30 @@ public class Map {
 
         return points;
     }
+
+    private CatmullRomSpline<Vector2> getPath() {
+        List<Point2D> points = findPath(map);
+        ArrayList<Vector2> vectors = new ArrayList<Vector2>();
+        vectors.add(getVectorFromPoint(points.get(0)));
+        vectors.add(getVectorFromPoint(points.get(0)));
+        for (int i = 1; i < points.size() - 1; i++) {
+            vectors.add(getVectorFromPoint(points.get(i)));
+        }
+        vectors.add(getVectorFromPoint(points.get(points.size() - 1)));
+        vectors.add(new Vector2(
+                getVectorFromPoint(points.get(points.size() - 1)).x + 1,
+                getVectorFromPoint(points.get(points.size() - 1)).y
+        ));
+        Vector2[] vectorArray = new Vector2[vectors.size()];
+        vectors.toArray(vectorArray);
+        for (Vector2 vector2 : vectorArray) {
+            System.out.println(vector2);
+        }
+        return new CatmullRomSpline<Vector2>(vectorArray, false);
+    }
+
+    private Vector2 getVectorFromPoint(Point2D point) {
+        return new Vector2((float) point.getY(), (float) point.getX());
+    }
+
 }
