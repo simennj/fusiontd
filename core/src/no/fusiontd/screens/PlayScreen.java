@@ -1,33 +1,29 @@
 package no.fusiontd.screens;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import no.fusiontd.FusionTD;
-import no.fusiontd.components.Position;
-import no.fusiontd.components.Render;
-import no.fusiontd.components.Rotation;
-import no.fusiontd.components.Velocity;
 import no.fusiontd.game.EntityComponentManager;
 import no.fusiontd.game.GameController;
 import no.fusiontd.game.Map;
+import no.fusiontd.game.Spawner;
 
 public class PlayScreen implements Screen, InputProcessor {
 
-    public static final float WIDTH = 16, HEIGHT = 9;
-    public float w, h;
+    private static final float WIDTH = 16, HEIGHT = 9;
     public SpriteBatch batch;
-    public EntityComponentManager engine;
+    private float w, h;
+    private EntityComponentManager engine;
     private FusionTD game;
     private Map map;
     private GameController controller;
+    private Spawner spawner;
     private OrthographicCamera camera;
     private float aspectRatio;
     private float tilesize;
@@ -58,13 +54,14 @@ public class PlayScreen implements Screen, InputProcessor {
         batch = new SpriteBatch();
         initializeTextures();
         engine = new EntityComponentManager(this);
-        engine.addEntity(new Entity().add(new Position()).add(new Rotation()).add(new Render(new TextureRegion(new Texture("tiles/246.png")))).add(new Velocity(1, 1)));
+        spawner = new Spawner(map.path, engine);
+        spawner.spawnCreep(towerWhiteTex);
     }
 
     private void initializeTextures() {
         groundTex = tileAtlas.findRegion("024");
         roadTex = tileAtlas.findRegion("050");
-        towerBlueTex = tileAtlas.findRegion("128");
+        towerBlueTex = tileAtlas.findRegion("131");
         towerWhiteTex = tileAtlas.findRegion("123");
         pathStartTex = tileAtlas.findRegion("091");
         pathEndTex = tileAtlas.findRegion("090");
@@ -94,6 +91,11 @@ public class PlayScreen implements Screen, InputProcessor {
             for (int x = 0; x < map.TILECOLS; x++) {
                 batch.draw(getSprite(map.getTile(x, y)), x * tilesize, y * tilesize, tilesize, tilesize);
             }
+        }
+        for (float f = 0; f <= 2; f += .01) {
+            Vector2 pos = new Vector2();
+            pos = map.path.valueAt(pos, f);
+            batch.draw(towerBlueTex, pos.x * tilesize, pos.y * tilesize, tilesize, tilesize);
         }
     }
 
@@ -168,6 +170,7 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        System.out.println(keycode);
         return false;
     }
 
