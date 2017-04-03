@@ -27,11 +27,11 @@ public class Map {
     }
 
     private int getMapCol(float x) {
-        return MathUtils.round(MathUtils.clamp(x, 0, TILECOLS - 1));
+        return MathUtils.floorPositive(MathUtils.clamp(x, 0, TILECOLS - 1));
     }
 
     private int getMapRow(float y) {
-        return MathUtils.round(MathUtils.clamp(y, 0, TILEROWS - 1));
+        return MathUtils.floorPositive(MathUtils.clamp(y, 0, TILEROWS - 1));
     }
 
 
