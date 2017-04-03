@@ -6,6 +6,8 @@ import com.esotericsoftware.kryonet.Client;
 import java.io.IOException;
 import java.util.Scanner;
 
+import no.fusiontd.FusionTD;
+
 
 public class MPClient {
     public Client client;
@@ -16,13 +18,15 @@ public class MPClient {
     private String serverIP = "localhost";
     private NetworkListener nl;
 
-    public MPClient() {
+    public MPClient(String serverIP, FusionTD game) {
         scanner = new Scanner(System.in);
         client = new Client();
         registerPackets();
-
+        if(!serverIP.equals("")) {
+            this.serverIP = serverIP;
+        }
         nl = new NetworkListener();
-        nl.init(client);
+        nl.init(client, game);
         client.addListener(nl);
 
         new Thread(client).start();
@@ -45,16 +49,16 @@ public class MPClient {
         kryo.register(Packet.Packet5score.class);
         kryo.register(Packet.Packet6HighScore.class);
     }
-
+/*
     public static void main(String[] args){
         MPClient mpClient= new MPClient();
         while(scanner.hasNext()){
             System.out.println("Write something");
             String line = scanner.nextLine();
-            mpClient.nl.sendMessage(line);
+             mpClient.nl.sendMessage(line);
             //mpClient.nl.sendCreeps(10);
         }
         //Log.set(Log.LEVEL_DEBUG);
 
-    }
+    }*/
 }

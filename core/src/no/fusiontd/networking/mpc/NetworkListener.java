@@ -4,13 +4,17 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+import no.fusiontd.FusionTD;
+
 
 public class NetworkListener extends Listener {
     private Client client;
     private Connection connection;
+    private FusionTD game;
 
-    public void init(Client client) {
+    public void init(Client client, FusionTD game) {
         this.client = client;
+        this.game = game;
     }
 
     public void connected(Connection conn) {
@@ -43,7 +47,6 @@ public class NetworkListener extends Listener {
             System.out.println(numCreep);
 
         } else if (o instanceof Packet.Packet4Lives) {
-
             int lives = ((Packet.Packet4Lives) o).lives;
 
         } else if (o instanceof Packet.Packet5score) {
