@@ -3,7 +3,7 @@ package no.fusiontd.game;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import no.fusiontd.Graphics;
 import no.fusiontd.components.Position;
 import no.fusiontd.components.Render;
 import no.fusiontd.components.Rotation;
@@ -16,12 +16,12 @@ public class TowerSpawner {
         this.engine = engine;
     }
 
-    public void spawn(TextureAtlas.AtlasRegion texture, float x, float y, Component... components) {
+    public void spawn(String region, float x, float y, Component... components) {
         Entity tower = new Entity()
                 .add(new Position(x, y))
                 .add(new Rotation())
-                .add(new Render(texture))
-                .add(new Targeting());
+                .add(new Render(Graphics.getRegion(region)))
+                .add(new Targeting(1, 1));
         for (Component component : components) {
             tower.add(component);
         }
