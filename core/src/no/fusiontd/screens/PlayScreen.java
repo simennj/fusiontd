@@ -55,7 +55,7 @@ public class PlayScreen implements Screen, InputProcessor {
         initializeTextures();
         engine = new EntityComponentManager(this);
         creepSpawner = new CreepSpawner(map.path, engine);
-        creepSpawner.spawnCreep(towerWhiteTex);
+        creepSpawner.spawnCreep(towerWhiteTex, 12);
     }
 
     private void initializeTextures() {
