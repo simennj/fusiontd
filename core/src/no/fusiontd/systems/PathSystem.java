@@ -22,7 +22,6 @@ public class PathSystem extends IteratingSystem {
         PathFollow path = mPath.get(entity);
         Vector2 position = mPos.get(entity);
         path.time = (path.time + deltaTime / 4) % 1;
-        System.out.println(path.time);
-        System.out.println(path.path.valueAt(position, path.time));
+        path.path.valueAt(position, path.time);
     }
 }
