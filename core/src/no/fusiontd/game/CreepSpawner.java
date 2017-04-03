@@ -11,11 +11,11 @@ import no.fusiontd.components.Position;
 import no.fusiontd.components.Render;
 import no.fusiontd.components.Rotation;
 
-public class Spawner {
+public class CreepSpawner {
     Path<Vector2> path;
     Engine engine;
 
-    public Spawner(Path<Vector2> path, Engine engine) {
+    public CreepSpawner(Path<Vector2> path, Engine engine) {
         this.path = path;
         this.engine = engine;
     }

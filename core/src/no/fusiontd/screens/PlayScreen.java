@@ -9,10 +9,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import no.fusiontd.FusionTD;
+import no.fusiontd.game.CreepSpawner;
 import no.fusiontd.game.EntityComponentManager;
 import no.fusiontd.game.GameController;
 import no.fusiontd.game.Map;
-import no.fusiontd.game.Spawner;
 
 public class PlayScreen implements Screen, InputProcessor {
 
@@ -23,7 +23,7 @@ public class PlayScreen implements Screen, InputProcessor {
     private FusionTD game;
     private Map map;
     private GameController controller;
-    private Spawner spawner;
+    private CreepSpawner creepSpawner;
     private OrthographicCamera camera;
     private float aspectRatio;
     private float tilesize;
@@ -54,8 +54,8 @@ public class PlayScreen implements Screen, InputProcessor {
         batch = new SpriteBatch();
         initializeTextures();
         engine = new EntityComponentManager(this);
-        spawner = new Spawner(map.path, engine);
-        spawner.spawnCreep(towerWhiteTex);
+        creepSpawner = new CreepSpawner(map.path, engine);
+        creepSpawner.spawnCreep(towerWhiteTex);
     }
 
     private void initializeTextures() {
