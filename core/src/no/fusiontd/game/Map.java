@@ -98,7 +98,7 @@ public class Map {
                 points.add(point);
                 checked[x - 1][y] = true;
             }
-            if (x + 1 < TILECOLS && adj[x + 1][y] == 1 && !checked[x + 1][y]) {
+            if (x + 1 < TILEROWS && adj[x + 1][y] == 1 && !checked[x + 1][y]) {
 
                 Point2D point = new Point2D.Double(x + 1, y);
                 queue.add(point);
@@ -112,7 +112,7 @@ public class Map {
                 points.add(point);
                 checked[x][y - 1] = true;
             }
-            if (y + 1 < TILEROWS && adj[x][y + 1] == 1 && !checked[x][y + 1]) {
+            if (y + 1 < TILECOLS && adj[x][y + 1] == 1 && !checked[x][y + 1]) {
 
                 Point2D point = new Point2D.Double(x, y + 1);
                 queue.add(point);
