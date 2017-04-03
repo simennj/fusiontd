@@ -7,6 +7,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import no.fusiontd.networking.mpc.MPClient;
 import no.fusiontd.screens.*;
 
 public class FusionTD extends Game {
@@ -15,6 +17,7 @@ public class FusionTD extends Game {
 	private Screen highscoreScreen;
 	private Screen mapEditorScreen;
 	private Screen playScreen;
+	private MPClient mpc;
 
 	@Override
 	public void create () {
@@ -23,6 +26,7 @@ public class FusionTD extends Game {
 		highscoreScreen = new HighscoreScreen(this);
 		mapEditorScreen = new MapEditorScreen(this);
 		playScreen = new PlayScreen(this);
+		mpc = new MPClient("localhost", this);
 		setScreen(menuScreen);
 	}
 

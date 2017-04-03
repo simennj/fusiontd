@@ -17,7 +17,7 @@ import no.fusiontd.components.Position;
 import no.fusiontd.components.Render;
 import no.fusiontd.components.Rotation;
 
-public class Spawner {
+public class CreepSpawner {
     Path<Vector2> path;
     Engine engine;
     ArrayList<ArrayList<Entity>> creeps = new ArrayList<ArrayList<Entity>>();
@@ -37,7 +37,7 @@ public class Spawner {
 
     }
 
-    public Spawner(Path<Vector2> path, Engine engine) {
+    public CreepSpawner(Path<Vector2> path, Engine engine) {
         this.path = path;
         this.engine = engine;
     }
