@@ -16,10 +16,17 @@ public class Map {
     public CatmullRomSpline<Vector2> path;
     private int[][] map;
     private MapReader mapReader = new MapReader();
+    private Player localPlayer, mulPlayer;
 
-    public Map() {
-        map = mapReader.loadMap("testmap.txt", TILEROWS, TILECOLS);
+    public Map(String mapName) {
+        map = mapReader.loadMap(mapName + ".txt", TILEROWS, TILECOLS);
         path = getPath();
+        int lives = 10; // should be given by difficulty
+        int cash = 10;
+        localPlayer = new Player(lives,cash,0);
+        if (false){ // add some code for when is mp
+            mulPlayer = new Player(lives,cash,0);
+        }
     }
 
     public int getTile(float x, float y) {

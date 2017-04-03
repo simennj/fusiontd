@@ -28,16 +28,17 @@ public class PlayScreen implements Screen, InputProcessor {
     private int screenWidth, screenHeight;
     private float heightOffset, widthOffset;
     private State state = State.RUN;
+    private boolean multiplayer;
+    private String mapName;
 
     public PlayScreen(FusionTD game) {
         this.game = game;
     }
 
-
     @Override
     public void show() {
         camera = new OrthographicCamera(WIDTH, HEIGHT);
-        map = new Map();
+        map = new Map(mapName);
         tilesize = Math.min(WIDTH / map.TILECOLS, HEIGHT / map.TILEROWS);
         controller = new GameController(map, this);
         Gdx.input.setInputProcessor(this);
@@ -45,6 +46,10 @@ public class PlayScreen implements Screen, InputProcessor {
         engine = new EntityComponentManager(this);
         creepSpawner = new CreepSpawner(map.path, engine);
         towerSpawner = new TowerSpawner(engine);
+    }
+
+    public void setMap(String mapName){
+        this.mapName = mapName;
     }
 
     @Override
