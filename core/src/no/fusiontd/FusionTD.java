@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.esotericsoftware.kryonet.Connection;
 
 import no.fusiontd.networking.mpc.MPClient;
 import no.fusiontd.screens.*;
@@ -16,8 +17,11 @@ public class FusionTD extends Game {
 	private Screen optionScreen;
 	private Screen highscoreScreen;
 	private Screen mapEditorScreen;
-	private Screen playScreen;
+	private PlayScreen playScreen;
+	private Screen connectScreen;
+	private Screen mapSelectScreen;
 	private MPClient mpc;
+	private boolean multiplayer;
 
 	@Override
 	public void create () {
@@ -26,12 +30,21 @@ public class FusionTD extends Game {
 		highscoreScreen = new HighscoreScreen(this);
 		mapEditorScreen = new MapEditorScreen(this);
 		playScreen = new PlayScreen(this);
-		mpc = new MPClient("localhost", this);
-		mpc.sendMessage("hello");
+		connectScreen = new ConnectScreen(this);
+		mapSelectScreen = new MapSelectScreen(this);
+		mpc = new MPClient("localhost", this, "Odd er dum");
+		multiplayer = false; // not yet chosen mp
 		setScreen(menuScreen);
 	}
 
-	public void startGame() {
+	public void startGame(String mapName){
+		playScreen.setMap(mapName);
 		setScreen(playScreen);
 	}
+
+	public void connectMP(){ setScreen(connectScreen); }
+
+	public void selectMap(){ setScreen(mapSelectScreen);}
+
+	public void openOptions(){ setScreen(optionScreen); }
 }

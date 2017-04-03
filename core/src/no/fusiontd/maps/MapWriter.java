@@ -9,7 +9,7 @@ import no.fusiontd.game.Map;
 
 public class MapWriter extends MapReader {
 
-    Map originalMap = new Map();
+    Map originalMap = new Map("");
 
     public void saveMap(int[][] map){
         //Takes a map as input, and saves the map into a file.
