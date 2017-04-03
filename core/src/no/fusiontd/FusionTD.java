@@ -27,6 +27,7 @@ public class FusionTD extends Game {
 		mapEditorScreen = new MapEditorScreen(this);
 		playScreen = new PlayScreen(this);
 		mpc = new MPClient("localhost", this);
+		mpc.sendMessage("hello");
 		setScreen(menuScreen);
 	}
 

@@ -2,7 +2,10 @@ package no.fusiontd.networking.mpc;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
+
+import java.util.List;
 
 import no.fusiontd.FusionTD;
 
@@ -11,10 +14,12 @@ public class NetworkListener extends Listener {
     private Client client;
     private Connection connection;
     private FusionTD game;
+    private String playerName;
 
-    public void init(Client client, FusionTD game) {
+    public void init(Client client, FusionTD game, String playerName) {
         this.client = client;
         this.game = game;
+        this.playerName = playerName;
     }
 
     public void connected(Connection conn) {
@@ -22,8 +27,6 @@ public class NetworkListener extends Listener {
         Packet.Packet0LoginRequest lPacket = new Packet.Packet0LoginRequest();
         conn.sendUDP(lPacket);
         connection = conn;
-
-
     }
 
     public void disconnected(Connection conn) {
@@ -38,12 +41,15 @@ public class NetworkListener extends Listener {
             if (answer) {
                 System.out.println("Logged in");
             }
+        } else if (o instanceof FrameworkMessage.KeepAlive){
+                System.out.println("Stayin' Aliiiiiiiiiiive!!!!");
+
         } else if (o instanceof Packet.Packet2Message) {
             String message = ((Packet.Packet2Message) o).message;
             System.out.println(message);
 
         } else if (o instanceof Packet.Packet3Creep) {
-            int numCreep = ((Packet.Packet3Creep) o).creepnumber;
+            int numCreep = ((Packet.Packet3Creep) o).creepNumber;
             System.out.println(numCreep);
 
         } else if (o instanceof Packet.Packet4Lives) {
@@ -54,37 +60,30 @@ public class NetworkListener extends Listener {
 
         } else if (o instanceof  Packet.Packet6HighScore){
             //hmm
+
+        } else if (o instanceof Packet.Packet7TowerPlaced){
+            String type = ((Packet.Packet7TowerPlaced) o).towerType;
+            float xpos = ((Packet.Packet7TowerPlaced) o).x;
+            float ypos = ((Packet.Packet7TowerPlaced) o).y;
+            //place tower function here
+
+        }else if (o instanceof Packet.Packet8Meta){
+            //set up the game
+
+        } else if ( o instanceof Packet.Packet9PlayerList){
+            List<String> playerList = ((Packet.Packet9PlayerList) o).availablePlayers;
+            //Print this list to screen;
         }
-    }
 
-    public void sendMessage(String message) {
-        Packet.Packet2Message mPacket = new Packet.Packet2Message();
-        mPacket.message = message;
-        connection.sendUDP(mPacket);
-    }
-
-    public void sendCreeps(int number){
-        Packet.Packet3Creep cPacket = new Packet.Packet3Creep();
-        cPacket.creepnumber = number;
-        connection.sendUDP(cPacket);
-    }
-
-    public void updateLives(int lives){
-        Packet.Packet4Lives lifePacket = new Packet.Packet4Lives();
-        lifePacket.lives = lives;
-        connection.sendUDP(lifePacket);
-    }
-
-    public void updateScore(int score){
-        Packet.Packet5score scorePacket = new Packet.Packet5score();
-        scorePacket.score = score;
-        connection.sendUDP(scorePacket);
-    }
-
-    public void sendHighScore(String playerName, int score){
-        Packet.Packet6HighScore hsPacket = new Packet.Packet6HighScore();
-        hsPacket.player = playerName;
-        hsPacket.finalScore = score;
-        connection.sendUDP(hsPacket);
+        else if( o instanceof Packet.Packet11RequestOpponent){
+            String player = ((Packet.Packet11RequestOpponent) o).sendingPlayer;
+            System.out.println(player + " Requests your assistance!!!");
+            //if accepts
+            Packet.Packet12RequestAnswer requestAnswer = new Packet.Packet12RequestAnswer();
+            requestAnswer.accepted = true;
+            requestAnswer.playerName = playerName;
+            requestAnswer.player = ((Packet.Packet11RequestOpponent) o).playerId; // playerid of player who sent request
+            client.sendUDP(requestAnswer);
+        }
     }
 }
