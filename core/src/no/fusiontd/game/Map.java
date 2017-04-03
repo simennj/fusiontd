@@ -147,7 +147,7 @@ public class Map {
     }
 
     private Vector2 getVectorFromPoint(Point2D point) {
-        return new Vector2((float) point.getY(), (float) point.getX());
+        return new Vector2((float) point.getY() + .5f, (float) point.getX() + .5f);
     }
 
 }
