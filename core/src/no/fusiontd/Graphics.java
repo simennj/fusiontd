@@ -15,6 +15,8 @@ public class Graphics {
         regions.put("pathStartTex", tileAtlas.findRegion("091"));
         regions.put("pathEndTex", tileAtlas.findRegion("090"));
         regions.put("plane", tileAtlas.findRegion("271"));
+        regions.put("missile", tileAtlas.findRegion("252"));
+        regions.put("missileTower", tileAtlas.findRegion("206"));
     }
 
     public static TextureAtlas.AtlasRegion getRegion(String name) {

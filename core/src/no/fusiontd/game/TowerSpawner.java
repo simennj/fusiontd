@@ -21,7 +21,7 @@ public class TowerSpawner {
                 .add(new Position(x, y))
                 .add(new Rotation())
                 .add(new Render(Graphics.getRegion(region)))
-                .add(new Targeting(1, 1));
+                .add(new Targeting(5, .5f));
         for (Component component : components) {
             tower.add(component);
         }

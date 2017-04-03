@@ -48,7 +48,7 @@ public class PlayScreen implements Screen, InputProcessor {
         towerSpawner = new TowerSpawner(engine);
     }
 
-    public void setMap(String mapName){
+    public void setMap(String mapName) {
         this.mapName = mapName;
     }
 
@@ -77,11 +77,6 @@ public class PlayScreen implements Screen, InputProcessor {
                 batch.draw(getSprite(map.getTile(x, y)), x * tilesize, y * tilesize, tilesize, tilesize);
             }
         }
-        //for (float f = 0; f <= 2; f += .01) {
-        //    Vector2 pos = new Vector2();
-        //    pos = map.path.valueAt(pos, f);
-        //    batch.draw(towerBlueTex, pos.x * tilesize, pos.y * tilesize, tilesize, tilesize);
-        //}
     }
 
     private TextureAtlas.AtlasRegion getSprite(int type) {
@@ -90,10 +85,6 @@ public class PlayScreen implements Screen, InputProcessor {
                 return Graphics.getRegion("groundTex");
             case 1:
                 return Graphics.getRegion("roadTex");
-            case 2:
-                return Graphics.getRegion("towerWhiteTex");
-            case 3:
-                return Graphics.getRegion("bush");
             case 4:
                 return Graphics.getRegion("pathStartTex");
             case 5:
@@ -176,16 +167,16 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        int tile = map.getTile(getCameraX(screenX), getCameraY(screenY));
+        if (tile == 0) {
+            towerSpawner.spawn("missileTower", getCameraX(screenX), getCameraY(screenY));
+        }
         creepSpawner.spawnCreep("bush", 12);
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        int tile = map.getTile(getCameraX(screenX), getCameraY(screenY));
-        if (tile == 0) {
-            towerSpawner.spawn("bush", getCameraX(screenX), getCameraY(screenY));
-        }
         return false;
     }
 

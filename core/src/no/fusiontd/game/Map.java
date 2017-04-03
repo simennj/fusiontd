@@ -136,20 +136,12 @@ public class Map {
         List<Point2D> points = findPath(map);
         ArrayList<Vector2> vectors = new ArrayList<Vector2>();
         vectors.add(getVectorFromPoint(points.get(0)));
-        vectors.add(getVectorFromPoint(points.get(0)));
-        for (int i = 1; i < points.size() - 1; i++) {
+        for (int i = 0; i < points.size() - 1; i++) {
             vectors.add(getVectorFromPoint(points.get(i)));
         }
         vectors.add(getVectorFromPoint(points.get(points.size() - 1)));
-        vectors.add(new Vector2(
-                getVectorFromPoint(points.get(points.size() - 1)).x + 1,
-                getVectorFromPoint(points.get(points.size() - 1)).y
-        ));
         Vector2[] vectorArray = new Vector2[vectors.size()];
         vectors.toArray(vectorArray);
-        for (Vector2 vector2 : vectorArray) {
-            System.out.println(vector2);
-        }
         return new CatmullRomSpline<Vector2>(vectorArray, false);
     }
 
