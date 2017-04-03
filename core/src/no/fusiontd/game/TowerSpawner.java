@@ -4,31 +4,27 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Path;
-import com.badlogic.gdx.math.Vector2;
-import no.fusiontd.components.PathFollow;
 import no.fusiontd.components.Position;
 import no.fusiontd.components.Render;
 import no.fusiontd.components.Rotation;
+import no.fusiontd.components.Targeting;
 
-public class Spawner {
-    Path<Vector2> path;
+public class TowerSpawner {
     Engine engine;
 
-    public Spawner(Path<Vector2> path, Engine engine) {
-        this.path = path;
+    public TowerSpawner(Engine engine) {
         this.engine = engine;
     }
 
-    public void spawnCreep(TextureAtlas.AtlasRegion texture, Component... components) {
-        Entity creep = new Entity()
-                .add(new Position())
+    public void spawn(TextureAtlas.AtlasRegion texture, float x, float y, Component... components) {
+        Entity tower = new Entity()
+                .add(new Position(x, y))
                 .add(new Rotation())
                 .add(new Render(texture))
-                .add(new PathFollow(path));
+                .add(new Targeting());
         for (Component component : components) {
-            creep.add(component);
+            tower.add(component);
         }
-        engine.addEntity(creep);
+        engine.addEntity(tower);
     }
 }
