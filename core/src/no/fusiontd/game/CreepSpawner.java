@@ -43,7 +43,7 @@ public class CreepSpawner {
                 .add(new Position())
                 .add(new Rotation())
                 .add(new Attackable(.1f))
-                .add(new Durability(12))
+                .add(new Durability(life))
                 .add(new Render(Graphics.getRegion(region)))
                 .add(new PathFollow(path));
         for (Component component : components) {
