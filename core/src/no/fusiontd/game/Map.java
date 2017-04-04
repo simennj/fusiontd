@@ -136,7 +136,7 @@ public class Map {
         List<Point2D> points = findPath(map);
         ArrayList<Vector2> vectors = new ArrayList<Vector2>();
         vectors.add(getVectorFromPoint(points.get(0)));
-        for (int i = 0; i < points.size() - 1; i++) {
+        for (int i = 0; i < points.size(); i++) {
             vectors.add(getVectorFromPoint(points.get(i)));
         }
         vectors.add(getVectorFromPoint(points.get(points.size() - 1)));

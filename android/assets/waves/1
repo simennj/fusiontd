@@ -1,4 +1,4 @@
 50 bush 1 10 4
-5 plane 36 5 100
-1 bush 1 10 1000
-1000 missileTower 24 15 1
+20 plane 36 5 100
+3 missileTower 144 2 1000
+1 bush 1 10 5000
