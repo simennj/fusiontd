@@ -60,8 +60,10 @@ public class TargetingSystem extends IteratingSystem {
                             .add(new Position(entityPosition.x, entityPosition.y))
                             .add(new Rotation(rotation - 90))
                             .add(new Render(Graphics.getRegion("missile")))
-                            .add(new Velocity(diffFirstInRange.nor().scl(8)))
+                            .add(new Velocity(diffFirstInRange.nor().scl(10)))
                             .add(new Timer(1))
+                            .add(new Attack(.5f))
+                            .add(new Durability(12))
             );
         }
     }
