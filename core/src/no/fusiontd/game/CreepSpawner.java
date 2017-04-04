@@ -11,10 +11,10 @@ import no.fusiontd.components.*;
 import java.util.ArrayList;
 
 public class CreepSpawner {
-    Path<Vector2> path;
-    Engine engine;
-    ArrayList<ArrayList<Entity>> creeps = new ArrayList<ArrayList<Entity>>();
-    int wave = 0;
+    private Path<Vector2> path;
+    private Engine engine;
+    private ArrayList<ArrayList<Entity>> creeps = new ArrayList<ArrayList<Entity>>();
+    private int wave = 0;
 
     public CreepSpawner(Path<Vector2> path, Engine engine) {
         this.path = path;
@@ -33,7 +33,8 @@ public class CreepSpawner {
         Entity creep = new Entity()
                 .add(new Position())
                 .add(new Rotation())
-                .add(new Attackable(life))
+                .add(new Attackable(.1f))
+                .add(new Durability(12))
                 .add(new Render(Graphics.getRegion(region)))
                 .add(new PathFollow(path));
         for (Component component : components) {
