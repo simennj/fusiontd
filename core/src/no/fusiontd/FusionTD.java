@@ -42,6 +42,8 @@ public class FusionTD extends Game {
 		setScreen(playScreen);
 	}
 
+	public void returnToMenu(){ setScreen(menuScreen); }
+
 	public void connectMP(){ setScreen(connectScreen); }
 
 	public void selectMap(){ setScreen(mapSelectScreen);}
