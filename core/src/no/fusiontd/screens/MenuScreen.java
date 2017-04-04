@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -50,7 +51,6 @@ public class MenuScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
-
         TextureRegion upRegion = uiAtlas.findRegion("blue_button00");
         TextureRegion downRegion = uiAtlas.findRegion("blue_button03");
 
@@ -105,6 +105,25 @@ public class MenuScreen implements Screen {
             }
         });
         table3.add(button3);
+
+        // back button
+        Button.ButtonStyle exitStyle = new Button.ButtonStyle();
+        exitStyle.up = new TextureRegionDrawable(uiAtlas.findRegion("grey_box"));
+        exitStyle.down = new TextureRegionDrawable(uiAtlas.findRegion("blue_boxCross"));
+
+        Table exitTable = new Table();
+        stage.addActor(exitTable);
+        exitTable.setFillParent(true);
+        exitTable.setPosition(stage.getWidth()/2 - stage.getWidth()/8,-stage.getHeight()/2 + stage.getHeight()/8);
+
+        Button exitButton = new Button(exitStyle);
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                // set code here
+            }
+        });
+        exitTable.add(exitButton);
     }
 
     public void render () {
