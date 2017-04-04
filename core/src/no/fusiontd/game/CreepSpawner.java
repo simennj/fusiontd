@@ -15,6 +15,7 @@ public class CreepSpawner {
     private Engine engine;
     private ArrayList<ArrayList<Entity>> creeps = new ArrayList<ArrayList<Entity>>();
     private int wave = 0;
+    private float timer;
 
     public CreepSpawner(Path<Vector2> path, Engine engine) {
         this.path = path;
@@ -29,7 +30,15 @@ public class CreepSpawner {
 
     }
 
-    public void spawnCreep(String region, int life, Component... components) {
+    public void update(float deltatime) {
+        timer += deltatime;
+        if (timer > .5f) {
+            timer = 0;
+            spawnCreep("plane", 24);
+        }
+    }
+
+    public void spawnCreep(String region, float life, Component... components) {
         Entity creep = new Entity()
                 .add(new Position())
                 .add(new Rotation())

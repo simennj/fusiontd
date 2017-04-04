@@ -63,6 +63,7 @@ public class PlayScreen implements Screen, InputProcessor {
                 batch.begin();
                 drawMap(map, batch);
                 engine.update(delta);
+                creepSpawner.update(delta);
                 batch.end();
                 break;
             case PAUSE:
