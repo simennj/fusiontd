@@ -3,53 +3,48 @@ package no.fusiontd.game;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+import no.fusiontd.Graphics;
+import no.fusiontd.components.*;
 
 import java.util.ArrayList;
 
-import no.fusiontd.components.Attackable;
-import no.fusiontd.components.Durability;
-import no.fusiontd.components.PathFollow;
-import no.fusiontd.components.Position;
-import no.fusiontd.components.Render;
-import no.fusiontd.components.Rotation;
-
 public class CreepSpawner {
-    Path<Vector2> path;
-    Engine engine;
-    ArrayList<ArrayList<Entity>> creeps = new ArrayList<ArrayList<Entity>>();
-    TextureAtlas creepAtlas = new TextureAtlas("tiles.atlas");
-    TextureAtlas.AtlasRegion testCreep;
-    int wave = 0;
-
-    private void initializeTextures() {
-        testCreep = creepAtlas.findRegion("271");
-    }
-
-    private void waveMaker() {
-        wave++;
-        for (Entity creep : creeps.get(wave)) {
-            spawnCreep(testCreep, creep.getComponent(Durability.class).life);
-        }
-
-    }
+    private Path<Vector2> path;
+    private Engine engine;
+    private ArrayList<ArrayList<Entity>> creeps = new ArrayList<ArrayList<Entity>>();
+    private int wave = 0;
+    private float timer;
 
     public CreepSpawner(Path<Vector2> path, Engine engine) {
         this.path = path;
         this.engine = engine;
     }
 
+    private void waveMaker() {
+        wave++;
+        for (Entity creep : creeps.get(wave)) {
+            spawnCreep("plane", creep.getComponent(Durability.class).life);
+        }
 
+    }
 
-    public void spawnCreep(TextureAtlas.AtlasRegion texture, int life,  Component... components) {
+    public void update(float deltatime) {
+        timer += deltatime;
+        if (timer > .5f) {
+            timer = 0;
+            spawnCreep("plane", 24);
+        }
+    }
+
+    public void spawnCreep(String region, float life, Component... components) {
         Entity creep = new Entity()
                 .add(new Position())
                 .add(new Rotation())
-                .add(new Attackable(life))
-                .add(new Render(texture))
+                .add(new Attackable(.1f))
+                .add(new Durability(12))
+                .add(new Render(Graphics.getRegion(region)))
                 .add(new PathFollow(path));
         for (Component component : components) {
             creep.add(component);

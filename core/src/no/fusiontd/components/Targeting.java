@@ -4,7 +4,13 @@ package no.fusiontd.components;
 import com.badlogic.ashley.core.Component;
 
 public class Targeting implements Component {
-    public int range;
-    public int attackspeed;
+    public float range;
+    public float attackspeed;
+    public float timeSinceLastAttack;
 
+
+    public Targeting(float range, float attackspeed) {
+        this.range = range;
+        this.attackspeed = attackspeed;
+    }
 }

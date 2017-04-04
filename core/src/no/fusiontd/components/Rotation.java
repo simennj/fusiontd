@@ -11,5 +11,5 @@ public class Rotation implements Component {
 
     public Rotation(float r) {
         this.rotation = r;
-    } // angle in radians
+    }
 }

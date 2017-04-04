@@ -7,12 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
 import no.fusiontd.FusionTD;
-import no.fusiontd.game.CreepSpawner;
-import no.fusiontd.game.EntityComponentManager;
-import no.fusiontd.game.GameController;
-import no.fusiontd.game.Map;
+import no.fusiontd.Graphics;
+import no.fusiontd.game.*;
 
 public class PlayScreen implements Screen, InputProcessor {
 
@@ -24,47 +21,35 @@ public class PlayScreen implements Screen, InputProcessor {
     private Map map;
     private GameController controller;
     private CreepSpawner creepSpawner;
+    private TowerSpawner towerSpawner;
     private OrthographicCamera camera;
     private float aspectRatio;
     private float tilesize;
     private int screenWidth, screenHeight;
     private float heightOffset, widthOffset;
     private State state = State.RUN;
-
-    private TextureAtlas tileAtlas = new TextureAtlas("tiles.atlas");
-    private TextureAtlas.AtlasRegion groundTex;
-    private TextureAtlas.AtlasRegion roadTex;
-    private TextureAtlas.AtlasRegion towerWhiteTex;
-    private TextureAtlas.AtlasRegion towerBlueTex;
-    private TextureAtlas.AtlasRegion pathStartTex;
-    private TextureAtlas.AtlasRegion pathEndTex;
+    private boolean multiplayer;
+    private String mapName;
 
     public PlayScreen(FusionTD game) {
         this.game = game;
     }
 
-
     @Override
     public void show() {
         camera = new OrthographicCamera(WIDTH, HEIGHT);
-        map = new Map();
+        map = new Map(mapName);
         tilesize = Math.min(WIDTH / map.TILECOLS, HEIGHT / map.TILEROWS);
         controller = new GameController(map, this);
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
-        initializeTextures();
         engine = new EntityComponentManager(this);
         creepSpawner = new CreepSpawner(map.path, engine);
-        creepSpawner.spawnCreep(towerWhiteTex, 12);
+        towerSpawner = new TowerSpawner(engine);
     }
 
-    private void initializeTextures() {
-        groundTex = tileAtlas.findRegion("024");
-        roadTex = tileAtlas.findRegion("050");
-        towerBlueTex = tileAtlas.findRegion("131");
-        towerWhiteTex = tileAtlas.findRegion("123");
-        pathStartTex = tileAtlas.findRegion("091");
-        pathEndTex = tileAtlas.findRegion("090");
+    public void setMap(String mapName) {
+        this.mapName = mapName;
     }
 
     @Override
@@ -78,6 +63,7 @@ public class PlayScreen implements Screen, InputProcessor {
                 batch.begin();
                 drawMap(map, batch);
                 engine.update(delta);
+                creepSpawner.update(delta);
                 batch.end();
                 break;
             case PAUSE:
@@ -92,29 +78,20 @@ public class PlayScreen implements Screen, InputProcessor {
                 batch.draw(getSprite(map.getTile(x, y)), x * tilesize, y * tilesize, tilesize, tilesize);
             }
         }
-        for (float f = 0; f <= 2; f += .01) {
-            Vector2 pos = new Vector2();
-            pos = map.path.valueAt(pos, f);
-            batch.draw(towerBlueTex, pos.x * tilesize, pos.y * tilesize, tilesize, tilesize);
-        }
     }
 
     private TextureAtlas.AtlasRegion getSprite(int type) {
         switch (type) {
             case 0:
-                return groundTex;
+                return Graphics.getRegion("groundTex");
             case 1:
-                return roadTex;
-            case 2:
-                return towerWhiteTex;
-            case 3:
-                return towerBlueTex;
+                return Graphics.getRegion("roadTex");
             case 4:
-                return pathStartTex;
+                return Graphics.getRegion("pathStartTex");
             case 5:
-                return pathEndTex;
+                return Graphics.getRegion("pathEndTex");
             default:
-                return groundTex;
+                return Graphics.getRegion("groundTex");
         }
     }
 
@@ -191,13 +168,11 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        int tile = map.getTile(getCameraY(screenY), getCameraX(screenX));
-        if (tile == 4) {
-            return false;
-        } else if (tile == 0 || tile == 2 || tile == 3) {
-            map.placeTower(getCameraX(screenX), getCameraY(screenY));
-            return false;
+        int tile = map.getTile(getCameraX(screenX), getCameraY(screenY));
+        if (tile == 0) {
+            towerSpawner.spawn("missileTower", getCameraX(screenX), getCameraY(screenY));
         }
+        creepSpawner.spawnCreep("bush", 12);
         return false;
     }
 

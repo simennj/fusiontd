@@ -4,9 +4,9 @@ import com.badlogic.ashley.core.Component;
 
 
 public class Attackable implements Component {
-    public int creepradius;
+    public float creepradius;
 
-    public Attackable(int newRadius){
+    public Attackable(float newRadius) {
         this.creepradius = newRadius;
     }
 }

@@ -13,7 +13,7 @@ import no.fusiontd.game.EntityComponentManager;
 import no.fusiontd.game.GameController;
 import no.fusiontd.game.Map;
 
-public class MenuScreen implements Screen, InputProcessor {
+public class MapSelectScreen implements Screen, InputProcessor {
 
     private static final float WIDTH = 16, HEIGHT = 9;
     private SpriteBatch batch;
@@ -26,7 +26,7 @@ public class MenuScreen implements Screen, InputProcessor {
     private float heightOffset, widthOffset;
     private float w, h;
 
-    public MenuScreen(FusionTD game) {
+    public MapSelectScreen(FusionTD game) {
         this.game = game;
     }
 
@@ -112,13 +112,13 @@ public class MenuScreen implements Screen, InputProcessor {
 
         System.out.println(screenX + "," + screenY);
         if (400 <= screenX && screenX <= 590 && 240 <= screenY && screenY <= 290) {
-            game.selectMap();
+            game.startGame("map1");
             return false;
         } else if (400 <= screenX && screenX <= 590 && 340 <= screenY && screenY <= 390) {
-            game.connectMP();
+            game.startGame("map2");
             return false;
         } else if(400 <= screenX && screenX <= 590 && 440 <= screenY && screenY <= 490) {
-            game.openOptions();
+            game.startGame("map3");
             return false;
         }
 

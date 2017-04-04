@@ -10,6 +10,10 @@ public class Velocity extends Vector2 implements Component {
         this(0, 0);
     }
 
+    public Velocity(Vector2 vector) {
+        this(vector.x, vector.y);
+    }
+
     public Velocity(float x, float y) {
         super(x, y);
     }
