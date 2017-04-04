@@ -1,8 +1,7 @@
 package no.fusiontd.game;
 
-import com.badlogic.ashley.core.Component;
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.*;
+import com.badlogic.ashley.utils.ImmutableArray;
 import no.fusiontd.Graphics;
 import no.fusiontd.components.Position;
 import no.fusiontd.components.Render;
@@ -10,13 +9,19 @@ import no.fusiontd.components.Rotation;
 import no.fusiontd.components.Targeting;
 
 public class TowerSpawner {
-    Engine engine;
+    private Engine engine;
+    private ImmutableArray<Entity> towers;
+    private ComponentMapper<Position> mPos = ComponentMapper.getFor(Position.class);
 
     public TowerSpawner(Engine engine) {
         this.engine = engine;
+        this.towers = engine.getEntitiesFor(Family.all(Position.class, Rotation.class, Render.class, Targeting.class).get());
     }
 
     public void spawn(String region, float x, float y, Component... components) {
+        for (Entity tower : towers) {
+            if (mPos.get(tower).dst(x, y) < .5f) return;
+        }
         Entity tower = new Entity()
                 .add(new Position(x, y))
                 .add(new Rotation())
