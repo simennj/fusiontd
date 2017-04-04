@@ -15,6 +15,7 @@ public class NetworkListener extends Listener {
     private Connection connection;
     private FusionTD game;
     private String playerName;
+    public Packet.Packet12OpponentAnswer requestAnswer;
 
     public void init(Client client, FusionTD game, String playerName) {
         this.client = client;
@@ -22,9 +23,15 @@ public class NetworkListener extends Listener {
         this.playerName = playerName;
     }
 
+    public void init(Client client, String playerName) {
+        this.client = client;
+        this.playerName = playerName;
+
+    }
     public void connected(Connection conn) {
         System.out.println("[CLIENT] You have connected.");
         Packet.Packet0LoginRequest lPacket = new Packet.Packet0LoginRequest();
+        lPacket.playerName = playerName;
         conn.sendUDP(lPacket);
         connection = conn;
     }
@@ -41,8 +48,6 @@ public class NetworkListener extends Listener {
             if (answer) {
                 System.out.println("Logged in");
             }
-        } else if (o instanceof FrameworkMessage.KeepAlive){
-                System.out.println("Stayin' Aliiiiiiiiiiive!!!!");
 
         } else if (o instanceof Packet.Packet2Message) {
             String message = ((Packet.Packet2Message) o).message;
@@ -76,14 +81,12 @@ public class NetworkListener extends Listener {
         }
 
         else if( o instanceof Packet.Packet11RequestOpponent){
-            String player = ((Packet.Packet11RequestOpponent) o).sendingPlayer;
-            System.out.println(player + " Requests your assistance!!!");
-            //if accepts
-            Packet.Packet12RequestAnswer requestAnswer = new Packet.Packet12RequestAnswer();
+            requestAnswer = new Packet.Packet12OpponentAnswer();
             requestAnswer.accepted = true;
             requestAnswer.playerName = playerName;
-            requestAnswer.player = ((Packet.Packet11RequestOpponent) o).playerId; // playerid of player who sent request
-            client.sendUDP(requestAnswer);
+            requestAnswer.playerId = ((Packet.Packet11RequestOpponent) o).sendingPlayerId; // playerid of playerId who sent request
+            String player = ((Packet.Packet11RequestOpponent) o).sendingPlayer;
+            System.out.println(player + " Requests your assistance!!!, Accept?");
         }
     }
 }
