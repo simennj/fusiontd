@@ -13,5 +13,6 @@ public class EntityComponentManager extends Engine {
         addSystem(new PathSystem());
         addSystem(new TargetingSystem());
         addSystem(new TimerSystem());
+        addSystem(new CollisionSystem());
     }
 }
