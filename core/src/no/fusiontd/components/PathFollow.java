@@ -11,4 +11,8 @@ public class PathFollow implements Component {
     public PathFollow(Path<Vector2> path) {
         this.path = path;
     }
+
+    public PathFollow() {
+
+    }
 }
