@@ -9,6 +9,10 @@ public class Position extends Vector2 implements Component {
         this(0, 0);
     }
 
+    public Position(Vector2 vector2) {
+        this(vector2.x, vector2.y);
+    }
+
     public Position(float x, float y) {
         super(x, y);
     }
