@@ -16,7 +16,7 @@ public class CreepWave {
     public CreepWave(String wave) throws FileNotFoundException {
         Scanner scanner = new Scanner(new FileInputStream("waves/" + wave));
         waveParts = new LinkedList<WavePart>();
-        while (scanner.hasNextLine()) {
+        while (scanner.hasNextLine() && scanner.hasNext()) {
             wavePartsCount++;
             waveParts.add(new WavePart(scanner.nextInt(), scanner.next(), scanner.nextInt(), scanner.nextFloat() / 1000f));
         }
