@@ -18,16 +18,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.fusiontd.FusionTD;
 
 public class OptionScreen implements Screen {
 
-    private int width,height;
     private FusionTD game;
     private Stage stage;
-    private Table table;
 
     public OptionScreen(FusionTD game) {
         this.game = game;
@@ -66,35 +65,23 @@ public class OptionScreen implements Screen {
         style.down = new TextureRegionDrawable(downRegion);
         style.font = font12;
 
-        /*
-        Label nameLabel = new Label("Name:", style);
-        TextField nameText = new TextField("", style);
-        Label addressLabel = new Label("Address:", );
-        TextField addressText = new TextField("", style);
-        */
+        Table table1 = new Table();
+        stage.addActor(table1);
+        table1.setPosition(stage.getWidth()/2, stage.getHeight()/2);
 
-        Table table = new Table();
-        stage.addActor(table);
-        table.setSize(260, 195);
-        table.setPosition(190, 142);
-
-        // table.align(Align.right | Align.bottom);
-        table.debug();
-
-        TextButton button = new TextButton("Button 1", style);
-        button.addListener(new InputListener() {
+        TextButton button1 = new TextButton("Button 1", style);
+        button1.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("touchDown 1");
                 return false;
             }
         });
-        table.add(button);
-        // table.setTouchable(Touchable.disabled);
+        table1.add(button1);
 
         Table table2 = new Table();
         stage.addActor(table2);
         table2.setFillParent(true);
-        table2.bottom();
+        table2.setPosition(0,-stage.getHeight()/8);
 
         TextButton button2 = new TextButton("Button 2", style);
         button2.addListener(new ChangeListener() {
@@ -102,7 +89,6 @@ public class OptionScreen implements Screen {
                 System.out.println("2!");
             }
         });
-
         button2.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("touchDown 2");
