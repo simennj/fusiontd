@@ -27,6 +27,7 @@ public class MapWriter extends MapReader {
             for (int j = 0; j<map[0].length; j++){
                 mapString = mapString + map[i][j];
             }
+            mapString += "\n";
         }
         return mapString;
     }
