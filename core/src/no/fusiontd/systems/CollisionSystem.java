@@ -11,11 +11,11 @@ import no.fusiontd.components.*;
 
 public class CollisionSystem extends IteratingSystem {
 
-    ComponentMapper<Attack> mAttack = ComponentMapper.getFor(Attack.class);
-    ComponentMapper<Attackable> mAttab = ComponentMapper.getFor(Attackable.class);
-    ComponentMapper<Position> mPos = ComponentMapper.getFor(Position.class);
-    ComponentMapper<Durability> mDur = ComponentMapper.getFor(Durability.class);
-    ComponentMapper<Timer> mTime = ComponentMapper.getFor(Timer.class);
+    private ComponentMapper<Timer> mTime = ComponentMapper.getFor(Timer.class);
+    private ComponentMapper<Attack> mAttack = ComponentMapper.getFor(Attack.class);
+    private ComponentMapper<Attackable> mAttab = ComponentMapper.getFor(Attackable.class);
+    private ComponentMapper<Position> mPos = ComponentMapper.getFor(Position.class);
+    private ComponentMapper<Durability> mDur = ComponentMapper.getFor(Durability.class);
     private ImmutableArray<Entity> creeps;
 
     public CollisionSystem() {
