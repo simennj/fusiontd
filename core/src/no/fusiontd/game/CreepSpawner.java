@@ -17,9 +17,11 @@ public class CreepSpawner {
     private LinkedList<CreepWave> creepWaves = new LinkedList<CreepWave>();
     private CreepWave currentWave;
     private float timer;
+    private Vector2 startPosition = new Vector2();
 
     public CreepSpawner(Path<Vector2> path, Engine engine) {
         this.path = path;
+        path.valueAt(this.startPosition, 0);
         this.engine = engine;
         try {
             creepWaves.add(new CreepWave("1"));
@@ -34,18 +36,18 @@ public class CreepSpawner {
         if (timer > currentWave.currentDelayBetweenCreeps()) {
             timer = 0;
             CreepWave.CreepBluePrint creepBluePrint = currentWave.popCreep();
-            spawnCreep(creepBluePrint.texture, creepBluePrint.life);
+            spawnCreep(creepBluePrint.texture, creepBluePrint.life, creepBluePrint.speed);
         }
     }
 
-    public void spawnCreep(String region, float life, Component... components) {
+    public void spawnCreep(String region, float life, float speed, Component... components) {
         Entity creep = new Entity()
-                .add(new Position())
+                .add(new Position(startPosition))
                 .add(new Rotation())
                 .add(new Attackable(.1f))
                 .add(new Durability(life))
                 .add(new Render(Graphics.getRegion(region)))
-                .add(new PathFollow(path));
+                .add(new PathFollow(path, speed));
         for (Component component : components) {
             creep.add(component);
         }

@@ -15,10 +15,11 @@ public class CreepWave {
 
     public CreepWave(String wave) throws FileNotFoundException {
         Scanner scanner = new Scanner(new FileInputStream("waves/" + wave));
+        scanner.useLocale(Locale.ENGLISH);
         waveParts = new LinkedList<WavePart>();
         while (scanner.hasNextLine() && scanner.hasNext()) {
             wavePartsCount++;
-            waveParts.add(new WavePart(scanner.nextInt(), scanner.next(), scanner.nextInt(), scanner.nextFloat() / 1000f));
+            waveParts.add(new WavePart(scanner.nextInt(), scanner.next(), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat() / 1000f));
         }
     }
 
@@ -50,25 +51,27 @@ public class CreepWave {
         private final CreepBluePrint creepBluePrint;
         private final float delay;
 
-        WavePart(int amount, String texture, float life, float delay) {
+        WavePart(int amount, String texture, float life, float speed, float delay) {
             this.amount = amount;
             this.delay = delay;
-            creepBluePrint = new CreepBluePrint(texture, life);
+            creepBluePrint = new CreepBluePrint(texture, life, speed);
         }
 
         @Override
         public String toString() {
-            return String.format(Locale.ENGLISH, "%d %s %s %s", amount, creepBluePrint.texture, creepBluePrint.life, delay * 1000);
+            return String.format(Locale.ENGLISH, "%d %s %s %s", amount, creepBluePrint.texture, creepBluePrint.life, creepBluePrint.speed, delay * 1000);
         }
     }
 
     public class CreepBluePrint {
         public final String texture;
         public final float life;
+        public final float speed;
 
-        CreepBluePrint(String texture, float life) {
+        CreepBluePrint(String texture, float life, float speed) {
             this.texture = texture;
             this.life = life;
+            this.speed = speed;
         }
     }
 }
