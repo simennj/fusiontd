@@ -4,22 +4,22 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import no.fusiontd.components.Position;
+import no.fusiontd.components.Placement;
 import no.fusiontd.components.Velocity;
 
 
 public class VelocitySystem extends IteratingSystem {
-    ComponentMapper<Position> mPos = ComponentMapper.getFor(Position.class);
-    ComponentMapper<Velocity> mVel = ComponentMapper.getFor(Velocity.class);
+    private ComponentMapper<Placement> mPos = ComponentMapper.getFor(Placement.class);
+    private ComponentMapper<Velocity> mVel = ComponentMapper.getFor(Velocity.class);
 
     public VelocitySystem() {
-        super(Family.all(Position.class, Velocity.class).get());
+        super(Family.all(Placement.class, Velocity.class).get());
     }
 
     @Override
     protected void processEntity(Entity e, float deltatime) {
         Velocity vel = mVel.get(e);
-        Position pos = mPos.get(e);
+        Placement pos = mPos.get(e);
         pos.mulAdd(vel, deltatime);
     }
 

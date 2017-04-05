@@ -12,25 +12,25 @@ import no.fusiontd.Graphics;
 import no.fusiontd.components.*;
 
 public class TargetingSystem extends IteratingSystem {
-    ComponentMapper<Position> mPos = ComponentMapper.getFor(Position.class);
-    ComponentMapper<Targeting> mTar = ComponentMapper.getFor(Targeting.class);
-    ComponentMapper<PathFollow> mPat = ComponentMapper.getFor(PathFollow.class);
+    private ComponentMapper<Placement> mPos = ComponentMapper.getFor(Placement.class);
+    private ComponentMapper<Targeting> mTar = ComponentMapper.getFor(Targeting.class);
+    private ComponentMapper<PathFollow> mPat = ComponentMapper.getFor(PathFollow.class);
     private ImmutableArray<Entity> creeps;
 
     public TargetingSystem() {
-        super(Family.all(Position.class, Targeting.class).get());
+        super(Family.all(Placement.class, Targeting.class).get());
     }
 
     @Override
     public void addedToEngine(Engine engine) {
         super.addedToEngine(engine);
-        creeps = engine.getEntitiesFor(Family.all(Attackable.class, Position.class, PathFollow.class).get());
+        creeps = engine.getEntitiesFor(Family.all(Attackable.class, Placement.class, PathFollow.class).get());
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         Targeting targeting = mTar.get(entity);
-        Position entityPosition = mPos.get(entity);
+        Placement entityPlacement = mPos.get(entity);
         targeting.timeSinceLastAttack += deltaTime;
         if (targeting.timeSinceLastAttack < targeting.attackspeed) {
             return;
@@ -40,10 +40,10 @@ public class TargetingSystem extends IteratingSystem {
         Entity firstCreep = null;
         float timeFirstInRange = 0;
         for (Entity creep : creeps) {
-            Position creepPosition = mPos.get(creep);
+            Placement creepPlacement = mPos.get(creep);
             Vector2 diffVector = new Vector2(
-                    creepPosition.x - entityPosition.x,
-                    creepPosition.y - entityPosition.y
+                    creepPlacement.x - entityPlacement.x,
+                    creepPlacement.y - entityPlacement.y
             );
             if (diffVector.len2() < range2 && mPat.get(creep).time > timeFirstInRange) {
                 diffFirstInRange = diffVector;
@@ -61,14 +61,14 @@ public class TargetingSystem extends IteratingSystem {
             System.out.println(time);
             path.path.valueAt(position, mPat.get(firstCreep).time + time/160);
             Vector2 firstCreepdiffVector = new Vector2(
-                    position.x - entityPosition.x,
-                    position.y - entityPosition.y
+                    position.x - entityPlacement.x,
+                    position.y - entityPlacement.y
             );
             float rotation = firstCreepdiffVector.angle();
-            entityPosition.rotation = rotation - 90;
+            entityPlacement.rotation = rotation - 90;
             getEngine().addEntity(
                     new Entity()
-                            .add(new Position(entityPosition.x, entityPosition.y, rotation - 90))
+                            .add(new Placement(entityPlacement.x, entityPlacement.y, rotation - 90))
                             .add(new Render(Graphics.getRegion("missile")))
                             .add(new Velocity(firstCreepdiffVector.nor().scl(10)))
                             .add(new Timer(1))

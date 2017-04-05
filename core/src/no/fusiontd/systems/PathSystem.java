@@ -6,15 +6,15 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import no.fusiontd.components.PathFollow;
-import no.fusiontd.components.Position;
+import no.fusiontd.components.Placement;
 
 public class PathSystem extends IteratingSystem {
 
-    private ComponentMapper<Position> mPos = ComponentMapper.getFor(Position.class);
+    private ComponentMapper<Placement> mPos = ComponentMapper.getFor(Placement.class);
     private ComponentMapper<PathFollow> mPath = ComponentMapper.getFor(PathFollow.class);
 
     public PathSystem() {
-        super(Family.all(Position.class, PathFollow.class).get());
+        super(Family.all(Placement.class, PathFollow.class).get());
     }
 
     @Override
