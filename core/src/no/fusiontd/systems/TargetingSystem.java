@@ -56,9 +56,8 @@ public class TargetingSystem extends IteratingSystem {
 
             targeting.timeSinceLastAttack = 0;
             PathFollow path = mPat.get(firstCreep);
-            Vector2 position = mPos.get(firstCreep);
+            Vector2 position = mPos.get(firstCreep).cpy();
             float time = 10 / diffFirstInRange.len();
-            System.out.println(time);
             path.path.valueAt(position, mPat.get(firstCreep).time + time / 160);
             Vector2 firstCreepdiffVector = new Vector2(
                     position.x - entityPlacement.x,
