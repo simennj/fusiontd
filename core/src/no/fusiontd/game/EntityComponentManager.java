@@ -1,10 +1,13 @@
 package no.fusiontd.game;
 
 import com.badlogic.ashley.core.*;
+import no.fusiontd.CloneableComponent;
 import no.fusiontd.components.AddOnRemove;
 import no.fusiontd.components.Placement;
 import no.fusiontd.screens.PlayScreen;
 import no.fusiontd.systems.*;
+
+import java.util.Arrays;
 
 public class EntityComponentManager extends Engine {
 
@@ -31,4 +34,18 @@ public class EntityComponentManager extends Engine {
             }
         });
     }
+
+    public Entity spawn(CloneableComponent... components) {
+        return spawn(Arrays.asList(components));
+    }
+
+    public Entity spawn(Iterable<CloneableComponent> components) {
+        Entity entity = new Entity();
+        for (CloneableComponent component : components) {
+            entity.add(component.cloneComponent());
+        }
+        addEntity(entity);
+        return entity;
+    }
+
 }
