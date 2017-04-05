@@ -10,18 +10,17 @@ public class MapWriter extends MapReader {
 
     public void saveMap(int[][] map, String mapName){
         //Takes a map as input, and saves the map into a file.
-        //It will save the map in one line, and go along the rows (starting top-left)
+        //It will save the map row after row, with newlines separating, with upper-left corner as a start-point.
         String mapString = "";
         mapString = mapToString(map);
         String mapSaveString = "maps/" + mapName + ".txt";
-        FileHandle file = Gdx.files.local(mapSaveString); //Give maps a unique filename?
-        // If so it would probably require some kind of input from user, which could be given as input into the function.
+        FileHandle file = Gdx.files.local(mapSaveString);
+
         file.writeString(mapString, false); //"False"-value overwrites current content.
     }
 
     public String mapToString(int[][] map){
         //Turns the map into a String.
-        //The string will only contain the values of each cell, starting with the upper-left cell, and going along the rows.
         String mapString = "";
         for (int i = 0; i<map.length; i++){
             for (int j = 0; j<map[0].length; j++){

@@ -16,7 +16,7 @@ public class MPClient {
     private int tcpPort = 54555;
     private int udpPort = 54556;
     private String serverIP = "localhost";
-    private NetworkListener nl;
+    public NetworkListener nl;
     private String thisPlayer;
 
     public MPClient(String serverIP, FusionTD game, String playerName) {
@@ -29,6 +29,7 @@ public class MPClient {
         }
         nl = new NetworkListener();
         nl.init(client, game, playerName);
+        //nl.init(client, playerName);
         client.addListener(nl);
 
         new Thread(client).start();
@@ -43,6 +44,7 @@ public class MPClient {
 
     public void registerPackets(){
         Kryo kryo = client.getKryo();
+        kryo.register(java.util.ArrayList.class);
         kryo.register(Packet.Packet0LoginRequest.class);
         kryo.register(Packet.Packet1LoginAnswer.class);
         kryo.register(Packet.Packet2Message.class);
@@ -55,6 +57,7 @@ public class MPClient {
         kryo.register(Packet.Packet9PlayerList.class);
         kryo.register(Packet.Packet10RequestPlayerList.class);
         kryo.register(Packet.Packet11RequestOpponent.class);
+        kryo.register(Packet.Packet12OpponentAnswer.class);
     }
 
     public void sendMetaData(String metadata){
@@ -102,27 +105,42 @@ public class MPClient {
         client.sendUDP(tPacket);
     }
 
-    public void sendMPRequest(int playerid){
+    public void sendMPRequest(int selectedPlayerId){
         Packet.Packet11RequestOpponent roPacket = new Packet.Packet11RequestOpponent();
-        roPacket.playerId = playerid;
         roPacket.sendingPlayer = thisPlayer;
+        roPacket.receivingPlayerId = selectedPlayerId;
         client.sendUDP(roPacket);
+    }
+
+    public void sendMPAnswer(boolean accept){
+        nl.requestAnswer.accepted = accept;
+        //System.out.println(nl.requestAnswer);
+        client.sendUDP(nl.requestAnswer);
     }
 
     public void sendPlayerListRequest(){
         Packet.Packet10RequestPlayerList rpPacket = new Packet.Packet10RequestPlayerList();
         client.sendUDP(rpPacket);
     }
-/*
-    public static void main(String[] args){
-        MPClient mpClient= new MPClient();
+
+    public NetworkListener getNL(){
+        return nl;
+    }
+    /*public static void main(String[] args){
+        MPClient mpClient= new MPClient("localhost", "Hax0rmaster1337");
         while(scanner.hasNext()){
             System.out.println("Write something");
             String line = scanner.nextLine();
-             mpClient.nl.sendMessage(line);
-            //mpClient.nl.sendCreeps(10);
+            if(line.equals("break")){
+                mpClient.sendMPRequest(0);
+            }
+            else if( line.equals("yes")){
+                mpClient.sendMPAnswer();
+            }
+            else{
+                mpClient.sendMessage(line);
+            }
         }
         //Log.set(Log.LEVEL_DEBUG);
-
     }*/
 }

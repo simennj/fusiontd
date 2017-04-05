@@ -1026,3 +1026,24 @@ yellow_tick
   orig: 17, 17
   offset: 0, 0
   index: -1
+selection
+  rotate: false
+  xy: 170, 44
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+white
+  rotate: false
+  xy: 174, 48
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+black
+  rotate: false
+  xy: 174, 48
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1

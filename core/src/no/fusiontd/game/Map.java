@@ -59,6 +59,19 @@ public class Map {
         } // placing grass
     }
 
+    public void placeTile(int x, int y){
+        int tile = getTile(x, y);
+        if (tile == 0){
+            map[getMapRow(y)][getMapCol(x)] = 1;
+        }
+        if (tile == 1){
+            map[getMapRow(y)][getMapCol(x)] = 4;
+        }
+        if (tile == 4){
+            map[getMapRow(y)][getMapCol(x)] = 5;
+        }
+    }
+
 
     public List<Point2D> findPath(int[][] adj) {
         //Function that takes a map as input, and returns a list (with Point2D-objects) of path as a return value.
