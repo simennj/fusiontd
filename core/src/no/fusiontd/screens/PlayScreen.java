@@ -172,7 +172,6 @@ public class PlayScreen implements Screen, InputProcessor {
         if (tile == 0) {
             towerSpawner.spawn("missileTower", getCameraX(screenX), getCameraY(screenY));
         }
-        creepSpawner.spawnCreep("bush", 12);
         return false;
     }
 

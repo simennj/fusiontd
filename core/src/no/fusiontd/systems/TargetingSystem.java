@@ -39,6 +39,7 @@ public class TargetingSystem extends IteratingSystem {
         }
         float range2 = targeting.range * targeting.range;
         Vector2 diffFirstInRange = new Vector2();
+        Entity firstCreep = null;
         float timeFirstInRange = 0;
         for (Entity creep : creeps) {
             Position creepPosition = mPos.get(creep);
@@ -49,18 +50,30 @@ public class TargetingSystem extends IteratingSystem {
             if (diffVector.len2() < range2 && mPat.get(creep).time > timeFirstInRange) {
                 diffFirstInRange = diffVector;
                 timeFirstInRange = mPat.get(creep).time;
+                firstCreep = creep;
+
             }
         }
-        if (timeFirstInRange != 0) {
+        if (firstCreep != null) {
+
             targeting.timeSinceLastAttack = 0;
-            float rotation = diffFirstInRange.angle();
+            PathFollow path = mPat.get(firstCreep);
+            Vector2 position = mPos.get(firstCreep);
+            float time = 10/diffFirstInRange.len();
+            System.out.println(time);
+            path.path.valueAt(position, mPat.get(firstCreep).time + time/160);
+            Vector2 firstCreepdiffVector = new Vector2(
+                    position.x - entityPosition.x,
+                    position.y - entityPosition.y
+            );
+            float rotation = firstCreepdiffVector.angle();
             mRot.get(entity).rotation = rotation - 90;
             getEngine().addEntity(
                     new Entity()
                             .add(new Position(entityPosition.x, entityPosition.y))
                             .add(new Rotation(rotation - 90))
                             .add(new Render(Graphics.getRegion("missile")))
-                            .add(new Velocity(diffFirstInRange.nor().scl(10)))
+                            .add(new Velocity(firstCreepdiffVector.nor().scl(10)))
                             .add(new Timer(1))
                             .add(new Attack(.5f))
                             .add(new Durability(12))

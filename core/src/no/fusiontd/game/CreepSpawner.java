@@ -8,57 +8,50 @@ import com.badlogic.gdx.math.Vector2;
 import no.fusiontd.Graphics;
 import no.fusiontd.components.*;
 
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import java.util.LinkedList;
 
 public class CreepSpawner {
     private Path<Vector2> path;
     private Engine engine;
-    private ArrayList<ArrayList<Entity>> creeps = new ArrayList<ArrayList<Entity>>();
-    private int wave = 0;
+    private LinkedList<CreepWave> creepWaves = new LinkedList<CreepWave>();
+    private CreepWave currentWave;
     private float timer;
+    private Vector2 startPosition = new Vector2();
 
     public CreepSpawner(Path<Vector2> path, Engine engine) {
         this.path = path;
+        path.valueAt(this.startPosition, 0);
         this.engine = engine;
-    }
-
-    private void waveMaker() {
-        wave++;
-        for (Entity creep : creeps.get(wave)) {
-            spawnCreep("plane", creep.getComponent(Durability.class).life);
+        try {
+            creepWaves.add(new CreepWave("1"));
+            currentWave = creepWaves.pop();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-
     }
 
     public void update(float deltatime) {
         timer += deltatime;
-        if (timer > .5f) {
+        if (timer > currentWave.currentDelayBetweenCreeps()) {
             timer = 0;
-            spawnCreep("plane", 24);
+            CreepWave.CreepBluePrint creepBluePrint = currentWave.popCreep();
+            spawnCreep(creepBluePrint.texture, creepBluePrint.life, creepBluePrint.speed);
         }
     }
 
-    public void spawnCreep(String region, float life, Component... components) {
+    public void spawnCreep(String region, float life, float speed, Component... components) {
         Entity creep = new Entity()
-                .add(new Position())
+                .add(new Position(startPosition))
                 .add(new Rotation())
                 .add(new Attackable(.1f))
-                .add(new Durability(12))
+                .add(new Durability(life))
                 .add(new Render(Graphics.getRegion(region)))
-                .add(new PathFollow(path));
+                .add(new PathFollow(path, speed));
         for (Component component : components) {
             creep.add(component);
         }
         engine.addEntity(creep);
     }
 
-
-    private void initWave() {
-        for (int i = 0; i < 30; i++) {
-            creeps.add(new ArrayList<Entity>());
-            for (int j = 0; j < 30; j++) {
-                creeps.get(i).set(j, new Entity().add(new Durability(j)));
-            }
-        }
-    }
 }
