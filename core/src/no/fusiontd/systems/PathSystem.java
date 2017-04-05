@@ -20,9 +20,12 @@ public class PathSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         PathFollow path = mPath.get(entity);
-        Vector2 position = mPos.get(entity);
+        Placement placement = mPos.get(entity);
         path.time = path.time + deltaTime * path.speed / path.length;
-        path.path.valueAt(position, path.time);
+        path.path.valueAt(placement, path.time);
+        Vector2 rotation = new Vector2();
+        path.path.derivativeAt(rotation, path.time);
+        placement.rotation = rotation.angle();
         if (path.time > 1) {
             getEngine().removeEntity(entity);
         }
