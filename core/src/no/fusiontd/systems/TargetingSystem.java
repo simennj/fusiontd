@@ -8,7 +8,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
-import no.fusiontd.Graphics;
+import no.fusiontd.CloneableComponent;
 import no.fusiontd.components.*;
 
 public class TargetingSystem extends IteratingSystem {
@@ -57,24 +57,22 @@ public class TargetingSystem extends IteratingSystem {
             targeting.timeSinceLastAttack = 0;
             PathFollow path = mPat.get(firstCreep);
             Vector2 position = mPos.get(firstCreep);
-            float time = 10/diffFirstInRange.len();
+            float time = 10 / diffFirstInRange.len();
             System.out.println(time);
-            path.path.valueAt(position, mPat.get(firstCreep).time + time/160);
+            path.path.valueAt(position, mPat.get(firstCreep).time + time / 160);
             Vector2 firstCreepdiffVector = new Vector2(
                     position.x - entityPlacement.x,
                     position.y - entityPlacement.y
             );
             float rotation = firstCreepdiffVector.angle();
             entityPlacement.rotation = rotation - 90;
-            getEngine().addEntity(
-                    new Entity()
-                            .add(new Placement(entityPlacement.x, entityPlacement.y, rotation - 90))
-                            .add(new Render(Graphics.getRegion("missile")))
-                            .add(new Velocity(firstCreepdiffVector.nor().scl(10)))
-                            .add(new Timer(1))
-                            .add(new Attack(.5f))
-                            .add(new Durability(12))
-            );
+            Entity missile = new Entity()
+                    .add(new Placement(entityPlacement))
+                    .add(new Velocity(firstCreepdiffVector.nor().scl(10)));
+            for (CloneableComponent component : targeting.attack) {
+                missile.add(component.cloneComponent());
+            }
+            getEngine().addEntity(missile);
         }
     }
 }
