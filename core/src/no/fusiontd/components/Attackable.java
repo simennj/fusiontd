@@ -1,12 +1,17 @@
 package no.fusiontd.components;
 
-import com.badlogic.ashley.core.Component;
+import no.fusiontd.CloneableComponent;
 
 
-public class Attackable implements Component {
+public class Attackable implements CloneableComponent<Attackable> {
     public float creepradius;
 
     public Attackable(float newRadius) {
         this.creepradius = newRadius;
+    }
+
+    @Override
+    public Attackable cloneComponent() {
+        return new Attackable(creepradius);
     }
 }

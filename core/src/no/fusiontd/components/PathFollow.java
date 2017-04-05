@@ -1,10 +1,10 @@
 package no.fusiontd.components;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
+import no.fusiontd.CloneableComponent;
 
-public class PathFollow implements Component {
+public class PathFollow implements CloneableComponent<PathFollow> {
     public float time;
     public Path<Vector2> path;
     public float speed;
@@ -16,4 +16,8 @@ public class PathFollow implements Component {
         this.length = path.approxLength(100);
     }
 
+    @Override
+    public PathFollow cloneComponent() {
+        return new PathFollow(path, speed);
+    }
 }
