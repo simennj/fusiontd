@@ -1,10 +1,14 @@
 package no.fusiontd.components;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import no.fusiontd.CloneableComponent;
 
-public class Render extends Sprite implements Component {
+public class Render extends Sprite implements CloneableComponent<Render> {
+
+    public Render(Sprite sprite) {
+        super(sprite);
+    }
 
     public Render(TextureRegion rect) {
         this(rect, 1, 1);
@@ -25,4 +29,8 @@ public class Render extends Sprite implements Component {
         super.setScale(x / 128, y / 128);
     }
 
+    @Override
+    public Render cloneComponent() {
+        return new Render(this);
+    }
 }

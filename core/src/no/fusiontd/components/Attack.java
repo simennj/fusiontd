@@ -1,8 +1,8 @@
 package no.fusiontd.components;
 
-import com.badlogic.ashley.core.Component;
+import no.fusiontd.CloneableComponent;
 
-public class Attack implements Component {
+public class Attack implements CloneableComponent<Attack> {
     public float projradius;
     public float expradius;
 
@@ -10,4 +10,8 @@ public class Attack implements Component {
         this.projradius = projradius;
     }
 
+    @Override
+    public Attack cloneComponent() {
+        return new Attack(projradius);
+    }
 }

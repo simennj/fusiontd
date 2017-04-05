@@ -1,12 +1,16 @@
 package no.fusiontd.components;
 
-import com.badlogic.ashley.core.Component;
+import no.fusiontd.CloneableComponent;
 
-public class Timer implements Component {
+public class Timer implements CloneableComponent<Timer> {
     public float time;
 
     public Timer(float time) {
         this.time = time;
     }
 
+    @Override
+    public Timer cloneComponent() {
+        return new Timer(time);
+    }
 }

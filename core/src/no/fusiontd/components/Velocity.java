@@ -1,10 +1,10 @@
 package no.fusiontd.components;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
+import no.fusiontd.CloneableComponent;
 
 
-public class Velocity extends Vector2 implements Component {
+public class Velocity extends Vector2 implements CloneableComponent<Velocity> {
 
     public Velocity() {
         this(0, 0);
@@ -18,4 +18,8 @@ public class Velocity extends Vector2 implements Component {
         super(x, y);
     }
 
+    @Override
+    public Velocity cloneComponent() {
+        return new Velocity(this);
+    }
 }
