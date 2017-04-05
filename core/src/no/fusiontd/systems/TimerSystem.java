@@ -18,7 +18,6 @@ public class TimerSystem extends IteratingSystem {
         Timer timer = mTim.get(entity);
         timer.time -= deltaTime;
         if (timer.time <= 0) {
-            entity.removeAll();
             getEngine().removeEntity(entity);
         }
     }
