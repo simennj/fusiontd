@@ -13,7 +13,6 @@ import no.fusiontd.components.*;
 
 public class TargetingSystem extends IteratingSystem {
     ComponentMapper<Position> mPos = ComponentMapper.getFor(Position.class);
-    ComponentMapper<Rotation> mRot = ComponentMapper.getFor(Rotation.class);
     ComponentMapper<Targeting> mTar = ComponentMapper.getFor(Targeting.class);
     ComponentMapper<PathFollow> mPat = ComponentMapper.getFor(PathFollow.class);
     private ImmutableArray<Entity> creeps;
@@ -31,7 +30,6 @@ public class TargetingSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         Targeting targeting = mTar.get(entity);
-        Rotation entityRotation = mRot.get(entity);
         Position entityPosition = mPos.get(entity);
         targeting.timeSinceLastAttack += deltaTime;
         if (targeting.timeSinceLastAttack < targeting.attackspeed) {
@@ -67,11 +65,10 @@ public class TargetingSystem extends IteratingSystem {
                     position.y - entityPosition.y
             );
             float rotation = firstCreepdiffVector.angle();
-            mRot.get(entity).rotation = rotation - 90;
+            entityPosition.rotation = rotation - 90;
             getEngine().addEntity(
                     new Entity()
-                            .add(new Position(entityPosition.x, entityPosition.y))
-                            .add(new Rotation(rotation - 90))
+                            .add(new Position(entityPosition.x, entityPosition.y, rotation - 90))
                             .add(new Render(Graphics.getRegion("missile")))
                             .add(new Velocity(firstCreepdiffVector.nor().scl(10)))
                             .add(new Timer(1))
