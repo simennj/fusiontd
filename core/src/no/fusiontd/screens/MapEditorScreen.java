@@ -1,18 +1,15 @@
 package no.fusiontd.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import no.fusiontd.FusionTD;
 import no.fusiontd.game.CreepSpawner;
 import no.fusiontd.game.EntityComponentManager;
 import no.fusiontd.game.GameController;
 import no.fusiontd.game.Map;
-import no.fusiontd.game.TowerSpawner;
 import no.fusiontd.maps.MapReader;
 
 public class MapEditorScreen implements Screen, InputProcessor {
@@ -26,7 +23,6 @@ public class MapEditorScreen implements Screen, InputProcessor {
     private Map map;
     private GameController controller;
     private CreepSpawner creepSpawner;
-    private TowerSpawner towerSpawner;
     private OrthographicCamera camera;
     private float aspectRatio;
     private float tilesize;
@@ -51,7 +47,6 @@ public class MapEditorScreen implements Screen, InputProcessor {
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         //engine = new EntityComponentManager(this);
-        towerSpawner = new TowerSpawner(engine);
 
     }
 

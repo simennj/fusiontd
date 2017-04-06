@@ -15,6 +15,7 @@ public class TargetingSystem extends IteratingSystem {
     private ComponentMapper<Placement> mPos = ComponentMapper.getFor(Placement.class);
     private ComponentMapper<Targeting> mTar = ComponentMapper.getFor(Targeting.class);
     private ComponentMapper<PathFollow> mPat = ComponentMapper.getFor(PathFollow.class);
+    private ComponentMapper<Velocity> mVel = ComponentMapper.getFor(Velocity.class);
     private ImmutableArray<Entity> creeps;
 
     public TargetingSystem() {
@@ -31,47 +32,55 @@ public class TargetingSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         Targeting targeting = mTar.get(entity);
         Placement entityPlacement = mPos.get(entity);
-        targeting.timeSinceLastAttack += deltaTime;
-        if (targeting.timeSinceLastAttack < targeting.attackspeed) {
-            return;
+        if (reloading(deltaTime, targeting)) return;
+        Entity firstInRange = getFirstInRange(targeting, entityPlacement);
+        if (firstInRange != null) {
+            getEngine().addEntity(getMissile(targeting, entityPlacement, firstInRange));
         }
-        float range2 = targeting.range * targeting.range;
-        Vector2 diffFirstInRange = new Vector2();
-        Entity firstCreep = null;
+    }
+
+    private Entity getMissile(Targeting targeting, Placement entityPlacement, Entity firstInRange) {
+        Vector2 diffVector = mPos.get(firstInRange).cpy().sub(entityPlacement);
+        float rotation = diffVector.angle();
+        entityPlacement.rotation = rotation - 90;
+        Entity missile = new Entity().add(getPlacement(targeting, entityPlacement, rotation));
+        for (CloneableComponent component : targeting.attack) {
+            missile.add(component.cloneComponent());
+        }
+        Velocity velocity = mVel.get(missile);
+        if (velocity != null) velocity.setAngle(diffVector.angle());
+        return missile;
+    }
+
+    private Entity getFirstInRange(Targeting targeting, Placement towerPlacement) {
+        Entity firstInRange = null;
         float timeFirstInRange = 0;
         for (Entity creep : creeps) {
-            Placement creepPlacement = mPos.get(creep);
-            Vector2 diffVector = new Vector2(
-                    creepPlacement.x - entityPlacement.x,
-                    creepPlacement.y - entityPlacement.y
-            );
-            if (diffVector.len2() < range2 && mPat.get(creep).time > timeFirstInRange) {
-                diffFirstInRange = diffVector;
+            if (isInRange(towerPlacement, mPos.get(creep), targeting.range) && mPat.get(creep).time > timeFirstInRange) {
+                firstInRange = creep;
                 timeFirstInRange = mPat.get(creep).time;
-                firstCreep = creep;
-
             }
         }
-        if (firstCreep != null) {
+        return firstInRange;
+    }
 
-            targeting.timeSinceLastAttack = 0;
-            PathFollow path = mPat.get(firstCreep);
-            Vector2 position = mPos.get(firstCreep).cpy();
-            float time = 10 / diffFirstInRange.len();
-            path.path.valueAt(position, mPat.get(firstCreep).time + time / 160);
-            Vector2 firstCreepdiffVector = new Vector2(
-                    position.x - entityPlacement.x,
-                    position.y - entityPlacement.y
-            );
-            float rotation = firstCreepdiffVector.angle();
-            entityPlacement.rotation = rotation - 90;
-            Entity missile = new Entity()
-                    .add(new Placement(entityPlacement))
-                    .add(new Velocity(firstCreepdiffVector.nor().scl(10)));
-            for (CloneableComponent component : targeting.attack) {
-                missile.add(component.cloneComponent());
-            }
-            getEngine().addEntity(missile);
+    private boolean isInRange(Placement towerPlacement, Placement creepPlacement, float range) {
+        Vector2 diffVector = creepPlacement.cpy().sub(towerPlacement);
+        return diffVector.len2() < range * range;
+    }
+
+    private Placement getPlacement(Targeting targeting, Placement entityPlacement, float rotation) {
+        Placement projectilePlacement = new Placement(entityPlacement);
+        projectilePlacement.add(targeting.projectileDisplacement.setAngle(rotation));
+        return projectilePlacement;
+    }
+
+    private boolean reloading(float deltaTime, Targeting targeting) {
+        targeting.timeSinceLastAttack += deltaTime;
+        if (targeting.timeSinceLastAttack < targeting.attackspeed) {
+            return true;
         }
+        targeting.timeSinceLastAttack = 0;
+        return false;
     }
 }

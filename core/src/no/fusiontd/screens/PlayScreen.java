@@ -9,7 +9,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
-import no.fusiontd.game.*;
+import no.fusiontd.game.CreepSpawner;
+import no.fusiontd.game.EntityComponentManager;
+import no.fusiontd.game.GameController;
+import no.fusiontd.game.Map;
 
 public class PlayScreen implements Screen, InputProcessor {
 
@@ -21,7 +24,6 @@ public class PlayScreen implements Screen, InputProcessor {
     private Map map;
     private GameController controller;
     private CreepSpawner creepSpawner;
-    private TowerSpawner towerSpawner;
     private OrthographicCamera camera;
     private float aspectRatio;
     private float tilesize;
@@ -45,7 +47,6 @@ public class PlayScreen implements Screen, InputProcessor {
         batch = new SpriteBatch();
         engine = new EntityComponentManager(this);
         creepSpawner = new CreepSpawner(map.path, engine);
-        towerSpawner = new TowerSpawner(engine);
     }
 
     public void setMap(String mapName) {
@@ -170,7 +171,9 @@ public class PlayScreen implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         int tile = map.getTile(getCameraX(screenX), getCameraY(screenY));
         if (tile == 0) {
-            towerSpawner.spawn("missileTower", getCameraX(screenX), getCameraY(screenY));
+            engine.spawnTower("missileTower", getCameraX(screenX), getCameraY(screenY));
+        } else {
+            engine.spawnTower("flameTower", getCameraX(screenX), getCameraY(screenY));
         }
         return false;
     }
