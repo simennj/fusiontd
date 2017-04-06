@@ -3,8 +3,13 @@ package no.fusiontd.components;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import no.fusiontd.CloneableComponent;
+import no.fusiontd.Graphics;
 
 public class Render extends Sprite implements CloneableComponent<Render> {
+
+    public Render(String name) {
+        this(Graphics.getRegion(name));
+    }
 
     public Render(Sprite sprite) {
         super(sprite);
