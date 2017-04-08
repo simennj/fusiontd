@@ -141,6 +141,18 @@ public class ConnectScreen implements Screen {
                     inviteString = currInviteString;
                 }
                 else{
+                    /*new Dialog("Accept request", skin){
+                        {
+                            text(inviteString);
+                            button("yes", "Alright!!");
+                            button("no", "Ok :C");
+                        }
+
+                        @Override
+                        protected void result(Object object){
+                            mpClient.sendMPAnswer(true);
+                        }
+                    }.show(stage);*/
                     mpClient.sendMPAnswer(true);
                 }
             }
