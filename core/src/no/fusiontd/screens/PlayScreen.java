@@ -172,7 +172,7 @@ public class PlayScreen implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         int tile = map.getTile(getCameraX(screenX), getCameraY(screenY));
         if (tile == 0) {
-            engine.spawnTower("missileTower", new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f));
+            engine.spawnTower("missileTower2", new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f));
         } else {
             engine.spawnTower("flameTower", new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f));
         }

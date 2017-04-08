@@ -32,6 +32,7 @@ public class TargetingSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         Targeting targeting = mTar.get(entity);
         Geometry entityGeometry = mPos.get(entity);
+        targeting.timeSinceLastAttack += deltaTime;
         if (reloading(deltaTime, targeting)) return;
         Entity firstInRange = getFirstInRange(targeting, entityGeometry);
         if (firstInRange != null) {
@@ -42,7 +43,10 @@ public class TargetingSystem extends IteratingSystem {
     private Entity getMissile(Targeting targeting, Geometry entityGeometry, Entity firstInRange) {
         Vector2 diffVector = mPos.get(firstInRange).cpy().sub(entityGeometry);
         float rotation = diffVector.angle();
-        entityGeometry.rotation = rotation - 90;
+
+        if (targeting.aim) {
+            entityGeometry.rotation = rotation - 90;
+        }
         Entity missile = new Entity().add(getPlacement(targeting, entityGeometry, rotation));
         for (CloneableComponent component : targeting.attack) {
             missile.add(component.cloneComponent());
@@ -76,7 +80,6 @@ public class TargetingSystem extends IteratingSystem {
     }
 
     private boolean reloading(float deltaTime, Targeting targeting) {
-        targeting.timeSinceLastAttack += deltaTime;
         if (targeting.timeSinceLastAttack < targeting.attackspeed) {
             return true;
         }

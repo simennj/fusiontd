@@ -53,10 +53,10 @@ public class EntityComponentManager extends Engine {
 
         blueprints.put("missileTower", Arrays.<CloneableComponent>asList(
                 new Render("missileTower"),
-                new Targeting(5, .5f,
+                new Targeting(5, .5f,true,
                         new Render(Graphics.getRegion("missile")),
                         new Timer(1),
-                        new Attack(.5f),
+                        new Attack(.5f, 12),
                         new Durability(12),
                         new Velocity(new Vector2(10, 0)),
                         new AddOnRemove(new Vector2(0, .5f),
@@ -66,15 +66,45 @@ public class EntityComponentManager extends Engine {
                 )
         ));
 
+        blueprints.put("missileTower2", Arrays.<CloneableComponent>asList(
+                new Render("missileTower"),
+                new Targeting(3f, 2f,true,
+                        new Render(Graphics.getRegion("missile")),
+                        new Timer(1),
+                        new Attack (.5f,1),
+                        new Durability(1),
+                        new Velocity(new Vector2(10, 0)),
+                        new AddOnRemove(new Vector2(0, .5f),
+                                new Render("explosion"),
+                                new Timer(2),
+                                new Attack(.5f, 1),
+                                new Durability(10000000)
+                        )
+                )
+        ));
+
+
+
         blueprints.put("flameTower", Arrays.<CloneableComponent>asList(
                 new Render("flameTower"),
-                new Targeting(1, .05f, new Vector2(0, .5f),
+                new Targeting(1, .05f, new Vector2(0, .5f),true,
                         new Render(Graphics.getRegion("flame")),
                         new Timer(1),
-                        new Attack(.05f),
+                        new Attack(.05f, 60),
                         new Durability(60)
                 )
         ));
+        blueprints.put("sniperTower", Arrays.<CloneableComponent>asList(
+                new Render("sniperTower"),
+                new Targeting(5, 1.5f, false,
+                        new Render(Graphics.getRegion("LF")),
+                        new Timer(1),
+                        new Attack(1.5f, 2000),
+                        new Durability(1),
+                        new Velocity(new Vector2(5,0))
+                )
+        ));
+
 
     }
 
