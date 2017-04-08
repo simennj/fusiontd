@@ -41,15 +41,15 @@ public class ConnectScreen implements Screen {
     private FusionTD game;
     private Stage stage;
     private Table table;
-    TextureAtlas atlas;
-    Skin skin;
-    MPClient mpClient;
+    private TextureAtlas atlas;
+    private Skin skin;
+    private MPClient mpClient;
     private List<String> playerList;
     private String inviteString;
 
     public ConnectScreen(FusionTD game) {
         this.game = game;
-        mpClient = new MPClient("localhost", game, "Saltminer");
+        mpClient = game.getMpc();
         mpClient.sendPlayerListRequest();
         inviteString = mpClient.getNL().getRequestString();
         atlas = new TextureAtlas(Gdx.files.internal("ui.atlas"));
