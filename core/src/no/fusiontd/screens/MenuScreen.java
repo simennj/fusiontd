@@ -26,7 +26,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.fusiontd.FusionTD;
 
-public class MenuScreen implements Screen , Input.TextInputListener{
+public class MenuScreen implements Screen{
 
     private FusionTD game;
     private Stage stage;
@@ -75,7 +75,7 @@ public class MenuScreen implements Screen , Input.TextInputListener{
         button1.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.selectMap(false);
+                game.selectMap();
             }
         });
         table1.add(button1);
@@ -89,7 +89,19 @@ public class MenuScreen implements Screen , Input.TextInputListener{
         button2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.input.getTextInput(MenuScreen.this, "Your Name?", "Saltminer", "");
+                /*Input.TextInputListener til = new Input.TextInputListener() {
+                    @Override
+                    public void input(String playerName) {
+                        game.connectMP(playerName);
+                    }
+
+                    @Override
+                    public void canceled() {
+
+                    }
+                };
+                Gdx.input.getTextInput(til, "Your Name?", "Saltminer", "");*/
+                game.connectMP("Saltminer");
             }
         });
         table2.add(button2);
@@ -163,16 +175,6 @@ public class MenuScreen implements Screen , Input.TextInputListener{
 
     @Override
     public void hide() {
-
-    }
-
-    @Override
-    public void input(String playerName) {
-        game.connectMP(playerName);
-    }
-
-    @Override
-    public void canceled() {
 
     }
 }
