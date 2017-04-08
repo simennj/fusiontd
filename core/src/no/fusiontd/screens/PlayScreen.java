@@ -36,8 +36,9 @@ public class PlayScreen implements Screen, InputProcessor {
     private String mapName;
     private UI ui;
 
-    public PlayScreen(FusionTD game) {
+    public PlayScreen(FusionTD game, boolean multiplayer) {
         this.game = game;
+        this.multiplayer = multiplayer;
     }
 
     @Override
