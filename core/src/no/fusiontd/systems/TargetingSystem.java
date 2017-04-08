@@ -71,7 +71,7 @@ public class TargetingSystem extends IteratingSystem {
 
     private Placement getPlacement(Targeting targeting, Placement entityPlacement, float rotation) {
         Placement projectilePlacement = new Placement(entityPlacement);
-        projectilePlacement.add(targeting.projectileDisplacement.setAngle(rotation));
+        projectilePlacement.add(targeting.projectileDisplacement.cpy().rotate(rotation - 90));
         return projectilePlacement;
     }
 
