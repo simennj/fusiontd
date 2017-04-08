@@ -14,23 +14,23 @@ public class CollisionSystem extends IteratingSystem {
     private ComponentMapper<Timer> mTime = ComponentMapper.getFor(Timer.class);
     private ComponentMapper<Attack> mAttack = ComponentMapper.getFor(Attack.class);
     private ComponentMapper<Attackable> mAttab = ComponentMapper.getFor(Attackable.class);
-    private ComponentMapper<Placement> mPos = ComponentMapper.getFor(Placement.class);
+    private ComponentMapper<Geometry> mPos = ComponentMapper.getFor(Geometry.class);
     private ComponentMapper<Durability> mDur = ComponentMapper.getFor(Durability.class);
     private ImmutableArray<Entity> creeps;
 
     public CollisionSystem() {
-        super(Family.all(Attack.class, Placement.class, Durability.class).get());
+        super(Family.all(Attack.class, Geometry.class, Durability.class).get());
     }
 
     @Override
     public void addedToEngine(Engine engine) {
         super.addedToEngine(engine);
-        creeps = getEngine().getEntitiesFor(Family.all(Attackable.class, Placement.class, Durability.class).get());
+        creeps = getEngine().getEntitiesFor(Family.all(Attackable.class, Geometry.class, Durability.class).get());
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        Placement projPos = mPos.get(entity);
+        Geometry projPos = mPos.get(entity);
         Attack projAtt = mAttack.get(entity);
         for (Entity creep : creeps) {
             float dx = projPos.x - mPos.get(creep).x;

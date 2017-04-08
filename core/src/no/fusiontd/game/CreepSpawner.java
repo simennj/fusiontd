@@ -42,7 +42,7 @@ public class CreepSpawner {
 
     private void spawnCreep(String region, float life, float speed, Component... components) {
         Entity creep = new Entity()
-                .add(new Placement(startPosition, 0))
+                .add(new Geometry(startPosition, 0, .5f))
                 .add(new Attackable(.1f))
                 .add(new Durability(life))
                 .add(new Render(Graphics.getRegion(region)))

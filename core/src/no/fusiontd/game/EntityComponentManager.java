@@ -17,7 +17,7 @@ public class EntityComponentManager extends Engine {
 
     private final ObjectMap<String, Collection<CloneableComponent>> blueprints = new ObjectMap<String, Collection<CloneableComponent>>();
     private ImmutableArray<Entity> towers;
-    private ComponentMapper<Placement> mPos = ComponentMapper.getFor(Placement.class);
+    private ComponentMapper<Geometry> mPos = ComponentMapper.getFor(Geometry.class);
 
     public EntityComponentManager(PlayScreen view) {
         super();
@@ -27,9 +27,9 @@ public class EntityComponentManager extends Engine {
         addSystem(new TargetingSystem());
         addSystem(new TimerSystem());
         addSystem(new CollisionSystem());
-        addEntityListener(Family.all(AddOnRemove.class, Placement.class).get(), new EntityListener() {
+        addEntityListener(Family.all(AddOnRemove.class, Geometry.class).get(), new EntityListener() {
             ComponentMapper<AddOnRemove> removeActionMapper = ComponentMapper.getFor(AddOnRemove.class);
-            ComponentMapper<Placement> positionMapper = ComponentMapper.getFor(Placement.class);
+            ComponentMapper<Geometry> positionMapper = ComponentMapper.getFor(Geometry.class);
 
             @Override
             public void entityAdded(Entity entity) {
@@ -40,16 +40,16 @@ public class EntityComponentManager extends Engine {
             public void entityRemoved(Entity entity) {
                 AddOnRemove addOnRemove = removeActionMapper.get(entity);
                 Entity newEntity = spawn(addOnRemove.newEntity);
-                Placement placement = positionMapper.get(newEntity);
-                Placement entityPlacement = positionMapper.get(entity);
-                if (placement == null) {
-                    newEntity.add(entityPlacement.cloneComponent());
-                    placement = positionMapper.get(newEntity);
+                Geometry geometry = positionMapper.get(newEntity);
+                Geometry entityGeometry = positionMapper.get(entity);
+                if (geometry == null) {
+                    newEntity.add(entityGeometry.cloneComponent());
+                    geometry = positionMapper.get(newEntity);
                 }
-                placement.add(addOnRemove.displacement.cpy().rotate(entityPlacement.rotation));
+                geometry.add(addOnRemove.displacement.cpy().rotate(entityGeometry.rotation));
             }
         });
-        towers = getEntitiesFor(Family.all(Placement.class, Render.class, Targeting.class).get());
+        towers = getEntitiesFor(Family.all(Geometry.class, Render.class, Targeting.class).get());
 
         blueprints.put("missileTower", Arrays.<CloneableComponent>asList(
                 new Render("missileTower"),
@@ -91,12 +91,12 @@ public class EntityComponentManager extends Engine {
         return entity;
     }
 
-    public void spawnTower(String name, float x, float y) {
+    public void spawnTower(String name, Geometry geometry) {
         for (Entity tower : towers) {
-            if (mPos.get(tower).dst(x, y) < .5f) return;
+            if (mPos.get(tower).dst(geometry) < geometry.radius) return;
         }
         Entity tower = spawn(blueprints.get(name));
-        tower.add(new Placement(x, y, 0));
+        tower.add(geometry);
     }
 
 }
