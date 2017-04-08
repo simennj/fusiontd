@@ -1,12 +1,18 @@
 package no.fusiontd.components;
 
-import com.badlogic.ashley.core.Entity;
 import no.fusiontd.CloneableComponent;
 
-public class AddOnRemove implements CloneableComponent<AddOnRemove> {
-    public Entity newEntity;
+import java.util.Arrays;
+import java.util.List;
 
-    public AddOnRemove(Entity newEntity) {
+public class AddOnRemove implements CloneableComponent<AddOnRemove> {
+    public List<CloneableComponent> newEntity;
+
+    public AddOnRemove(CloneableComponent... cloneableComponents) {
+        this(Arrays.asList(cloneableComponents));
+    }
+
+    public AddOnRemove(List<CloneableComponent> newEntity) {
         this.newEntity = newEntity;
     }
 
