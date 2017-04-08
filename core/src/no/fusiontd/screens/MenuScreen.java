@@ -108,6 +108,21 @@ public class MenuScreen implements Screen , Input.TextInputListener{
         });
         table3.add(button3);
 
+        Table table4 = new Table();
+        stage.addActor(table4);
+        table4.setFillParent(true);
+        table4.setPosition(0,-stage.getHeight()/4 - stage.getHeight()/8);
+
+        TextButton button4 = new TextButton("Map Editor", style);
+        button4.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.openOptions();
+            }
+        });
+        table4.add(button4);
+
+
         // back button
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
         exitStyle.up = new TextureRegionDrawable(uiAtlas.findRegion("grey_box"));
@@ -126,12 +141,6 @@ public class MenuScreen implements Screen , Input.TextInputListener{
             }
         });
         exitTable.add(exitButton);
-    }
-
-    public void render () {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
     }
 
     public void resize (int width, int height) {
