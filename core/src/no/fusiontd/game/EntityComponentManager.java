@@ -38,7 +38,15 @@ public class EntityComponentManager extends Engine {
 
             @Override
             public void entityRemoved(Entity entity) {
-
+                AddOnRemove addOnRemove = removeActionMapper.get(entity);
+                Entity newEntity = spawn(addOnRemove.newEntity);
+                Placement placement = positionMapper.get(newEntity);
+                Placement entityPlacement = positionMapper.get(entity);
+                if (placement == null) {
+                    newEntity.add(entityPlacement.cloneComponent());
+                    placement = positionMapper.get(newEntity);
+                }
+                placement.add(addOnRemove.displacement.cpy().rotate(entityPlacement.rotation));
             }
         });
         towers = getEntitiesFor(Family.all(Placement.class, Render.class, Targeting.class).get());
@@ -50,16 +58,20 @@ public class EntityComponentManager extends Engine {
                         new Timer(1),
                         new Attack(.5f),
                         new Durability(12),
-                        new Velocity(new Vector2(10, 0))
+                        new Velocity(new Vector2(10, 0)),
+                        new AddOnRemove(new Vector2(0, .5f),
+                                new Render("explosion"),
+                                new Timer(2)
+                        )
                 )
         ));
 
         blueprints.put("flameTower", Arrays.<CloneableComponent>asList(
                 new Render("flameTower"),
-                new Targeting(1, .5f, new Vector2(0, .5f),
+                new Targeting(1, .05f, new Vector2(0, .5f),
                         new Render(Graphics.getRegion("flame")),
                         new Timer(1),
-                        new Attack(.5f),
+                        new Attack(.05f),
                         new Durability(60)
                 )
         ));

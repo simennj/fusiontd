@@ -19,6 +19,7 @@ public class Graphics {
         regions.put("missileTower", tileAtlas.findRegion("206"));
         regions.put("flameTower", tileAtlas.findRegion("226"));
         regions.put("flame", tileAtlas.findRegion("298"));
+        regions.put("explosion", tileAtlas.findRegion("021"));
     }
 
     public static TextureAtlas.AtlasRegion getRegion(String name) {
