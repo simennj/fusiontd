@@ -18,6 +18,7 @@ public class EntityComponentManager extends Engine {
     private final ObjectMap<String, Collection<CloneableComponent>> blueprints = new ObjectMap<String, Collection<CloneableComponent>>();
     private ImmutableArray<Entity> towers;
     private ComponentMapper<Geometry> mPos = ComponentMapper.getFor(Geometry.class);
+    private ImmutableArray<Entity> creeps;
 
     public EntityComponentManager(PlayScreen view) {
         super();
@@ -50,6 +51,7 @@ public class EntityComponentManager extends Engine {
             }
         });
         towers = getEntitiesFor(Family.all(Geometry.class, Render.class, Targeting.class).get());
+        creeps = getEntitiesFor(Family.all(Geometry.class, Attackable.class, Durability.class).get());
 
         blueprints.put("missileTower", Arrays.<CloneableComponent>asList(
                 new Render("missileTower"),
@@ -128,5 +130,20 @@ public class EntityComponentManager extends Engine {
         Entity tower = spawn(blueprints.get(name));
         tower.add(geometry);
     }
+
+    public boolean checkTower(Geometry geometry){
+        for (Entity tower : towers) {
+            if (mPos.get(tower).dst(geometry) < geometry.radius) return true;
+        }
+        return false;
+    }
+
+    public boolean checkCreep(Geometry geometry){
+        for (Entity creep : creeps) {
+            if (mPos.get(creep).dst(geometry) < geometry.radius) return true;
+        }
+        return false;
+    }
+
 
 }

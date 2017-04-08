@@ -24,12 +24,12 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.fusiontd.FusionTD;
 
-public class OptionScreen implements Screen {
+public class MapEditorMetaScreen implements Screen {
 
     private FusionTD game;
     private Stage stage;
 
-    public OptionScreen(FusionTD game) {
+    public MapEditorMetaScreen(FusionTD game) {
         this.game = game;
     }
 
