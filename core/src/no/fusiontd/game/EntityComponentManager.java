@@ -49,6 +49,24 @@ public class EntityComponentManager extends Engine {
                 geometry.add(addOnRemove.displacement.cpy().rotate(entityGeometry.rotation));
             }
         });
+        addEntityListener(Family.all(Durability.class, PathFollow.class).get(), new EntityListener() {
+            ComponentMapper<PathFollow> pathFollowMapper = ComponentMapper.getFor(PathFollow.class);
+            ComponentMapper<Durability> durabilityMapper = ComponentMapper.getFor(Durability.class);
+
+            @Override
+            public void entityAdded(Entity entity) {
+
+            }
+
+            @Override
+            public void entityRemoved(Entity entity) {
+                if (durabilityMapper.get(entity).life <= 0) {
+                    System.out.println("got gold");
+                } else if (pathFollowMapper.get(entity).time > 1) {
+                    System.out.println("lost life");
+                }
+            }
+        });
         towers = getEntitiesFor(Family.all(Geometry.class, Render.class, Targeting.class).get());
 
         blueprints.put("missileTower", Arrays.<CloneableComponent>asList(
