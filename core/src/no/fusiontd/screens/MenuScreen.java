@@ -26,7 +26,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.fusiontd.FusionTD;
 
-public class MenuScreen implements Screen , Input.TextInputListener{
+public class MenuScreen implements Screen{
 
     private FusionTD game;
     private Stage stage;
@@ -75,7 +75,7 @@ public class MenuScreen implements Screen , Input.TextInputListener{
         button1.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.selectMap(false);
+                game.selectMap();
             }
         });
         table1.add(button1);
@@ -89,7 +89,19 @@ public class MenuScreen implements Screen , Input.TextInputListener{
         button2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.input.getTextInput(MenuScreen.this, "Your Name?", "Saltminer", "");
+                /*Input.TextInputListener til = new Input.TextInputListener() {
+                    @Override
+                    public void input(String playerName) {
+                        game.connectMP(playerName);
+                    }
+
+                    @Override
+                    public void canceled() {
+
+                    }
+                };
+                Gdx.input.getTextInput(til, "Your Name?", "Saltminer", "");*/
+                game.connectMP("Saltminer");
             }
         });
         table2.add(button2);
@@ -107,6 +119,21 @@ public class MenuScreen implements Screen , Input.TextInputListener{
             }
         });
         table3.add(button3);
+
+        Table table4 = new Table();
+        stage.addActor(table4);
+        table4.setFillParent(true);
+        table4.setPosition(0,-stage.getHeight()/4 - stage.getHeight()/8);
+
+        TextButton button4 = new TextButton("Map Editor", style);
+        button4.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.openOptions();
+            }
+        });
+        table4.add(button4);
+
 
         // back button
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
@@ -126,12 +153,6 @@ public class MenuScreen implements Screen , Input.TextInputListener{
             }
         });
         exitTable.add(exitButton);
-    }
-
-    public void render () {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
     }
 
     public void resize (int width, int height) {
@@ -154,16 +175,6 @@ public class MenuScreen implements Screen , Input.TextInputListener{
 
     @Override
     public void hide() {
-
-    }
-
-    @Override
-    public void input(String playerName) {
-        game.connectMP(playerName);
-    }
-
-    @Override
-    public void canceled() {
 
     }
 }

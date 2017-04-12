@@ -19,6 +19,8 @@ public class Graphics {
         regions.put("missileTower", tileAtlas.findRegion("206"));
         regions.put("flameTower", tileAtlas.findRegion("226"));
         regions.put("flame", tileAtlas.findRegion("298"));
+        regions.put("sniperTower", tileAtlas.findRegion("301"));
+        regions.put("LF", tileAtlas.findRegion("300"));
         regions.put("explosion", tileAtlas.findRegion("021"));
     }
 

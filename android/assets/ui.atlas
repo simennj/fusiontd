@@ -4,6 +4,13 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+black
+  rotate: false
+  xy: 104, 275
+  size: 49, 45
+  orig: 49, 45
+  offset: 0, 0
+  index: -1
 blue_boxCheckmark
   rotate: false
   xy: 104, 2
@@ -83,7 +90,7 @@ blue_button07
   index: -1
 blue_button08
   rotate: false
-  xy: 104, 275
+  xy: 590, 606
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -97,7 +104,7 @@ blue_button09
   index: -1
 blue_button10
   rotate: false
-  xy: 590, 606
+  xy: 782, 657
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -111,7 +118,7 @@ blue_button11
   index: -1
 blue_button12
   rotate: false
-  xy: 782, 657
+  xy: 104, 228
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -139,7 +146,7 @@ blue_circle
   index: -1
 blue_cross
   rotate: false
-  xy: 478, 582
+  xy: 185, 307
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
@@ -167,7 +174,7 @@ blue_sliderLeft
   index: -1
 blue_sliderRight
   rotate: false
-  xy: 962, 665
+  xy: 973, 665
   size: 39, 31
   orig: 39, 31
   offset: 0, 0
@@ -181,7 +188,7 @@ blue_sliderUp
   index: -1
 blue_tick
   rotate: false
-  xy: 337, 396
+  xy: 185, 268
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
@@ -209,21 +216,21 @@ dropdownTop
   index: -1
 green_boxCheckmark
   rotate: false
-  xy: 884, 666
+  xy: 845, 619
   size: 38, 36
   orig: 38, 36
   offset: 0, 0
   index: -1
 green_boxCross
   rotate: false
-  xy: 743, 615
+  xy: 885, 619
   size: 38, 36
   orig: 38, 36
   offset: 0, 0
   index: -1
 green_boxTick
   rotate: false
-  xy: 924, 670
+  xy: 935, 670
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
@@ -286,7 +293,7 @@ green_button07
   index: -1
 green_button08
   rotate: false
-  xy: 104, 228
+  xy: 641, 606
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -300,7 +307,7 @@ green_button09
   index: -1
 green_button10
   rotate: false
-  xy: 641, 606
+  xy: 833, 657
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -314,7 +321,7 @@ green_button11
   index: -1
 green_button12
   rotate: false
-  xy: 833, 657
+  xy: 104, 181
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -328,21 +335,21 @@ green_button13
   index: -1
 green_checkmark
   rotate: false
-  xy: 155, 43
+  xy: 314, 388
   size: 21, 20
   orig: 21, 20
   offset: 0, 0
   index: -1
 green_circle
   rotate: false
-  xy: 783, 619
+  xy: 349, 495
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
   index: -1
 green_cross
   rotate: false
-  xy: 498, 582
+  xy: 432, 582
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
@@ -356,35 +363,35 @@ green_panel
   index: -1
 green_sliderDown
   rotate: false
-  xy: 859, 613
+  xy: 161, 394
   size: 28, 42
   orig: 28, 42
   offset: 0, 0
   index: -1
 green_sliderLeft
   rotate: false
-  xy: 191, 415
+  xy: 973, 632
   size: 39, 31
   orig: 39, 31
   offset: 0, 0
   index: -1
 green_sliderRight
   rotate: false
-  xy: 232, 415
+  xy: 191, 415
   size: 39, 31
   orig: 39, 31
   offset: 0, 0
   index: -1
 green_sliderUp
   rotate: false
-  xy: 889, 622
+  xy: 155, 350
   size: 28, 42
   orig: 28, 42
   offset: 0, 0
   index: -1
 green_tick
   rotate: false
-  xy: 185, 363
+  xy: 472, 583
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
@@ -398,21 +405,21 @@ grey_arrowDownGrey
   index: -1
 grey_arrowDownWhite
   rotate: false
-  xy: 223, 370
+  xy: 208, 337
   size: 15, 10
   orig: 15, 10
   offset: 0, 0
   index: -1
 grey_arrowUpGrey
   rotate: false
-  xy: 185, 313
+  xy: 185, 218
   size: 15, 10
   orig: 15, 10
   offset: 0, 0
   index: -1
 grey_arrowUpWhite
   rotate: false
-  xy: 204, 332
+  xy: 529, 590
   size: 15, 10
   orig: 15, 10
   offset: 0, 0
@@ -440,7 +447,7 @@ grey_boxCross
   index: -1
 grey_boxTick
   rotate: false
-  xy: 821, 619
+  xy: 349, 457
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
@@ -510,7 +517,7 @@ grey_button08
   index: -1
 grey_button09
   rotate: false
-  xy: 104, 181
+  xy: 692, 606
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -524,7 +531,7 @@ grey_button10
   index: -1
 grey_button11
   rotate: false
-  xy: 692, 606
+  xy: 104, 134
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -538,7 +545,7 @@ grey_button12
   index: -1
 grey_button13
   rotate: false
-  xy: 104, 134
+  xy: 104, 87
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -559,35 +566,35 @@ grey_button15
   index: -1
 grey_checkmarkGrey
   rotate: false
-  xy: 314, 393
+  xy: 226, 360
   size: 21, 20
   orig: 21, 20
   offset: 0, 0
   index: -1
 grey_checkmarkWhite
   rotate: false
-  xy: 409, 580
+  xy: 185, 327
   size: 21, 20
   orig: 21, 20
   offset: 0, 0
   index: -1
 grey_circle
   rotate: false
-  xy: 349, 495
+  xy: 974, 731
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
   index: -1
 grey_crossGrey
   rotate: false
-  xy: 518, 582
+  xy: 272, 362
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 grey_crossWhite
   rotate: false
-  xy: 538, 582
+  xy: 185, 287
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
@@ -601,14 +608,14 @@ grey_panel
   index: -1
 grey_sliderDown
   rotate: false
-  xy: 161, 394
+  xy: 155, 306
   size: 28, 42
   orig: 28, 42
   offset: 0, 0
   index: -1
 grey_sliderEnd
   rotate: false
-  xy: 1014, 961
+  xy: 925, 645
   size: 8, 10
   orig: 8, 10
   offset: 0, 0
@@ -622,21 +629,21 @@ grey_sliderHorizontal
   index: -1
 grey_sliderLeft
   rotate: false
-  xy: 273, 415
+  xy: 232, 415
   size: 39, 31
   orig: 39, 31
   offset: 0, 0
   index: -1
 grey_sliderRight
   rotate: false
-  xy: 314, 415
+  xy: 273, 415
   size: 39, 31
   orig: 39, 31
   offset: 0, 0
   index: -1
 grey_sliderUp
   rotate: false
-  xy: 155, 350
+  xy: 155, 262
   size: 28, 42
   orig: 28, 42
   offset: 0, 0
@@ -650,14 +657,14 @@ grey_sliderVertical
   index: -1
 grey_tickGrey
   rotate: false
-  xy: 185, 344
+  xy: 185, 249
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 grey_tickWhite
   rotate: false
-  xy: 204, 363
+  xy: 491, 583
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
@@ -678,7 +685,7 @@ red_boxCross
   index: -1
 red_boxTick
   rotate: false
-  xy: 349, 457
+  xy: 935, 632
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
@@ -720,7 +727,7 @@ red_button04
   index: -1
 red_button05
   rotate: false
-  xy: 104, 87
+  xy: 104, 40
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -734,7 +741,7 @@ red_button06
   index: -1
 red_button07
   rotate: false
-  xy: 104, 40
+  xy: 194, 524
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -748,7 +755,7 @@ red_button08
   index: -1
 red_button09
   rotate: false
-  xy: 194, 524
+  xy: 245, 524
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -783,21 +790,21 @@ red_button13
   index: -1
 red_checkmark
   rotate: false
-  xy: 432, 580
+  xy: 409, 580
   size: 21, 20
   orig: 21, 20
   offset: 0, 0
   index: -1
 red_circle
   rotate: false
-  xy: 974, 731
+  xy: 314, 410
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
   index: -1
 red_cross
   rotate: false
-  xy: 558, 582
+  xy: 452, 582
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
@@ -811,37 +818,51 @@ red_panel
   index: -1
 red_sliderDown
   rotate: false
-  xy: 155, 306
+  xy: 155, 218
   size: 28, 42
   orig: 28, 42
   offset: 0, 0
   index: -1
 red_sliderLeft
   rotate: false
-  xy: 155, 65
+  xy: 191, 382
   size: 39, 31
   orig: 39, 31
   offset: 0, 0
   index: -1
 red_sliderRight
   rotate: false
-  xy: 191, 382
+  xy: 232, 382
   size: 39, 31
   orig: 39, 31
   offset: 0, 0
   index: -1
 red_sliderUp
   rotate: false
-  xy: 155, 262
+  xy: 155, 174
   size: 28, 42
   orig: 28, 42
   offset: 0, 0
   index: -1
 red_tick
   rotate: false
-  xy: 185, 325
+  xy: 185, 230
   size: 17, 17
   orig: 17, 17
+  offset: 0, 0
+  index: -1
+selection
+  rotate: false
+  xy: 296, 524
+  size: 49, 45
+  orig: 49, 45
+  offset: 0, 0
+  index: -1
+white
+  rotate: false
+  xy: 923, 708
+  size: 49, 45
+  orig: 49, 45
   offset: 0, 0
   index: -1
 yellow_boxCheckmark
@@ -860,7 +881,7 @@ yellow_boxCross
   index: -1
 yellow_boxTick
   rotate: false
-  xy: 155, 136
+  xy: 155, 48
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
@@ -923,7 +944,7 @@ yellow_button07
   index: -1
 yellow_button08
   rotate: false
-  xy: 245, 524
+  xy: 884, 657
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -937,7 +958,7 @@ yellow_button09
   index: -1
 yellow_button10
   rotate: false
-  xy: 296, 524
+  xy: 743, 606
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -951,7 +972,7 @@ yellow_button11
   index: -1
 yellow_button12
   rotate: false
-  xy: 923, 708
+  xy: 794, 610
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
@@ -965,21 +986,21 @@ yellow_button13
   index: -1
 yellow_checkmark
   rotate: false
-  xy: 455, 580
+  xy: 249, 360
   size: 21, 20
   orig: 21, 20
   offset: 0, 0
   index: -1
 yellow_circle
   rotate: false
-  xy: 155, 98
+  xy: 352, 419
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
   index: -1
 yellow_cross
   rotate: false
-  xy: 178, 45
+  xy: 292, 362
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
@@ -993,57 +1014,36 @@ yellow_panel
   index: -1
 yellow_sliderDown
   rotate: false
-  xy: 155, 218
+  xy: 155, 130
   size: 28, 42
   orig: 28, 42
   offset: 0, 0
   index: -1
 yellow_sliderLeft
   rotate: false
-  xy: 232, 382
+  xy: 273, 382
   size: 39, 31
   orig: 39, 31
   offset: 0, 0
   index: -1
 yellow_sliderRight
   rotate: false
-  xy: 273, 382
+  xy: 185, 349
   size: 39, 31
   orig: 39, 31
   offset: 0, 0
   index: -1
 yellow_sliderUp
   rotate: false
-  xy: 155, 174
+  xy: 155, 86
   size: 28, 42
   orig: 28, 42
   offset: 0, 0
   index: -1
 yellow_tick
   rotate: false
-  xy: 204, 344
+  xy: 510, 583
   size: 17, 17
   orig: 17, 17
-  offset: 0, 0
-  index: -1
-selection
-  rotate: false
-  xy: 170, 44
-  size: 1, 1
-  orig: 1, 1
-  offset: 0, 0
-  index: -1
-white
-  rotate: false
-  xy: 174, 48
-  size: 1, 1
-  orig: 1, 1
-  offset: 0, 0
-  index: -1
-black
-  rotate: false
-  xy: 174, 48
-  size: 1, 1
-  orig: 1, 1
   offset: 0, 0
   index: -1

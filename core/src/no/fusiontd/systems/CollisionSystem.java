@@ -45,9 +45,9 @@ public class CollisionSystem extends IteratingSystem {
 
     private void CollisionHandler(Entity proj, Entity creep) {
         float creepLife = mDur.get(creep).life;
-        float projLife = mDur.get(proj).life;
+        float projDmg = mAttack.get(proj).damage;
 
-            mDur.get(creep).life -= projLife;
+            mDur.get(creep).life -= projDmg;
             mDur.get(proj).life -= creepLife;
 
             if (mDur.get(creep).life <= 0) {

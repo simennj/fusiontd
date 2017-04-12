@@ -30,13 +30,13 @@ public class FusionTD extends Game {
 		optionScreen = new OptionScreen(this);
 		highscoreScreen = new HighscoreScreen(this);
 		mapEditorScreen = new MapEditorScreen(this);
-		playScreen = new PlayScreen(this);
 		mapSelectScreen = new MapSelectScreen(this);
 		multiplayer = false; // not yet chosen mp
 		setScreen(menuScreen);
 	}
 
 	public void startGame(String mapName){
+		playScreen = new PlayScreen(this, multiplayer);
 		playScreen.setMap(mapName);
 		setScreen(playScreen);
 	}
@@ -50,7 +50,7 @@ public class FusionTD extends Game {
 		multiplayer = true;
 	}
 
-	public void selectMap(boolean multiplayer){
+	public void selectMap(){
 		//pass client to playscreen or smth
 		setScreen(mapSelectScreen);
 	}

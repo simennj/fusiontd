@@ -14,6 +14,7 @@ import no.fusiontd.game.CreepSpawner;
 import no.fusiontd.game.EntityComponentManager;
 import no.fusiontd.game.GameController;
 import no.fusiontd.game.Map;
+import no.fusiontd.game.UI;
 
 public class PlayScreen implements Screen, InputProcessor {
 
@@ -33,9 +34,11 @@ public class PlayScreen implements Screen, InputProcessor {
     private State state = State.RUN;
     private boolean multiplayer;
     private String mapName;
+    private UI ui;
 
-    public PlayScreen(FusionTD game) {
+    public PlayScreen(FusionTD game, boolean multiplayer) {
         this.game = game;
+        this.multiplayer = multiplayer;
     }
 
     @Override
@@ -48,6 +51,7 @@ public class PlayScreen implements Screen, InputProcessor {
         batch = new SpriteBatch();
         engine = new EntityComponentManager(this);
         creepSpawner = new CreepSpawner(map.path, engine);
+        ui = new UI(game);
     }
 
     public void setMap(String mapName) {
@@ -66,6 +70,7 @@ public class PlayScreen implements Screen, InputProcessor {
                 drawMap(map, batch);
                 engine.update(delta);
                 creepSpawner.update(delta);
+                ui.render(delta);
                 batch.end();
                 break;
             case PAUSE:
@@ -165,6 +170,20 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (engine.checkTower(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
+            // selected Tower
+            System.out.println("tower");
+        } else if (engine.checkCreep(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
+            // selected Creep
+            System.out.println("Creep");
+        } else if (map.getTile(getCameraX(screenX), getCameraY(screenY)) == 1 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 4 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 5){
+            // is on road (or end or start), do nothing
+            System.out.println("road");
+            return false;
+        } else {
+            // open tower setting menu
+            System.out.println("Set tower");
+        }
         return false;
     }
 
@@ -172,7 +191,7 @@ public class PlayScreen implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         int tile = map.getTile(getCameraX(screenX), getCameraY(screenY));
         if (tile == 0) {
-            engine.spawnTower("missileTower", new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f));
+            engine.spawnTower("missileTower2", new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f));
         } else {
             engine.spawnTower("flameTower", new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f));
         }
