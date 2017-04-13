@@ -19,7 +19,7 @@ public class MapSelectScreen implements Screen {
 
     @Override
     public void show() {
-        stage = new MenuStage();
+        stage = new MenuStage(game);
         Gdx.input.setInputProcessor(stage);
 
         stage.createTextButton("Map 1", new ChangeListener() {

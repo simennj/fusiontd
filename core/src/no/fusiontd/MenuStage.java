@@ -19,9 +19,11 @@ public class MenuStage extends Stage {
     private TextureAtlas uiAtlas;
     private VerticalGroup mainGroup;
     private Skin skin;
+    private FusionTD game;
 
-    public MenuStage() {
+    public MenuStage(FusionTD game) {
         super(new FitViewport(1280, 720));
+        this.game = game;
         uiAtlas = new TextureAtlas("ui.atlas");
         skin = new Skin();
         populateSkin();
@@ -64,7 +66,7 @@ public class MenuStage extends Stage {
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                // set code here
+                game.returnToMenu();
             }
         });
         addActor(exitButton);
