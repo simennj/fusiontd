@@ -9,5 +9,6 @@ public class AtlasCreator {
     public static void main(String[] args) {
         TexturePacker.process(ASSET_DIR + "/ui", ASSET_DIR, "ui");
         TexturePacker.process(ASSET_DIR + "/tiles", ASSET_DIR, "tiles");
+        TexturePacker.process(ASSET_DIR + "/t", ASSET_DIR, "tiles_new");
     }
 }
