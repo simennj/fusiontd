@@ -19,9 +19,11 @@ public class EntityComponentManager extends Engine {
     private ImmutableArray<Entity> towers;
     private ComponentMapper<Geometry> mPos = ComponentMapper.getFor(Geometry.class);
     private ImmutableArray<Entity> creeps;
+    private Player localPlayer, mulPlayer;
 
-    public EntityComponentManager(PlayScreen view) {
+    public EntityComponentManager(PlayScreen view, final Player localPlayer, Player mulPlayer) {
         super();
+        this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
         addSystem(new VelocitySystem());
         addSystem(new RenderSystem(view.batch));
         addSystem(new PathSystem());
@@ -48,6 +50,24 @@ public class EntityComponentManager extends Engine {
                     geometry = positionMapper.get(newEntity);
                 }
                 geometry.add(addOnRemove.displacement.cpy().rotate(entityGeometry.rotation));
+            }
+        });
+        addEntityListener(Family.all(Durability.class, PathFollow.class).get(), new EntityListener() {
+            ComponentMapper<PathFollow> pathFollowMapper = ComponentMapper.getFor(PathFollow.class);
+            ComponentMapper<Durability> durabilityMapper = ComponentMapper.getFor(Durability.class);
+
+            @Override
+            public void entityAdded(Entity entity) {
+
+            }
+
+            @Override
+            public void entityRemoved(Entity entity) {
+                if (durabilityMapper.get(entity).life <= 0) {
+                    localPlayer.addCash(1);
+                } else if (pathFollowMapper.get(entity).time > 1) {
+                    localPlayer.loseLives(1);
+                }
             }
         });
         towers = getEntitiesFor(Family.all(Geometry.class, Render.class, Targeting.class).get());

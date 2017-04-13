@@ -8,10 +8,11 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
 import no.fusiontd.components.*;
+import no.fusiontd.game.Player;
 
 public class CollisionSystem extends IteratingSystem {
 
-    private ComponentMapper<Timer> mTime = ComponentMapper.getFor(Timer.class);
+    private ComponentMapper<Timer> mTim = ComponentMapper.getFor(Timer.class);
     private ComponentMapper<Attack> mAttack = ComponentMapper.getFor(Attack.class);
     private ComponentMapper<Attackable> mAttab = ComponentMapper.getFor(Attackable.class);
     private ComponentMapper<Geometry> mPos = ComponentMapper.getFor(Geometry.class);
@@ -56,9 +57,5 @@ public class CollisionSystem extends IteratingSystem {
             if (mDur.get(proj).life <= 0) {
                 getEngine().removeEntity(proj);
             }
-
-
-
-
     }
 }
