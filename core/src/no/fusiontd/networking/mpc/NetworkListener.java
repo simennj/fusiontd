@@ -92,6 +92,7 @@ public class NetworkListener extends Listener {
         else if( o instanceof Packet.Packet12OpponentAnswer){
             if(((Packet.Packet12OpponentAnswer) o).accepted){
                 requestAnswerString = ((Packet.Packet12OpponentAnswer) o).playerName + " has accepted your request!";
+                //game.selectMap(); //Launches mapselected multiplayer, however can't do it from here
             }
             else{
                 requestAnswerString = ((Packet.Packet12OpponentAnswer) o).playerName + " has declined your request!";

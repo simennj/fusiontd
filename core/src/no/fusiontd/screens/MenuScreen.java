@@ -1,6 +1,7 @@
 package no.fusiontd.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -24,7 +26,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.fusiontd.FusionTD;
 
-public class MenuScreen implements Screen {
+public class MenuScreen implements Screen{
 
     private FusionTD game;
     private Stage stage;
@@ -87,7 +89,19 @@ public class MenuScreen implements Screen {
         button2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.connectMP();
+                /*Input.TextInputListener til = new Input.TextInputListener() {
+                    @Override
+                    public void input(String playerName) {
+                        game.connectMP(playerName);
+                    }
+
+                    @Override
+                    public void canceled() {
+
+                    }
+                };
+                Gdx.input.getTextInput(til, "Your Name?", "Saltminer", "");*/
+                game.connectMP("Saltminer");
             }
         });
         table2.add(button2);
@@ -105,6 +119,21 @@ public class MenuScreen implements Screen {
             }
         });
         table3.add(button3);
+
+        Table table4 = new Table();
+        stage.addActor(table4);
+        table4.setFillParent(true);
+        table4.setPosition(0,-stage.getHeight()/4 - stage.getHeight()/8);
+
+        TextButton button4 = new TextButton("Map Editor", style);
+        button4.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.openOptions();
+            }
+        });
+        table4.add(button4);
+
 
         // back button
         Button.ButtonStyle exitStyle = new Button.ButtonStyle();
@@ -124,12 +153,6 @@ public class MenuScreen implements Screen {
             }
         });
         exitTable.add(exitButton);
-    }
-
-    public void render () {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
     }
 
     public void resize (int width, int height) {

@@ -17,19 +17,22 @@ public class EntityComponentManager extends Engine {
 
     private final ObjectMap<String, Collection<CloneableComponent>> blueprints = new ObjectMap<String, Collection<CloneableComponent>>();
     private ImmutableArray<Entity> towers;
-    private ComponentMapper<Placement> mPos = ComponentMapper.getFor(Placement.class);
+    private ComponentMapper<Geometry> mPos = ComponentMapper.getFor(Geometry.class);
+    private ImmutableArray<Entity> creeps;
+    private Player localPlayer, mulPlayer;
 
-    public EntityComponentManager(PlayScreen view) {
+    public EntityComponentManager(PlayScreen view, final Player localPlayer, Player mulPlayer) {
         super();
+        this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
         addSystem(new VelocitySystem());
         addSystem(new RenderSystem(view.batch));
         addSystem(new PathSystem());
         addSystem(new TargetingSystem());
         addSystem(new TimerSystem());
         addSystem(new CollisionSystem());
-        addEntityListener(Family.all(AddOnRemove.class, Placement.class).get(), new EntityListener() {
+        addEntityListener(Family.all(AddOnRemove.class, Geometry.class).get(), new EntityListener() {
             ComponentMapper<AddOnRemove> removeActionMapper = ComponentMapper.getFor(AddOnRemove.class);
-            ComponentMapper<Placement> positionMapper = ComponentMapper.getFor(Placement.class);
+            ComponentMapper<Geometry> positionMapper = ComponentMapper.getFor(Geometry.class);
 
             @Override
             public void entityAdded(Entity entity) {
@@ -38,31 +41,92 @@ public class EntityComponentManager extends Engine {
 
             @Override
             public void entityRemoved(Entity entity) {
-
+                AddOnRemove addOnRemove = removeActionMapper.get(entity);
+                Entity newEntity = spawn(addOnRemove.newEntity);
+                Geometry geometry = positionMapper.get(newEntity);
+                Geometry entityGeometry = positionMapper.get(entity);
+                if (geometry == null) {
+                    newEntity.add(entityGeometry.cloneComponent());
+                    geometry = positionMapper.get(newEntity);
+                }
+                geometry.add(addOnRemove.displacement.cpy().rotate(entityGeometry.rotation));
             }
         });
-        towers = getEntitiesFor(Family.all(Placement.class, Render.class, Targeting.class).get());
+        addEntityListener(Family.all(Durability.class, PathFollow.class).get(), new EntityListener() {
+            ComponentMapper<PathFollow> pathFollowMapper = ComponentMapper.getFor(PathFollow.class);
+            ComponentMapper<Durability> durabilityMapper = ComponentMapper.getFor(Durability.class);
+
+            @Override
+            public void entityAdded(Entity entity) {
+
+            }
+
+            @Override
+            public void entityRemoved(Entity entity) {
+                if (durabilityMapper.get(entity).life <= 0) {
+                    localPlayer.addCash(1);
+                } else if (pathFollowMapper.get(entity).time > 1) {
+                    localPlayer.loseLives(1);
+                }
+            }
+        });
+        towers = getEntitiesFor(Family.all(Geometry.class, Render.class, Targeting.class).get());
+        creeps = getEntitiesFor(Family.all(Geometry.class, Attackable.class, Durability.class).get());
 
         blueprints.put("missileTower", Arrays.<CloneableComponent>asList(
                 new Render("missileTower"),
-                new Targeting(5, .5f,
+                new Targeting(5, .5f,true,
                         new Render(Graphics.getRegion("missile")),
                         new Timer(1),
-                        new Attack(.5f),
+                        new Attack(.5f, 12),
                         new Durability(12),
-                        new Velocity(new Vector2(10, 0))
+                        new Velocity(new Vector2(10, 0)),
+                        new AddOnRemove(new Vector2(0, .5f),
+                                new Render("explosion"),
+                                new Timer(2)
+                        )
                 )
         ));
 
+        blueprints.put("missileTower2", Arrays.<CloneableComponent>asList(
+                new Render("missileTower"),
+                new Targeting(3f, 2f,true,
+                        new Render(Graphics.getRegion("missile")),
+                        new Timer(1),
+                        new Attack (.5f,1),
+                        new Durability(1),
+                        new Velocity(new Vector2(10, 0)),
+                        new AddOnRemove(new Vector2(0, .5f),
+                                new Render("explosion"),
+                                new Timer(2),
+                                new Attack(.5f, 1),
+                                new Durability(10000000)
+                        )
+                )
+        ));
+
+
+
         blueprints.put("flameTower", Arrays.<CloneableComponent>asList(
                 new Render("flameTower"),
-                new Targeting(1, .5f, new Vector2(0, .5f),
+                new Targeting(1, .05f, new Vector2(0, .5f),true,
                         new Render(Graphics.getRegion("flame")),
                         new Timer(1),
-                        new Attack(.5f),
+                        new Attack(.05f, 60),
                         new Durability(60)
                 )
         ));
+        blueprints.put("sniperTower", Arrays.<CloneableComponent>asList(
+                new Render("sniperTower"),
+                new Targeting(5, 1.5f, false,
+                        new Render(Graphics.getRegion("LF")),
+                        new Timer(1),
+                        new Attack(1.5f, 2000),
+                        new Durability(1),
+                        new Velocity(new Vector2(5,0))
+                )
+        ));
+
 
     }
 
@@ -79,12 +143,27 @@ public class EntityComponentManager extends Engine {
         return entity;
     }
 
-    public void spawnTower(String name, float x, float y) {
+    public void spawnTower(String name, Geometry geometry) {
         for (Entity tower : towers) {
-            if (mPos.get(tower).dst(x, y) < .5f) return;
+            if (mPos.get(tower).dst(geometry) < geometry.radius) return;
         }
         Entity tower = spawn(blueprints.get(name));
-        tower.add(new Placement(x, y, 0));
+        tower.add(geometry);
     }
+
+    public boolean checkTower(Geometry geometry){
+        for (Entity tower : towers) {
+            if (mPos.get(tower).dst(geometry) < geometry.radius) return true;
+        }
+        return false;
+    }
+
+    public boolean checkCreep(Geometry geometry){
+        for (Entity creep : creeps) {
+            if (mPos.get(creep).dst(geometry) < geometry.radius) return true;
+        }
+        return false;
+    }
+
 
 }

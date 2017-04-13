@@ -4,7 +4,11 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+
+import no.fusiontd.components.Attackable;
+import no.fusiontd.components.Durability;
 import no.fusiontd.components.Timer;
+import no.fusiontd.game.Player;
 
 public class TimerSystem extends IteratingSystem {
     ComponentMapper<Timer> mTim = ComponentMapper.getFor(Timer.class);

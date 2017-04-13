@@ -19,6 +19,19 @@ public class Graphics {
         regions.put("missileTower", tileAtlas.findRegion("206"));
         regions.put("flameTower", tileAtlas.findRegion("226"));
         regions.put("flame", tileAtlas.findRegion("298"));
+        regions.put("sniperTower", tileAtlas.findRegion("301"));
+        regions.put("LF", tileAtlas.findRegion("300"));
+        regions.put("explosion", tileAtlas.findRegion("021"));
+        regions.put("zeros", tileAtlas.findRegion("276"));
+        regions.put("one", tileAtlas.findRegion("277"));
+        regions.put("two", tileAtlas.findRegion("278"));
+        regions.put("three", tileAtlas.findRegion("279"));
+        regions.put("four", tileAtlas.findRegion("280"));
+        regions.put("five", tileAtlas.findRegion("281"));
+        regions.put("six", tileAtlas.findRegion("282"));
+        regions.put("seven", tileAtlas.findRegion("283"));
+        regions.put("eight", tileAtlas.findRegion("284"));
+        regions.put("nine", tileAtlas.findRegion("285"));
     }
 
     public static TextureAtlas.AtlasRegion getRegion(String name) {

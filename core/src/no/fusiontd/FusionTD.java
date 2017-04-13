@@ -26,28 +26,50 @@ public class FusionTD extends Game {
 
 	@Override
 	public void create () {
-		//mpc = new MPClient("localhost", this, "Odd er dum");
 		menuScreen = new MenuScreen(this);
 		optionScreen = new OptionScreen(this);
 		highscoreScreen = new HighscoreScreen(this);
 		mapEditorScreen = new MapEditorScreen(this);
-		playScreen = new PlayScreen(this);
-		connectScreen = new ConnectScreen(this);
 		mapSelectScreen = new MapSelectScreen(this);
 		multiplayer = false; // not yet chosen mp
 		setScreen(menuScreen);
 	}
 
 	public void startGame(String mapName){
+		playScreen = new PlayScreen(this, multiplayer);
 		playScreen.setMap(mapName);
 		setScreen(playScreen);
 	}
 
 	public void returnToMenu(){ setScreen(menuScreen); }
 
-	public void connectMP(){ setScreen(connectScreen); }
+	public void connectMP(String playerName){
+		initMP(playerName);
+		connectScreen = new ConnectScreen(this);
+		setScreen(connectScreen);
+		multiplayer = true;
+	}
 
-	public void selectMap(){ setScreen(mapSelectScreen);}
+	public void selectMap(){
+		//pass client to playscreen or smth
+		setScreen(mapSelectScreen);
+	}
 
 	public void openOptions(){ setScreen(optionScreen); }
+
+	public void initMP(String playerName){
+		if( mpc == null){
+			mpc = new MPClient("localhost", this, playerName);
+		}
+	}
+
+	// Don't use this for now
+	public void stopMPC(){
+		mpc.stop();
+		mpc = null;
+	}
+
+	public MPClient getMpc(){
+		return mpc;
+	}
 }

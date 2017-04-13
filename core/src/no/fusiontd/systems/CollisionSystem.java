@@ -8,29 +8,30 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
 import no.fusiontd.components.*;
+import no.fusiontd.game.Player;
 
 public class CollisionSystem extends IteratingSystem {
 
-    private ComponentMapper<Timer> mTime = ComponentMapper.getFor(Timer.class);
+    private ComponentMapper<Timer> mTim = ComponentMapper.getFor(Timer.class);
     private ComponentMapper<Attack> mAttack = ComponentMapper.getFor(Attack.class);
     private ComponentMapper<Attackable> mAttab = ComponentMapper.getFor(Attackable.class);
-    private ComponentMapper<Placement> mPos = ComponentMapper.getFor(Placement.class);
+    private ComponentMapper<Geometry> mPos = ComponentMapper.getFor(Geometry.class);
     private ComponentMapper<Durability> mDur = ComponentMapper.getFor(Durability.class);
     private ImmutableArray<Entity> creeps;
 
     public CollisionSystem() {
-        super(Family.all(Attack.class, Placement.class, Durability.class).get());
+        super(Family.all(Attack.class, Geometry.class, Durability.class).get());
     }
 
     @Override
     public void addedToEngine(Engine engine) {
         super.addedToEngine(engine);
-        creeps = getEngine().getEntitiesFor(Family.all(Attackable.class, Placement.class, Durability.class).get());
+        creeps = getEngine().getEntitiesFor(Family.all(Attackable.class, Geometry.class, Durability.class).get());
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        Placement projPos = mPos.get(entity);
+        Geometry projPos = mPos.get(entity);
         Attack projAtt = mAttack.get(entity);
         for (Entity creep : creeps) {
             float dx = projPos.x - mPos.get(creep).x;
@@ -45,9 +46,9 @@ public class CollisionSystem extends IteratingSystem {
 
     private void CollisionHandler(Entity proj, Entity creep) {
         float creepLife = mDur.get(creep).life;
-        float projLife = mDur.get(proj).life;
+        float projDmg = mAttack.get(proj).damage;
 
-            mDur.get(creep).life -= projLife;
+            mDur.get(creep).life -= projDmg;
             mDur.get(proj).life -= creepLife;
 
             if (mDur.get(creep).life <= 0) {
@@ -56,9 +57,5 @@ public class CollisionSystem extends IteratingSystem {
             if (mDur.get(proj).life <= 0) {
                 getEngine().removeEntity(proj);
             }
-
-
-
-
     }
 }

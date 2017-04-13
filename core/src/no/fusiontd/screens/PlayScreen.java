@@ -9,10 +9,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
+import no.fusiontd.components.Geometry;
 import no.fusiontd.game.CreepSpawner;
 import no.fusiontd.game.EntityComponentManager;
 import no.fusiontd.game.GameController;
 import no.fusiontd.game.Map;
+import no.fusiontd.game.Player;
+import no.fusiontd.game.UI;
 
 public class PlayScreen implements Screen, InputProcessor {
 
@@ -32,9 +35,17 @@ public class PlayScreen implements Screen, InputProcessor {
     private State state = State.RUN;
     private boolean multiplayer;
     private String mapName;
+    private UI ui;
+    private Player localPlayer, mulPlayer;
 
-    public PlayScreen(FusionTD game) {
+    public PlayScreen(FusionTD game, boolean multiplayer) {
         this.game = game;
+        this.multiplayer = multiplayer;
+        int lives = 10; int cash = 10; //should be set by difficulty
+        localPlayer = new Player(lives, cash, 0, game);
+        if (true){ // should be for multiplayer only, but to avoid crashes before multiplayer is properly implemented we'll always have a mulPlayer
+            mulPlayer = new Player(lives, cash, 0, game);
+        }
     }
 
     @Override
@@ -45,8 +56,9 @@ public class PlayScreen implements Screen, InputProcessor {
         controller = new GameController(map, this);
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
-        engine = new EntityComponentManager(this);
+        engine = new EntityComponentManager(this, localPlayer, mulPlayer);
         creepSpawner = new CreepSpawner(map.path, engine);
+        ui = new UI(game,localPlayer,mulPlayer);
     }
 
     public void setMap(String mapName) {
@@ -65,6 +77,7 @@ public class PlayScreen implements Screen, InputProcessor {
                 drawMap(map, batch);
                 engine.update(delta);
                 creepSpawner.update(delta);
+                ui.render(delta, batch, tilesize);
                 batch.end();
                 break;
             case PAUSE:
@@ -164,6 +177,24 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (engine.checkTower(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
+            // selected Tower
+            System.out.println("tower");
+            ui.selectTower(getCameraX(screenX), getCameraY(screenY));
+        } else if (engine.checkCreep(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
+            // selected Creep
+            System.out.println("Creep");
+            ui.selectCreep(getCameraX(screenX), getCameraY(screenY));
+        } else if (map.getTile(getCameraX(screenX), getCameraY(screenY)) == 1 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 4 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 5){
+            // is on road (or end or start), do nothing
+            System.out.println("road");
+            return false;
+        } else {
+            // open tower setting menu
+            System.out.println("Set tower");
+            localPlayer.addCash(-1);
+            ui.towerSet(getCameraX(screenX), getCameraY(screenY));
+        }
         return false;
     }
 
@@ -171,9 +202,9 @@ public class PlayScreen implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         int tile = map.getTile(getCameraX(screenX), getCameraY(screenY));
         if (tile == 0) {
-            engine.spawnTower("missileTower", getCameraX(screenX), getCameraY(screenY));
+            engine.spawnTower("missileTower2", new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f));
         } else {
-            engine.spawnTower("flameTower", getCameraX(screenX), getCameraY(screenY));
+            engine.spawnTower("flameTower", new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f));
         }
         return false;
     }

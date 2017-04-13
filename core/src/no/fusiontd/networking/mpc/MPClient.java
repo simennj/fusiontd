@@ -29,10 +29,9 @@ public class MPClient {
         }
         nl = new NetworkListener();
         nl.init(client, game, playerName);
-        //nl.init(client, playerName);
         client.addListener(nl);
 
-        new Thread(client).start();
+        client.start();
 
         try{
             client.connect(timeout, serverIP, tcpPort, udpPort);
@@ -143,4 +142,8 @@ public class MPClient {
         }
         //Log.set(Log.LEVEL_DEBUG);
     }*/
+
+    public void stop(){
+        client.stop();
+    }
 }
