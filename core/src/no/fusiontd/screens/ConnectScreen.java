@@ -1,41 +1,33 @@
 package no.fusiontd.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.esotericsoftware.kryonet.Connection;
-
-import java.util.ArrayList;
+import com.badlogic.gdx.utils.Timer;
 
 import no.fusiontd.FusionTD;
-import no.fusiontd.game.Player;
+import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.networking.mpc.MPClient;
 
-public class ConnectScreen implements Screen {
+public class ConnectScreen implements Screen, Input.TextInputListener {
 
     private int width,height;
     private FusionTD game;
@@ -45,16 +37,20 @@ public class ConnectScreen implements Screen {
     private Skin skin;
     private MPClient mpClient;
     private List<String> playerList;
-    private String inviteString;
+    private String inviteString, serverIP, typedIPString;
+    private boolean serverRunning = false;
+    private TextField typedIPField;
+    private TextButton btnFindGame;
 
     public ConnectScreen(FusionTD game) {
+        serverIP = null;
         this.game = game;
-        mpClient = game.getMpc();
-        mpClient.sendPlayerListRequest();
-        inviteString = mpClient.getNL().getRequestString();
+        //mpClient = game.getMpc();
+        //mpClient.sendPlayerListRequest();
+        //inviteString = mpClient.getNL().getRequestString();
         atlas = new TextureAtlas(Gdx.files.internal("ui.atlas"));
-        skin = new Skin(Gdx.files.internal("ui/list_skin.json"), atlas);
-        playerList = new List<String>(skin);
+        //skin = new Skin(Gdx.files.internal("ui/list_skin.json"), atlas);
+        //playerList = new List<String>(skin);
     }
 
     @Override
@@ -90,13 +86,13 @@ public class ConnectScreen implements Screen {
         btnStyle.down = new TextureRegionDrawable(downRegion);
         btnStyle.font = font12;
 
-        Table table = new Table();
+        final Table table = new Table();
         stage.addActor(table);
         table.setPosition(stage.getWidth()/2, stage.getHeight()/2);
 
         // table.align(Align.right | Align.bottom);
 
-        final TextButton btnFindPlayer = new TextButton("Find Player", btnStyle);
+        /*final TextButton btnFindPlayer = new TextButton("Find Player", btnStyle);
         btnFindPlayer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -122,9 +118,86 @@ public class ConnectScreen implements Screen {
                 playerTable.debug();
             }
         });
-        table.add(btnFindPlayer);
+        table.add(btnFindPlayer);*/
         // table.setTouchable(Touchable.disabled);
 
+        final Table table3 = new Table();
+        stage.addActor(table3);
+        table3.setFillParent(true);
+        table3.top();
+        table.setPosition(stage.getWidth()/2, stage.getHeight()/2);
+
+        // table.align(Align.right | Align.bottom);
+
+        TextField.TextFieldStyle tfStyle = new TextField.TextFieldStyle();
+        tfStyle.font = font12;
+        tfStyle.fontColor = Color.GREEN;
+        final TextField serverIPField = new TextField(serverIP, tfStyle);
+        serverIPField.setSize(400, 400);
+        serverIPField.debug();
+        table3.add(serverIPField);
+
+        //Displayed when you try you press HostGame a second time
+        Window.WindowStyle windowStyle = new Window.WindowStyle();
+        windowStyle.titleFont = font12;
+        TextureRegion windowBackground = uiAtlas.findRegion("yellow_button03");
+        windowStyle.background = new TextureRegionDrawable(windowBackground);
+        final Dialog popUp = new Dialog("Server is already running", windowStyle);
+
+        final TextButton btnHostGame = new TextButton("Host Game", btnStyle);
+        btnHostGame.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(serverRunning){
+                    popUp.show(stage);
+
+                    Timer.schedule(new Timer.Task()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            popUp.hide();
+                        }
+                    }, 2);
+                }
+                else{
+                    final MPServer mpServer = new MPServer(game, "Haxor1337");
+                    serverIP = mpServer.getIp();
+                    serverIPField.setText("Server running on:\n " + serverIP);
+                    serverRunning = true;
+                }
+            }
+        });
+        table3.add(btnHostGame);
+
+        Table table4 = new Table();
+        stage.addActor(table4);
+        table4.setFillParent(true);
+        table4.right();
+        table.setPosition(stage.getWidth()/2, stage.getHeight()/2);
+
+        // table.align(Align.right | Align.bottom);
+        typedIPField = new TextField("no Ip entered yet", tfStyle);
+        typedIPField.debug();
+
+        btnFindGame = new TextButton("Find Game", btnStyle);
+        btnFindGame.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println(typedIPString);
+                System.out.println("clicked button FindGame");
+                if(typedIPString != null){
+                    no.fusiontd.MPAlternative.MPClient mpClient = new no.fusiontd.MPAlternative.MPClient(typedIPString, game, "Saltminer");
+                    mpClient.login();
+                }
+                else{
+                    Gdx.input.getTextInput(ConnectScreen.this, "Enter Ip to Connect to", "", "xxx.xxx.x.x.x.x");
+                }
+            }
+        });
+
+        table4.add(typedIPField);
+        table4.add(btnFindGame);
 
         final Table table2 = new Table();
         stage.addActor(table2);
@@ -158,8 +231,6 @@ public class ConnectScreen implements Screen {
             }
         });
         table2.add(btnAccept);
-
-
 
 
         // back button
@@ -202,6 +273,18 @@ public class ConnectScreen implements Screen {
 
     @Override
     public void hide() {
+
+    }
+
+    @Override
+    public void input(String inputIP) {
+        typedIPString = inputIP;
+        typedIPField.setText(inputIP);
+        btnFindGame.setText("Connect");
+    }
+
+    @Override
+    public void canceled() {
 
     }
 }

@@ -44,7 +44,7 @@ public class FusionTD extends Game {
 	public void returnToMenu(){ setScreen(menuScreen); }
 
 	public void connectMP(String playerName){
-		initMP(playerName);
+		//initMP(playerName);
 		connectScreen = new ConnectScreen(this);
 		setScreen(connectScreen);
 		multiplayer = true;
