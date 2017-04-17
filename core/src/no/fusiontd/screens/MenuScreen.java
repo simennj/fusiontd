@@ -26,6 +26,7 @@ public class MenuScreen implements Screen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.selectMap();
+                System.out.println("singeplayer");
             }
         });
 
@@ -45,6 +46,7 @@ public class MenuScreen implements Screen{
                 };
                 Gdx.input.getTextInput(til, "Your Name?", "Saltminer", "");*/
                 game.connectMP("Saltminer");
+                System.out.println("Multiplayer");
             }
         });
 
@@ -52,6 +54,7 @@ public class MenuScreen implements Screen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.openOptions();
+                System.out.println("Options");
             }
         });
 
@@ -59,6 +62,7 @@ public class MenuScreen implements Screen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.openOptions();
+                System.out.println("Map editor");
             }
         });
     }

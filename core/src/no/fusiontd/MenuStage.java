@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class MenuStage extends Stage {
 
     private TextureAtlas uiAtlas;
+    private TextureAtlas uiAtlas_new;
     private VerticalGroup mainGroup;
     private Skin skin;
     private FusionTD game;
@@ -25,6 +26,7 @@ public class MenuStage extends Stage {
         super(new FitViewport(1280, 720));
         this.game = game;
         uiAtlas = new TextureAtlas("ui.atlas");
+        uiAtlas_new = new TextureAtlas("ui_new.atlas");
         skin = new Skin();
         populateSkin();
         createMenuGroup();
@@ -37,16 +39,24 @@ public class MenuStage extends Stage {
         NinePatchDrawable blueButtonPressed = new NinePatchDrawable(uiAtlas.createPatch("blue_button_pressed"));
         NinePatchDrawable redButton = new NinePatchDrawable(uiAtlas.createPatch("red_button"));
         NinePatchDrawable redButtonPressed = new NinePatchDrawable(uiAtlas.createPatch("red_button_pressed"));
+
+        NinePatchDrawable greyButton = new NinePatchDrawable(uiAtlas_new.createPatch("button0"));
+        NinePatchDrawable greyButtonPressed = new NinePatchDrawable(uiAtlas_new.createPatch("button1"));
+
         skin.add("font", font, BitmapFont.class);
         skin.add("default", new TextButton.TextButtonStyle(blueButton, blueButtonPressed, blueButtonPressed, font));
         skin.add("red", new TextButton.TextButtonStyle(redButton, redButtonPressed, redButtonPressed, font));
         skin.add("red", new Button.ButtonStyle(redButton, redButtonPressed, redButtonPressed));
+        skin.add("grey", new TextButton.TextButtonStyle(greyButton, greyButtonPressed, greyButtonPressed, font));
+        skin.add("grey", new Button.ButtonStyle(greyButton, greyButtonPressed, greyButtonPressed));
+
+
     }
 
     private BitmapFont generateBitmapFont() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Kenney Blocks.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Candy Shop Black.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 64;
+        parameter.size = 30;
         BitmapFont font = generator.generateFont(parameter);
         generator.dispose();
         return font;
@@ -61,7 +71,7 @@ public class MenuStage extends Stage {
     }
 
     private void createExitButton() {
-        Button exitButton = new Button(skin, "red");
+        Button exitButton = new Button(skin, "grey");
         exitButton.setBounds(getWidth() - 96, 32, 64, 64);
         exitButton.addListener(new ChangeListener() {
             @Override
