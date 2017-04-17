@@ -3,33 +3,46 @@ package no.fusiontd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
+import no.fusiontd.menu.ExitButton;
+import no.fusiontd.menu.NormalTextButtonFactory;
+import no.fusiontd.menu.OptionsButton;
 
 public class MenuScreen implements Screen{
 
     private FusionTD game;
     private MenuStage stage;
+    private NormalTextButtonFactory textButtonFactory;
+    private OptionsButton optionsButton;
 
     public MenuScreen(FusionTD game) {
         this.game = game;
+        optionsButton = OptionsButton.create(game);
     }
 
     @Override
     public void show(){
-        stage = new MenuStage(game);
+        stage = new MenuStage();
+        textButtonFactory = new NormalTextButtonFactory();
         Gdx.input.setInputProcessor(stage);
 
-        stage.createTextButton("Singleplayer", new ChangeListener() {
+        Texture backgroundImage = new Texture(Gdx.files.internal("t/tree1.png"));
+        stage.setBackground(new Image(backgroundImage));
+
+        stage.addMenuContent(textButtonFactory.createTextButton("Singleplayer", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.selectMap();
             }
-        });
+        }));
 
-        stage.createTextButton("Multiplayer", new ChangeListener() {
+        stage.addMenuContent(textButtonFactory.createTextButton("Multiplayer", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 /*Input.TextInputListener til = new Input.TextInputListener() {
@@ -46,21 +59,17 @@ public class MenuScreen implements Screen{
                 Gdx.input.getTextInput(til, "Your Name?", "Saltminer", "");*/
                 game.connectMP("Saltminer");
             }
-        });
+        }));
 
-        stage.createTextButton("Options", new ChangeListener() {
+        stage.addMenuContent(textButtonFactory.createTextButton("Map Editor", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.openOptions();
             }
-        });
+        }));
 
-        stage.createTextButton("Map Editor", new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.openOptions();
-            }
-        });
+        stage.addImageButton(optionsButton);
+
     }
 
     @Override
@@ -76,6 +85,8 @@ public class MenuScreen implements Screen{
 
     public void dispose () {
         stage.dispose();
+        textButtonFactory.dispose();
+        optionsButton.dispose();
     }
 
     @Override

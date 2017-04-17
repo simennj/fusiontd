@@ -7,11 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
+import no.fusiontd.menu.NormalTextButtonFactory;
+import no.fusiontd.menu.TextButtonFactory;
 
 public class MapSelectScreen implements Screen {
 
     private FusionTD game;
     private MenuStage stage;
+    private TextButtonFactory textButtonFactory;
 
     public MapSelectScreen(FusionTD game) {
         this.game = game;
@@ -19,29 +22,30 @@ public class MapSelectScreen implements Screen {
 
     @Override
     public void show() {
-        stage = new MenuStage(game);
+        stage = new MenuStage();
+        textButtonFactory = new NormalTextButtonFactory();
         Gdx.input.setInputProcessor(stage);
 
-        stage.createTextButton("Map 1", new ChangeListener() {
+        stage.addMenuContent(textButtonFactory.createTextButton("Map 1", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.startGame("map1");
             }
-        });
+        }));
 
-        stage.createTextButton("Map 2", new ChangeListener() {
+        stage.addMenuContent(textButtonFactory.createTextButton("Map 2", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.startGame("map2");
             }
-        });
+        }));
 
-        stage.createTextButton("Map 3", new ChangeListener() {
+        stage.addMenuContent(textButtonFactory.createTextButton("Map 3", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.startGame("map3");
             }
-        });
+        }));
     }
 
     @Override
@@ -57,6 +61,7 @@ public class MapSelectScreen implements Screen {
 
     public void dispose() {
         stage.dispose();
+        textButtonFactory.dispose();
     }
 
     @Override
