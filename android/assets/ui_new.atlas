@@ -1,0 +1,87 @@
+
+ui_new.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+button0
+  rotate: false
+  xy: 2, 2
+  size: 700, 147
+  orig: 700, 147
+  offset: 0, 0
+  index: -1
+button0shadow
+  rotate: false
+  xy: 2, 151
+  size: 700, 256
+  orig: 700, 256
+  offset: 0, 0
+  index: -1
+gear0shadow
+  rotate: false
+  xy: 2, 409
+  size: 739, 608
+  orig: 739, 608
+  offset: 0, 0
+  index: -1
+
+ui_new2.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+button1
+  rotate: false
+  xy: 2, 2
+  size: 700, 143
+  orig: 700, 143
+  offset: 0, 0
+  index: -1
+button1shadow
+  rotate: false
+  xy: 2, 147
+  size: 700, 256
+  orig: 700, 256
+  offset: 0, 0
+  index: -1
+gear1shadow
+  rotate: false
+  xy: 2, 405
+  size: 739, 608
+  orig: 739, 608
+  offset: 0, 0
+  index: -1
+
+ui_new3.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+gear0
+  rotate: false
+  xy: 2, 135
+  size: 539, 538
+  orig: 539, 538
+  offset: 0, 0
+  index: -1
+logogrey
+  rotate: false
+  xy: 2, 2
+  size: 700, 131
+  orig: 700, 131
+  offset: 0, 0
+  index: -1
+
+ui_new4.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+gear1
+  rotate: false
+  xy: 2, 2
+  size: 531, 530
+  orig: 531, 530
+  offset: 0, 0
+  index: -1
