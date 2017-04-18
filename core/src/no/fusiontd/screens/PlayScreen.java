@@ -77,7 +77,7 @@ public class PlayScreen implements Screen, InputProcessor {
                 drawMap(map, batch);
                 engine.update(delta);
                 creepSpawner.update(delta);
-                ui.render(delta, batch, tilesize);
+                ui.render(batch);
                 batch.end();
                 break;
             case PAUSE:
@@ -196,7 +196,6 @@ public class PlayScreen implements Screen, InputProcessor {
         } else if (!ui.isTowerSetting()){
             // open tower setting menu
             System.out.println("Set tower");
-            localPlayer.addCash(-1);
             ui.openTowerSet(getCameraX(screenX), getCameraY(screenY));
         }
         return false;
@@ -204,13 +203,6 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        /*
-        int tile = map.getTile(getCameraX(screenX), getCameraY(screenY));
-        if (tile == 0) {
-            engine.spawnTower("missileTower2", new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f));
-        } else {
-            engine.spawnTower("flameTower", new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f));
-        }*/
         return false;
     }
 

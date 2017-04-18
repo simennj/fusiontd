@@ -22,7 +22,7 @@ public class UI{
         this.engine = engine;
     }
 
-    public void render(float delta, SpriteBatch batch, float tilesize) {
+    public void render(SpriteBatch batch) {
         showLives(batch);
         showCash(batch);
         if (showTowerSet){
@@ -56,20 +56,34 @@ public class UI{
         batch.draw(Graphics.getRegion("one"), 15.0f , 0.1f, 1f, 1f);
     }
 
-    public void towerSet(float cameraX, float cameraY){
+    public boolean towerSet(float cameraX, float cameraY){
         System.out.println(cameraX + "," + cameraY + ";" + towerSettingX + "," + towerSettingY);
         if(cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY - 0.5f && cameraY < towerSettingY + 0.5f){
-            showTowerSet = false;
-            engine.spawnTower("flameTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+            if (localPlayer.getCash() >= 5) {
+                showTowerSet = false;
+                engine.spawnTower("flameTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+                localPlayer.addCash(-5);
+                return true;
+            } return false;
         } else if(cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY - 1.5f && cameraY < towerSettingY - 0.5f){
-            showTowerSet = false;
-            engine.spawnTower("missileTower2", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+            if (localPlayer.getCash() >= 2) {
+                showTowerSet = false;
+                engine.spawnTower("missileTower2", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+                localPlayer.addCash(-2);
+                return true;
+            } return false;
         } else if (cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY + 0.5f && cameraY < towerSettingY + 1.5f){
-            showTowerSet = false;
-            engine.spawnTower("sniperTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+            if (localPlayer.getCash() >= 20) {
+                showTowerSet = false;
+                engine.spawnTower("sniperTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+                localPlayer.addCash(-20);
+                return true;
+            } return false;
         } else if (cameraX > 15.0f && cameraX < 16.0f && cameraY > 0.0f & cameraY < 1f){
             game.returnToMenu();
+            return false;
         }
+        return false;
     }
 
     public void showLives(SpriteBatch batch){
