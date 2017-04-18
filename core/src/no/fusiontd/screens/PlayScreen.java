@@ -178,24 +178,19 @@ public class PlayScreen implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (ui.isTowerSetting()){
-            System.out.println("finally");
             ui.towerSet(getCameraX(screenX), getCameraY(screenY));
         }
         else if (engine.checkTower(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
             // selected Tower
-            System.out.println("tower");
             ui.selectTower(getCameraX(screenX), getCameraY(screenY));
         } else if (engine.checkCreep(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
             // selected Creep
-            System.out.println("Creep");
             ui.selectCreep(getCameraX(screenX), getCameraY(screenY));
         } else if (map.getTile(getCameraX(screenX), getCameraY(screenY)) == 1 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 4 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 5){
             // is on road (or end or start), do nothing
-            System.out.println("road");
             return false;
         } else if (!ui.isTowerSetting()){
             // open tower setting menu
-            System.out.println("Set tower");
             ui.openTowerSet(getCameraX(screenX), getCameraY(screenY));
         }
         return false;
