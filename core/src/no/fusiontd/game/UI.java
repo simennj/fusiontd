@@ -53,7 +53,7 @@ public class UI{
         batch.draw(Graphics.getRegion("missileTower"), cameraX - 0.5f, cameraY - 1.5f, 1f, 1f);
         batch.draw(Graphics.getRegion("flameTower"), cameraX - 0.5f , cameraY - 0.75f, 1f, 1f);
         batch.draw(Graphics.getRegion("sniperTower"), cameraX - 0.5f , cameraY, 1f, 1f);
-        batch.draw(Graphics.getRegion("one"), 15.0f , 0.1f, 1f, 1f);
+        batch.draw(Graphics.getRegion("red_button"), 15.0f , 0.2f, 0.7f, 0.7f);
     }
 
     public boolean towerSet(float cameraX, float cameraY){
@@ -79,7 +79,7 @@ public class UI{
                 localPlayer.addCash(-20);
                 return true;
             } return false;
-        } else if (cameraX > 15.0f && cameraX < 16.0f && cameraY > 0.0f & cameraY < 1f){
+        } else if (cameraX > 15.0f && cameraX < 15.7f && cameraY > 0.2f & cameraY < 0.9f){
             game.returnToMenu();
             return false;
         }

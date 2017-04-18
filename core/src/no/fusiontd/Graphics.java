@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 public class Graphics {
     private static final ObjectMap<String, TextureAtlas.AtlasRegion> regions;
     private static TextureAtlas tileAtlas = new TextureAtlas("tiles.atlas");
+    private static TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
 
     static {
         regions = new ObjectMap<String, TextureAtlas.AtlasRegion>();
@@ -32,6 +33,7 @@ public class Graphics {
         regions.put("seven", tileAtlas.findRegion("283"));
         regions.put("eight", tileAtlas.findRegion("284"));
         regions.put("nine", tileAtlas.findRegion("285"));
+        regions.put("red_button", uiAtlas.findRegion("red_button"));
     }
 
     public static TextureAtlas.AtlasRegion getRegion(String name) {
