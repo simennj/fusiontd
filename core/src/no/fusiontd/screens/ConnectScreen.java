@@ -25,13 +25,13 @@ import com.badlogic.gdx.utils.Timer;
 
 import no.fusiontd.FusionTD;
 import no.fusiontd.MPAlternative.MPServer;
+import no.fusiontd.MenuStage;
 import no.fusiontd.networking.mpc.MPClient;
 
 public class ConnectScreen implements Screen, Input.TextInputListener {
 
     private int width,height;
     private FusionTD game;
-    private Stage stage;
     private Table table;
     private TextureAtlas atlas;
     private Skin skin;
@@ -40,7 +40,8 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
     private String inviteString, serverIP, typedIPString;
     private boolean serverRunning = false;
     private TextField typedIPField;
-    private TextButton btnFindGame;
+    private TextButton btnFindGame, btnHostGame, btnAccept;
+    private MenuStage stage;
 
     public ConnectScreen(FusionTD game) {
         serverIP = null;
@@ -67,13 +68,10 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
 
     public void create () {
 
-        stage = new Stage();
+        stage = new MenuStage(game);
         Gdx.input.setInputProcessor(stage);
 
         final TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
-
-        final TextureRegion upRegion = uiAtlas.findRegion("blue_button00");
-        final TextureRegion downRegion = uiAtlas.findRegion("blue_button03");
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Kenney Blocks.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -81,10 +79,6 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         final BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
-        final TextButton.TextButtonStyle btnStyle = new TextButton.TextButtonStyle();
-        btnStyle.up = new TextureRegionDrawable(upRegion);
-        btnStyle.down = new TextureRegionDrawable(downRegion);
-        btnStyle.font = font12;
 
         final Table table = new Table();
         stage.addActor(table);
@@ -144,8 +138,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         windowStyle.background = new TextureRegionDrawable(windowBackground);
         final Dialog popUp = new Dialog("Server is already running", windowStyle);
 
-        final TextButton btnHostGame = new TextButton("Host Game", btnStyle);
-        btnHostGame.addListener(new ChangeListener() {
+        btnHostGame = stage.createTextButton("Host Game", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(serverRunning){
@@ -180,16 +173,21 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         typedIPField = new TextField("no Ip entered yet", tfStyle);
         typedIPField.debug();
 
-        btnFindGame = new TextButton("Find Game", btnStyle);
-        btnFindGame.addListener(new ChangeListener() {
+        btnFindGame = stage.createTextButton("Find Game", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                System.out.println(typedIPString);
                 System.out.println("clicked button FindGame");
-                if(typedIPString != null){
+
+                if(btnFindGame.getText().equals("Play")){
+                    game.startGame(game.getMpc().getMapName());
+                }
+
+                else if(typedIPString != null){
                     no.fusiontd.MPAlternative.MPClient mpClient = new no.fusiontd.MPAlternative.MPClient(typedIPString, game, "Saltminer");
                     mpClient.login();
+                    btnFindGame.setText("Play");
                 }
+
                 else{
                     Gdx.input.getTextInput(ConnectScreen.this, "Enter Ip to Connect to", "", "xxx.xxx.x.x.x.x");
                 }
@@ -203,8 +201,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         stage.addActor(table2);
         table2.setFillParent(true);
         table2.bottom();
-        final TextButton btnAccept = new TextButton(inviteString, btnStyle);
-        btnAccept.addListener(new ChangeListener() {
+        btnAccept = stage.createTextButton(inviteString,new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 String currInviteString = mpClient.getNL().getRequestString();
@@ -231,26 +228,6 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
             }
         });
         table2.add(btnAccept);
-
-
-        // back button
-        Button.ButtonStyle exitStyle = new Button.ButtonStyle();
-        exitStyle.up = new TextureRegionDrawable(uiAtlas.findRegion("grey_box"));
-        exitStyle.down = new TextureRegionDrawable(uiAtlas.findRegion("blue_boxCross"));
-
-        Table exitTable = new Table();
-        stage.addActor(exitTable);
-        exitTable.setFillParent(true);
-        exitTable.setPosition(stage.getWidth()/2 - stage.getWidth()/8,-stage.getHeight()/2 + stage.getHeight()/8);
-
-        Button exitButton = new Button(exitStyle);
-        exitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.returnToMenu();
-            }
-        });
-        exitTable.add(exitButton);
     }
 
     public void resize (int width, int height) {

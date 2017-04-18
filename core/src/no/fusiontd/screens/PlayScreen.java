@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
+import no.fusiontd.MPAlternative.MPClient;
+import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.components.Geometry;
 import no.fusiontd.game.CreepSpawner;
 import no.fusiontd.game.EntityComponentManager;
@@ -37,6 +39,8 @@ public class PlayScreen implements Screen, InputProcessor {
     private String mapName;
     private UI ui;
     private Player localPlayer, mulPlayer;
+    private MPServer mpServer;
+    private MPClient mpClient;
 
     public PlayScreen(FusionTD game, boolean multiplayer) {
         this.game = game;
@@ -219,6 +223,14 @@ public class PlayScreen implements Screen, InputProcessor {
     public enum State {
         PAUSE,
         RUN,
+    }
+
+    public void setMpServer(MPServer mpServer){
+        this.mpServer = mpServer;
+    }
+
+    public void setMpClient(MPClient mpClient){
+        this.mpClient = mpClient;
     }
 
 }

@@ -19,7 +19,6 @@ import java.util.Scanner;
 
 public class MPServer extends Listener {
 
-    private static Scanner scanner;
     private int timeout = 5000;
     private int udpPort = 54556;
     private int tcpPort = 54555;
@@ -32,10 +31,9 @@ public class MPServer extends Listener {
     public MPServer(FusionTD game, String playerName){
 
         this.game = game;
-        this.playerName =playerName;
+        this.playerName = playerName;
         server = new Server();
         packetCreator = new PacketCreator();
-        scanner = new Scanner(System.in);
         packetCreator = new PacketCreator();
         server.addListener(this);
 
@@ -128,5 +126,24 @@ public class MPServer extends Listener {
             }
         }
         return ipAddress;
+    }
+
+    public void sendMetaData(String mapName){
+        Packet8Meta metaPacket = packetCreator.createMetaPacket(mapName);
+        connection.sendUDP(metaPacket);
+    }
+    public void sendTower(String towerType, float xpos, float ypos){
+        Packet7TowerPlaced towerPacket = packetCreator.createTowerPacket(towerType, xpos, ypos);
+        connection.sendUDP(towerPacket);
+    }
+
+    public void sendLives(int lives){
+        Packet4Lives lPacket = packetCreator.createLivesPacket(lives);
+        connection.sendUDP(lPacket);
+    }
+
+    public void sendCreeps(int creepnum){
+        Packet3Creep creepPacket = packetCreator.createCreepPacket(creepnum);
+        connection.sendUDP(creepPacket);
     }
 }

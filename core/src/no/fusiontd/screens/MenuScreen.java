@@ -46,7 +46,7 @@ public class MenuScreen implements Screen{
                     }
                 };
                 Gdx.input.getTextInput(til, "Your Name?", "Saltminer", "");*/
-                game.connectMP("Saltminer");
+                game.openMultiplayer();
             }
         });
 

@@ -60,7 +60,7 @@ class PacketCreator {
 
     Packet.Packet8Meta createMetaPacket(String metadata){
         Packet.Packet8Meta metaPacket = new Packet.Packet8Meta();
-        metaPacket.metadata = metadata;
+        metaPacket.mapName = metadata;
         return metaPacket;
     }
 }

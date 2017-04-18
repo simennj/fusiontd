@@ -7,20 +7,18 @@ import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import no.fusiontd.FusionTD;
 
 
 public class MPClient extends Listener{
     private static Client client;
-    private static Scanner scanner;
     private int timeout = 5000;
     private int tcpPort = 54555;
     private int udpPort = 54556;
     private String serverIP;
     private static PacketCreator packetCreator;
-    private String playerName;
+    private String playerName, mapName;
     private FusionTD game;
 
     public MPClient(String serverIP, FusionTD game, String playerName) {
@@ -28,7 +26,6 @@ public class MPClient extends Listener{
         this.game = game;
         this.playerName = playerName;
         packetCreator = new PacketCreator();
-        scanner = new Scanner(System.in);
         client = new Client();
         client.addListener(this);
         registerPackets();
@@ -78,16 +75,41 @@ public class MPClient extends Listener{
         }
 
         else if( o instanceof Packet.Packet3Creep){
-
+            //Create creep or something
         }
 
         else if(o instanceof Packet.Packet4Lives){
+            //Update lives
+        }
 
+        else if ( o instanceof Packet.Packet8Meta){
+            this.mapName = ((Packet.Packet8Meta) o).mapName;
+            System.out.println("Launching game on map: " + ((Packet.Packet8Meta) o).mapName);
         }
     }
 
     public void login(){
         Packet.Packet0LoginRequest loginRequest = packetCreator.createLoginRequest(playerName);
         client.sendUDP(loginRequest);
+    }
+
+
+    public void sendTower(String towerType, float xpos, float ypos){
+        Packet.Packet7TowerPlaced towerPacket = packetCreator.createTowerPacket(towerType, xpos, ypos);
+        client.sendUDP(towerPacket);
+    }
+
+    public void sendLives(int lives){
+        Packet.Packet4Lives lPacket = packetCreator.createLivesPacket(lives);
+        client.sendUDP(lPacket);
+    }
+
+    public void sendCreeps(int creepnum){
+        Packet.Packet3Creep creepPacket = packetCreator.createCreepPacket(creepnum);
+        client.sendUDP(creepPacket);
+    }
+
+    public String getMapName(){
+        return mapName;
     }
 }
