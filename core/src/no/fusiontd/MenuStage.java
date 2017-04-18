@@ -1,6 +1,7 @@
 package no.fusiontd;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -33,6 +35,7 @@ public class MenuStage extends Stage {
 
     private void populateSkin() {
         BitmapFont font = generateBitmapFont();
+        BitmapFont tfFont = generateTextFieldBitMapFont();
         NinePatchDrawable blueButton = new NinePatchDrawable(uiAtlas.createPatch("blue_button"));
         NinePatchDrawable blueButtonPressed = new NinePatchDrawable(uiAtlas.createPatch("blue_button_pressed"));
         NinePatchDrawable redButton = new NinePatchDrawable(uiAtlas.createPatch("red_button"));
@@ -41,6 +44,7 @@ public class MenuStage extends Stage {
         skin.add("default", new TextButton.TextButtonStyle(blueButton, blueButtonPressed, blueButtonPressed, font));
         skin.add("red", new TextButton.TextButtonStyle(redButton, redButtonPressed, redButtonPressed, font));
         skin.add("red", new Button.ButtonStyle(redButton, redButtonPressed, redButtonPressed));
+        skin.add("default", new TextField.TextFieldStyle(tfFont, Color.BLACK, redButton, redButtonPressed, redButtonPressed));
     }
 
     private BitmapFont generateBitmapFont() {
@@ -50,6 +54,15 @@ public class MenuStage extends Stage {
         BitmapFont font = generator.generateFont(parameter);
         generator.dispose();
         return font;
+    }
+
+    private BitmapFont generateTextFieldBitMapFont(){
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Kenney Blocks.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 12;
+        BitmapFont font12 = generator.generateFont(parameter);
+        generator.dispose();
+        return font12;
     }
 
     private void createMenuGroup() {
@@ -78,6 +91,12 @@ public class MenuStage extends Stage {
         button.pad(8, 8, 8, 8);
         mainGroup.addActor(button);
         return button;
+    }
+
+    public TextField createTextField(String text){
+        TextField textField = new TextField(text, skin);
+        mainGroup.addActor(textField);
+        return textField;
     }
 
     @Override

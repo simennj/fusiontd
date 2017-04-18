@@ -10,8 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -26,29 +24,23 @@ import com.badlogic.gdx.utils.Timer;
 import no.fusiontd.FusionTD;
 import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.MenuStage;
-import no.fusiontd.networking.mpc.MPClient;
 
 public class ConnectScreen implements Screen, Input.TextInputListener {
 
     private int width,height;
     private FusionTD game;
-    private Table table;
     private TextureAtlas atlas;
     private Skin skin;
-    private MPClient mpClient;
     private List<String> playerList;
-    private String inviteString, serverIP, typedIPString;
+    private String serverIP, typedIPString;
     private boolean serverRunning = false;
-    private TextField typedIPField;
+    private TextField typedIPField, serverIPField;
     private TextButton btnFindGame, btnHostGame, btnAccept;
     private MenuStage stage;
 
     public ConnectScreen(FusionTD game) {
         serverIP = null;
         this.game = game;
-        //mpClient = game.getMpc();
-        //mpClient.sendPlayerListRequest();
-        //inviteString = mpClient.getNL().getRequestString();
         atlas = new TextureAtlas(Gdx.files.internal("ui.atlas"));
         //skin = new Skin(Gdx.files.internal("ui/list_skin.json"), atlas);
         //playerList = new List<String>(skin);
@@ -79,10 +71,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         final BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
-
-        final Table table = new Table();
-        stage.addActor(table);
-        table.setPosition(stage.getWidth()/2, stage.getHeight()/2);
+        serverIPField = stage.createTextField(serverIP);
 
         // table.align(Align.right | Align.bottom);
 
@@ -115,21 +104,8 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         table.add(btnFindPlayer);*/
         // table.setTouchable(Touchable.disabled);
 
-        final Table table3 = new Table();
-        stage.addActor(table3);
-        table3.setFillParent(true);
-        table3.top();
-        table.setPosition(stage.getWidth()/2, stage.getHeight()/2);
 
         // table.align(Align.right | Align.bottom);
-
-        TextField.TextFieldStyle tfStyle = new TextField.TextFieldStyle();
-        tfStyle.font = font12;
-        tfStyle.fontColor = Color.GREEN;
-        final TextField serverIPField = new TextField(serverIP, tfStyle);
-        serverIPField.setSize(400, 400);
-        serverIPField.debug();
-        table3.add(serverIPField);
 
         //Displayed when you try you press HostGame a second time
         Window.WindowStyle windowStyle = new Window.WindowStyle();
@@ -154,24 +130,18 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
                     }, 2);
                 }
                 else{
-                    final MPServer mpServer = new MPServer(game, "Haxor1337");
+                    MPServer mpServer = new MPServer(game, "Haxor1337");
                     serverIP = mpServer.getIp();
                     serverIPField.setText("Server running on:\n " + serverIP);
                     serverRunning = true;
+                    game.initMPServer(mpServer);
                 }
             }
         });
-        table3.add(btnHostGame);
-
-        Table table4 = new Table();
-        stage.addActor(table4);
-        table4.setFillParent(true);
-        table4.right();
-        table.setPosition(stage.getWidth()/2, stage.getHeight()/2);
 
         // table.align(Align.right | Align.bottom);
-        typedIPField = new TextField("no Ip entered yet", tfStyle);
-        typedIPField.debug();
+        typedIPField = stage.createTextField("no Ip entered yet");
+        //typedIPField.debug();
 
         btnFindGame = stage.createTextButton("Find Game", new ChangeListener() {
             @Override
@@ -194,40 +164,6 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
             }
         });
 
-        table4.add(typedIPField);
-        table4.add(btnFindGame);
-
-        final Table table2 = new Table();
-        stage.addActor(table2);
-        table2.setFillParent(true);
-        table2.bottom();
-        btnAccept = stage.createTextButton(inviteString,new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                String currInviteString = mpClient.getNL().getRequestString();
-                System.out.println(currInviteString);
-                if(inviteString.equals("No requests yet :C")){
-                    btnAccept.setText(currInviteString);
-                    inviteString = currInviteString;
-                }
-                else{
-                    /*new Dialog("Accept request", skin){
-                        {
-                            text(inviteString);
-                            button("yes", "Alright!!");
-                            button("no", "Ok :C");
-                        }
-
-                        @Override
-                        protected void result(Object object){
-                            mpClient.sendMPAnswer(true);
-                        }
-                    }.show(stage);*/
-                    mpClient.sendMPAnswer(true);
-                }
-            }
-        });
-        table2.add(btnAccept);
     }
 
     public void resize (int width, int height) {
