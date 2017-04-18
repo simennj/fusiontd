@@ -58,7 +58,7 @@ public class PlayScreen implements Screen, InputProcessor {
         batch = new SpriteBatch();
         engine = new EntityComponentManager(this, localPlayer, mulPlayer);
         creepSpawner = new CreepSpawner(map.path, engine);
-        ui = new UI(game,localPlayer,mulPlayer);
+        ui = new UI(game,localPlayer,mulPlayer, engine);
     }
 
     public void setMap(String mapName) {
@@ -177,7 +177,11 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (engine.checkTower(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
+        if (ui.isTowerSetting()){
+            System.out.println("finally");
+            ui.towerSet(getCameraX(screenX), getCameraY(screenY));
+        }
+        else if (engine.checkTower(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
             // selected Tower
             System.out.println("tower");
             ui.selectTower(getCameraX(screenX), getCameraY(screenY));
@@ -189,23 +193,24 @@ public class PlayScreen implements Screen, InputProcessor {
             // is on road (or end or start), do nothing
             System.out.println("road");
             return false;
-        } else {
+        } else if (!ui.isTowerSetting()){
             // open tower setting menu
             System.out.println("Set tower");
             localPlayer.addCash(-1);
-            ui.towerSet(getCameraX(screenX), getCameraY(screenY));
+            ui.openTowerSet(getCameraX(screenX), getCameraY(screenY));
         }
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        /*
         int tile = map.getTile(getCameraX(screenX), getCameraY(screenY));
         if (tile == 0) {
             engine.spawnTower("missileTower2", new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f));
         } else {
             engine.spawnTower("flameTower", new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f));
-        }
+        }*/
         return false;
     }
 

@@ -1,27 +1,33 @@
 package no.fusiontd.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.LinkedList;
 
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
+import no.fusiontd.components.Geometry;
 
 public class UI{
 
     private FusionTD game;
     private Player localPlayer, mulPlayer;
+    private boolean showTowerSet = false;
+    private float towerSettingX, towerSettingY;
+    private EntityComponentManager engine;
 
-    public UI(FusionTD game, Player localPlayer, Player mulPlayer) {
+    public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine) {
         this.game = game; this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
+        this.showTowerSet = false;
+        this.engine = engine;
     }
 
     public void render(float delta, SpriteBatch batch, float tilesize) {
         showLives(batch);
         showCash(batch);
+        if (showTowerSet){
+            towerSetMenu(towerSettingX, towerSettingY, batch);
+        }
     }
 
     public void selectTower(float cameraX, float cameraY) {
@@ -30,7 +36,40 @@ public class UI{
     public void selectCreep(float cameraX, float cameraY) {
     }
 
-    public void towerSet(float cameraX, float cameraY) {
+    public void openTowerSet(float cameraX, float cameraY){
+        showTowerSet = true; towerSettingX = cameraX; towerSettingY = cameraY;
+    }
+
+    public boolean isTowerSetting(){
+        System.out.println(showTowerSet);
+        return showTowerSet;
+    }
+
+    public void closeTowerSet(){
+        showTowerSet = false;
+    }
+
+    public void towerSetMenu(float cameraX, float cameraY, SpriteBatch batch) {
+        batch.draw(Graphics.getRegion("missileTower"), cameraX - 0.5f, cameraY - 1.5f, 1f, 1f);
+        batch.draw(Graphics.getRegion("flameTower"), cameraX - 0.5f , cameraY - 0.75f, 1f, 1f);
+        batch.draw(Graphics.getRegion("sniperTower"), cameraX - 0.5f , cameraY, 1f, 1f);
+        batch.draw(Graphics.getRegion("one"), 15.0f , 0.1f, 1f, 1f);
+    }
+
+    public void towerSet(float cameraX, float cameraY){
+        System.out.println(cameraX + "," + cameraY + ";" + towerSettingX + "," + towerSettingY);
+        if(cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY - 0.5f && cameraY < towerSettingY + 0.5f){
+            showTowerSet = false;
+            engine.spawnTower("flameTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+        } else if(cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY - 1.5f && cameraY < towerSettingY - 0.5f){
+            showTowerSet = false;
+            engine.spawnTower("missileTower2", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+        } else if (cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY + 0.5f && cameraY < towerSettingY + 1.5f){
+            showTowerSet = false;
+            engine.spawnTower("sniperTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+        } else if (cameraX > 15.0f && cameraX < 16.0f && cameraY > 0.0f & cameraY < 1f){
+            game.returnToMenu();
+        }
     }
 
     public void showLives(SpriteBatch batch){
