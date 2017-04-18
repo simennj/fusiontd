@@ -102,8 +102,6 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
             }
         });
         table.add(btnFindPlayer);*/
-        // table.setTouchable(Touchable.disabled);
-
 
         // table.align(Align.right | Align.bottom);
 
