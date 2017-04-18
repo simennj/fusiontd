@@ -53,6 +53,7 @@ public class UI{
         batch.draw(Graphics.getRegion("missileTower"), cameraX - 0.5f, cameraY - 1.5f, 1f, 1f);
         batch.draw(Graphics.getRegion("flameTower"), cameraX - 0.5f , cameraY - 0.75f, 1f, 1f);
         batch.draw(Graphics.getRegion("sniperTower"), cameraX - 0.5f , cameraY, 1f, 1f);
+        batch.draw(Graphics.getRegion("one"), 15.0f , 0.1f, 1f, 1f);
     }
 
     public void towerSet(float cameraX, float cameraY){
@@ -66,6 +67,8 @@ public class UI{
         } else if (cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY + 0.5f && cameraY < towerSettingY + 1.5f){
             showTowerSet = false;
             engine.spawnTower("sniperTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+        } else if (cameraX > 15.0f && cameraX < 16.0f && cameraY > 0.0f & cameraY < 1f){
+            game.returnToMenu();
         }
     }
 
