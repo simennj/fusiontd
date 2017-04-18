@@ -53,7 +53,7 @@ public class UI{
         batch.draw(Graphics.getRegion("missileTower"), cameraX - 0.5f, cameraY - 1.5f, 1f, 1f);
         batch.draw(Graphics.getRegion("flameTower"), cameraX - 0.5f , cameraY - 0.75f, 1f, 1f);
         batch.draw(Graphics.getRegion("sniperTower"), cameraX - 0.5f , cameraY, 1f, 1f);
-        batch.draw(Graphics.getRegion("one"), 15.0f , 0.1f, 1f, 1f);
+        batch.draw(Graphics.getRegion("red_button"), 15.0f , 0.2f, 0.7f, 0.7f);
     }
 
     public boolean towerSet(float cameraX, float cameraY){
@@ -79,7 +79,7 @@ public class UI{
                 localPlayer.addCash(-20);
                 return true;
             } return false;
-        } else if (cameraX > 15.0f && cameraX < 16.0f && cameraY > 0.0f & cameraY < 1f){
+        } else if (cameraX > 15.0f && cameraX < 15.7f && cameraY > 0.2f & cameraY < 0.9f){
             game.returnToMenu();
             return false;
         }
@@ -91,7 +91,7 @@ public class UI{
         int lives = localPlayer.getLives();
 
         if (lives == 0){
-            batch.draw(Graphics.getRegion("zeros"), 0f, 1.5f, 1f, 1f);
+            batch.draw(Graphics.getRegion("zeros"), 13.0f , 0.2f, 1f, 1f);
         }
 
         LinkedList<Integer> stack = new LinkedList<Integer>();
@@ -105,25 +105,25 @@ public class UI{
             i += 0.4f;
             switch (stack.pop()){
                 case 0:
-                    batch.draw(Graphics.getRegion("zeros"), 0f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("zeros"), 13.0f + i, 0.2f, 1f, 1f); break;
                 case 1:
-                    batch.draw(Graphics.getRegion("one"), 0f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("one"), 13.0f + i, 0.2f, 1f, 1f); break;
                 case 2:
-                    batch.draw(Graphics.getRegion("two"), 0f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("two"), 13.0f + i, 0.2f, 1f, 1f); break;
                 case 3:
-                    batch.draw(Graphics.getRegion("three"), 0f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("three"), 13.0f + i, 0.2f, 1f, 1f); break;
                 case 4:
-                    batch.draw(Graphics.getRegion("four"), 0f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("four"), 13.0f + i, 0.2f, 1f, 1f); break;
                 case 5:
-                    batch.draw(Graphics.getRegion("five"), 0f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("five"), 13.0f + i, 0.2f, 1f, 1f); break;
                 case 6:
-                    batch.draw(Graphics.getRegion("six"), 0f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("six"), 13.0f + i, 0.2f, 1f, 1f); break;
                 case 7:
-                    batch.draw(Graphics.getRegion("seven"), 0f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("seven"), 13.0f + i, 0.2f, 1f, 1f); break;
                 case 8:
-                    batch.draw(Graphics.getRegion("eight"), 0f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("eight"), 13.0f + i, 0.2f, 1f, 1f); break;
                 case 9:
-                    batch.draw(Graphics.getRegion("nine"), 0f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("nine"), 13.0f + i, 0.2f, 1f, 1f); break;
                 default:
                     System.out.println("lives:" + localPlayer.getLives());
             }
@@ -135,7 +135,7 @@ public class UI{
         int cash = localPlayer.getCash();
 
         if (cash == 0){
-            batch.draw(Graphics.getRegion("zeros"), 5f, 1.5f, 1f, 1f);
+            batch.draw(Graphics.getRegion("zeros"), 11.0f, 0.2f, 1f, 1f);
         }
 
         LinkedList<Integer> stack = new LinkedList<Integer>();
@@ -149,25 +149,25 @@ public class UI{
             i += 0.4f;
             switch (stack.pop()){
                 case 0:
-                    batch.draw(Graphics.getRegion("zeros"), 5f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("zeros"), 11.0f + i, 0.2f, 1f, 1f); break;
                 case 1:
-                    batch.draw(Graphics.getRegion("one"), 5f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("one"), 11.0f + i, 0.2f, 1f, 1f); break;
                 case 2:
-                    batch.draw(Graphics.getRegion("two"), 5f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("two"), 11.0f + i, 0.2f, 1f, 1f); break;
                 case 3:
-                    batch.draw(Graphics.getRegion("three"), 5f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("three"), 11.0f + i, 0.2f, 1f, 1f); break;
                 case 4:
-                    batch.draw(Graphics.getRegion("four"), 5f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("four"), 11.0f + i, 0.2f, 1f, 1f); break;
                 case 5:
-                    batch.draw(Graphics.getRegion("five"), 5f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("five"), 11.0f + i, 0.2f, 1f, 1f); break;
                 case 6:
-                    batch.draw(Graphics.getRegion("six"), 5f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("six"), 11.0f + i, 0.2f, 1f, 1f); break;
                 case 7:
-                    batch.draw(Graphics.getRegion("seven"), 5f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("seven"), 11.0f + i, 0.2f, 1f, 1f); break;
                 case 8:
-                    batch.draw(Graphics.getRegion("eight"), 5f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("eight"), 11.0f + i, 0.2f, 1f, 1f); break;
                 case 9:
-                    batch.draw(Graphics.getRegion("nine"), 5f + i, 1.5f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("nine"), 11.0f + i, 0.2f, 1f, 1f); break;
                 default:
                     System.out.println("cash:" + localPlayer.getCash());
             }
