@@ -61,6 +61,10 @@ public class FusionTD extends Game {
 		setScreen(mapSelectScreen);
 	}
 
+	public void openMapEditor(){
+		setScreen(mapEditorScreen);
+	}
+
 	public void openOptions(){ setScreen(optionScreen); }
 
 	public void openMultiplayer(){

@@ -22,6 +22,10 @@ public class Map {
         path = getPath();
     }
 
+    public void mapEditor(String mapName){
+        map = mapReader.loadMap(mapName + ".txt", TILEROWS, TILECOLS);
+    }
+
     public int getTile(float x, float y) {
         return map[getMapRow(y)][getMapCol(x)];
     }
