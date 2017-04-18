@@ -89,6 +89,11 @@ public class UI{
     public void showLives(SpriteBatch batch){
 
         int lives = localPlayer.getLives();
+
+        if (lives == 0){
+            batch.draw(Graphics.getRegion("zeros"), 0f, 1.5f, 1f, 1f);
+        }
+
         LinkedList<Integer> stack = new LinkedList<Integer>();
         while (lives > 0) {
             stack.push( lives % 10 );
@@ -126,7 +131,13 @@ public class UI{
     }
 
     public void showCash(SpriteBatch batch) {
+
         int cash = localPlayer.getCash();
+
+        if (cash == 0){
+            batch.draw(Graphics.getRegion("zeros"), 5f, 1.5f, 1f, 1f);
+        }
+
         LinkedList<Integer> stack = new LinkedList<Integer>();
         while (cash > 0) {
             stack.push( cash % 10 );
