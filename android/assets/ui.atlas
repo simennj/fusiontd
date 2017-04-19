@@ -36,7 +36,7 @@ blue_button
   rotate: false
   xy: 578, 651
   size: 49, 49
-  split: 7, 7, 7, 10
+  split: 1, 3, 7, 10
   pad: 0, 0, 0, 0
   orig: 49, 49
   offset: 0, 0
@@ -968,6 +968,14 @@ yellow_button06
   rotate: false
   xy: 104, 269
   size: 49, 49
+  orig: 49, 49
+  offset: 0, 0
+  index: -1
+yellow_popUp
+  rotate: false
+  xy: 104, 269
+  size: 49, 49
+  split: 2, 2, 3, 5
   orig: 49, 49
   offset: 0, 0
   index: -1
