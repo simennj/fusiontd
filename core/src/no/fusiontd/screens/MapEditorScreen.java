@@ -3,7 +3,9 @@ package no.fusiontd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.fusiontd.FusionTD;
 import no.fusiontd.game.CreepSpawner;
@@ -29,8 +31,10 @@ public class MapEditorScreen implements Screen, InputProcessor {
     private int screenWidth, screenHeight;
     private float heightOffset, widthOffset;
     private boolean multiplayer;
-    private String mapName;
+    private String mapName="BlankMap";
     private MapReader mapReader;
+
+    private Texture groundTex, roadTex, towerWhiteTex, towerBlueTex, pathStartTex, pathEndTex;
 
 
     public MapEditorScreen(FusionTD game) {
@@ -41,7 +45,7 @@ public class MapEditorScreen implements Screen, InputProcessor {
     @Override
     public void show() {
         camera = new OrthographicCamera(WIDTH, HEIGHT);
-        map = new Map(mapName);
+        //map = new Map(mapName);
         tilesize = Math.min(WIDTH / map.TILECOLS, HEIGHT / map.TILEROWS);
         //controller = new GameController(map, this);
         Gdx.input.setInputProcessor(this);
@@ -52,7 +56,48 @@ public class MapEditorScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0, 1, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        drawMap(map, delta, batch);
+        batch.end();
+    }
 
+    private void drawMap(Map adj, float delta, SpriteBatch batch) {
+        for (int r = 0; r < adj.TILEROWS; r++) {
+            for (int c = 0; c < adj.TILECOLS; c++) {
+                batch.draw(getSprite(map.getTile(r, c)), c, r, 1, 1);
+            }
+        }
+    }
+
+    private Texture getSprite(int type) {
+        switch (type) {
+            case 0:
+                return groundTex;
+            case 1:
+                return roadTex;
+            case 2:
+                return towerWhiteTex;
+            case 3:
+                return towerBlueTex;
+            case 4:
+                return pathStartTex;
+            case 5:
+                return pathEndTex;
+            default:
+                return groundTex;
+        }
+    }
+
+    private void initializeTextures() {
+        groundTex = new Texture("tiles/024.png");
+        roadTex = new Texture("tiles/050.png");
+        towerBlueTex = new Texture("tiles/128.png");
+        towerWhiteTex = new Texture("tiles/123.png");
+        pathStartTex = new Texture("tiles/091.png");
+        pathEndTex = new Texture("tiles/090.png");
     }
 
     @Override
