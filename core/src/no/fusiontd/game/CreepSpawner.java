@@ -8,36 +8,35 @@ import com.badlogic.gdx.math.Vector2;
 import no.fusiontd.Graphics;
 import no.fusiontd.components.*;
 
-import java.io.FileNotFoundException;
-import java.util.LinkedList;
-
 public class CreepSpawner {
     private Path<Vector2> path;
     private Engine engine;
-    private LinkedList<CreepWave> creepWaves = new LinkedList<CreepWave>();
+    private WaveReader waveReader;
     private CreepWave currentWave;
     private float timer;
     private Vector2 startPosition = new Vector2();
+    private boolean waveActive;
 
     public CreepSpawner(Path<Vector2> path, Engine engine) {
         this.path = path;
         path.valueAt(this.startPosition, 0);
         this.engine = engine;
-        try {
-            creepWaves.add(new CreepWave("1"));
-            currentWave = creepWaves.pop();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        waveReader = new WaveReader("1");
     }
 
     public void update(float deltatime) {
         timer += deltatime;
-        if (timer > currentWave.currentDelayBetweenCreeps()) {
+        if (waveActive && timer > currentWave.currentDelayBetweenCreeps()) {
+            waveActive = !currentWave.finished();
             timer = 0;
-            CreepWave.CreepBluePrint creepBluePrint = currentWave.popCreep();
+            CreepBluePrint creepBluePrint = currentWave.popCreep();
             spawnCreep(creepBluePrint.texture, creepBluePrint.life, creepBluePrint.speed);
         }
+    }
+
+    public void startNextWave() {
+        currentWave = waveReader.popWave();
+        waveActive = true;
     }
 
     private void spawnCreep(String region, float life, float speed, Component... components) {
