@@ -88,7 +88,7 @@ public class EntityComponentManager extends Engine {
                 )
         ));
 
-        blueprints.put("missileTower2", Arrays.<CloneableComponent>asList(
+        blueprints.put("cannontower", Arrays.<CloneableComponent>asList(
                 new Render("missileTower"),
                 new Targeting(3f, 2f,true,
                         new Render(Graphics.getRegion("missile")),
@@ -128,7 +128,18 @@ public class EntityComponentManager extends Engine {
         ));
 
 
+
     }
+
+    public void upgradeEntity (Entity e) {
+        ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
+        Upgradeable upgrade = mUpgr.get(e);
+        for (CloneableComponent component : upgrade.upgrades) {
+            e.add(component.cloneComponent());
+        }
+    }
+
+
 
     public Entity spawn(CloneableComponent... components) {
         return spawn(Arrays.asList(components));
