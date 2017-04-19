@@ -12,12 +12,7 @@ import no.fusiontd.Graphics;
 import no.fusiontd.MPAlternative.MPClient;
 import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.components.Geometry;
-import no.fusiontd.game.CreepSpawner;
-import no.fusiontd.game.EntityComponentManager;
-import no.fusiontd.game.GameController;
-import no.fusiontd.game.Map;
-import no.fusiontd.game.Player;
-import no.fusiontd.game.UI;
+import no.fusiontd.game.*;
 
 public class PlayScreen implements Screen, InputProcessor {
 
@@ -166,6 +161,10 @@ public class PlayScreen implements Screen, InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         System.out.println(keycode);
+        switch (keycode) {
+            case 62:
+                creepSpawner.startNextWave();
+        }
         return false;
     }
 
@@ -220,17 +219,17 @@ public class PlayScreen implements Screen, InputProcessor {
         return false;
     }
 
-    public enum State {
-        PAUSE,
-        RUN,
-    }
-
     public void setMpServer(MPServer mpServer){
         this.mpServer = mpServer;
     }
 
     public void setMpClient(MPClient mpClient){
         this.mpClient = mpClient;
+    }
+
+    public enum State {
+        PAUSE,
+        RUN,
     }
 
 }
