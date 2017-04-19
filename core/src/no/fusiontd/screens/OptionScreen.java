@@ -4,9 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
+import no.fusiontd.menu.CheckButton;
 import no.fusiontd.menu.ExitButton;
 import no.fusiontd.menu.NormalTextButtonFactory;
 import no.fusiontd.menu.TextButtonFactory;
@@ -17,6 +21,7 @@ public class OptionScreen implements Screen {
     private MenuStage stage;
     private TextButtonFactory textButtonFactory;
     private ExitButton exitButton;
+    private CheckButton checkButton;
 
     public OptionScreen(FusionTD game) {
         this.game = game;
@@ -27,7 +32,17 @@ public class OptionScreen implements Screen {
     public void show(){
         stage = new MenuStage();
         textButtonFactory = new NormalTextButtonFactory();
+        checkButton = CheckButton.create("MyButton");
+        checkButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("FIRE!");
+                checkButton.setChecked(true); // this should not be done by the view
+            }
+        });
         Gdx.input.setInputProcessor(stage);
+
+        stage.addMenuContent(checkButton);
 
         stage.addMenuContent(textButtonFactory.createTextButton("Button 1", new ChangeListener() {
             @Override
@@ -61,6 +76,7 @@ public class OptionScreen implements Screen {
         stage.dispose();
         textButtonFactory.dispose();
         exitButton.dispose();
+        checkButton.dispose();
     }
 
     @Override

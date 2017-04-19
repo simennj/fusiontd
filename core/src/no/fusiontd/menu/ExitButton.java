@@ -20,6 +20,8 @@ public class ExitButton extends Button implements Disposable{
 
     private ExitButton(final FusionTD game, Skin skin, TextureAtlas uiAtlas) {
         super(skin, "red");
+        this.skin = skin;
+        this.uiAtlas = uiAtlas;
         this.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
