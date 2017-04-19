@@ -32,7 +32,7 @@ public class MenuScreen implements Screen{
         textButtonFactory = new NormalTextButtonFactory();
         Gdx.input.setInputProcessor(stage);
 
-        Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_background.png"));
+        Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
         stage.setBackground(new Image(backgroundImage));
 
         stage.addMenuContent(textButtonFactory.createTextButton("Singleplayer", new ChangeListener() {

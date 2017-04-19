@@ -11,23 +11,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 public class NormalTextButtonFactory implements TextButtonFactory {
     private TextureAtlas uiAtlas;
     private Skin skin;
 
     public NormalTextButtonFactory() {
-        uiAtlas = new TextureAtlas("ui.atlas");
+        uiAtlas = new TextureAtlas("ui_new.atlas");
         skin = new Skin();
         populateSkin();
     }
 
     private void populateSkin() {
         BitmapFont font = generateBitmapFont();
-        NinePatchDrawable blueButton = new NinePatchDrawable(uiAtlas.createPatch("blue_button"));
-        NinePatchDrawable blueButtonPressed = new NinePatchDrawable(uiAtlas.createPatch("blue_button_pressed"));
-        NinePatchDrawable redButton = new NinePatchDrawable(uiAtlas.createPatch("red_button"));
-        NinePatchDrawable redButtonPressed = new NinePatchDrawable(uiAtlas.createPatch("red_button_pressed"));
+        SpriteDrawable blueButton = new SpriteDrawable(uiAtlas.createSprite("button0"));
+        SpriteDrawable blueButtonPressed = new SpriteDrawable(uiAtlas.createSprite("button1"));
+        SpriteDrawable redButton = new SpriteDrawable(uiAtlas.createSprite("button0"));
+        SpriteDrawable redButtonPressed = new SpriteDrawable(uiAtlas.createSprite("button1"));
         skin.add("font", font, BitmapFont.class);
         skin.add("default", new TextButton.TextButtonStyle(blueButton, blueButtonPressed, blueButtonPressed, font));
         skin.add("red", new TextButton.TextButtonStyle(redButton, redButtonPressed, redButtonPressed, font));
@@ -50,7 +51,7 @@ public class NormalTextButtonFactory implements TextButtonFactory {
     public TextButton createTextButton(String text, ChangeListener listener) {
         TextButton button = new TextButton(text, skin);
         button.addListener(listener);
-        button.pad(18, 18, 18, 18);
+        button.pad(18);
         return button;
     }
 

@@ -31,11 +31,11 @@ public class OptionsButton extends Button implements Disposable{
     }
 
     public static OptionsButton create(FusionTD game) {
-        TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
+        TextureAtlas uiAtlas = new TextureAtlas("ui_new.atlas");
         Skin skin = new Skin();
 
-        SpriteDrawable redButton = new SpriteDrawable(uiAtlas.createSprite("blue_button"));
-        NinePatchDrawable redButtonPressed = new NinePatchDrawable(uiAtlas.createPatch("blue_button_pressed"));
+        SpriteDrawable redButton = new SpriteDrawable(uiAtlas.createSprite("gear0"));
+        SpriteDrawable redButtonPressed = new SpriteDrawable(uiAtlas.createSprite("gear1"));
         skin.add("blue", new Button.ButtonStyle(redButton, redButtonPressed, redButtonPressed));
         // exitButton.setBounds(getWidth() - 96, 32, 64, 64);
 
