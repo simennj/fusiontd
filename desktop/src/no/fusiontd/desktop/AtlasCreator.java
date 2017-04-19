@@ -11,5 +11,6 @@ public class AtlasCreator {
         TexturePacker.process(ASSET_DIR + "/tiles", ASSET_DIR, "tiles");
         TexturePacker.process(ASSET_DIR + "/t", ASSET_DIR, "tiles_new");
         TexturePacker.process(ASSET_DIR + "/sprites", ASSET_DIR, "sprites");
+        TexturePacker.process(ASSET_DIR + "/ui_new", ASSET_DIR, "ui_new");
     }
 }
