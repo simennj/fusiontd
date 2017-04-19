@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
+import no.fusiontd.menu.ExitButton;
 import no.fusiontd.menu.NormalTextButtonFactory;
 import no.fusiontd.menu.TextButtonFactory;
 
@@ -15,9 +16,11 @@ public class MapSelectScreen implements Screen {
     private FusionTD game;
     private MenuStage stage;
     private TextButtonFactory textButtonFactory;
+    private ExitButton exitButton;
 
     public MapSelectScreen(FusionTD game) {
         this.game = game;
+        exitButton = ExitButton.create(game);
     }
 
     @Override
@@ -46,6 +49,8 @@ public class MapSelectScreen implements Screen {
                 game.startGame("map3");
             }
         }));
+
+        stage.addImageButton(exitButton);
     }
 
     @Override
@@ -62,6 +67,7 @@ public class MapSelectScreen implements Screen {
     public void dispose() {
         stage.dispose();
         textButtonFactory.dispose();
+        exitButton.dispose();
     }
 
     @Override

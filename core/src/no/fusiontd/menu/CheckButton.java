@@ -31,11 +31,12 @@ public class CheckButton extends ImageTextButton implements Disposable {
     public static CheckButton create(String name) {
         TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
         Skin skin = new Skin();
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/helsinki.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/CANDY-SHOP-BLACK.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 64;
-        parameter.borderWidth = 8;
-        parameter.borderColor = Color.BLUE;
+        parameter.size = 30;
+        //parameter.borderWidth = 8;
+        parameter.color = Color.BLACK;
+        //parameter.borderColor = Color.BLUE;
         BitmapFont font = generator.generateFont(parameter);
 
         NinePatchDrawable redButton = new NinePatchDrawable(uiAtlas.createPatch("blue_button"));

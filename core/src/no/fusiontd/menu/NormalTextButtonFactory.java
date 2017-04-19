@@ -35,11 +35,12 @@ public class NormalTextButtonFactory implements TextButtonFactory {
     }
 
     private BitmapFont generateBitmapFont() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/helsinki.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/CANDY-SHOP-BLACK.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 64;
-        parameter.borderWidth = 8;
-        parameter.borderColor = Color.BLUE;
+        parameter.size = 30;
+        //parameter.borderWidth = 8;
+        parameter.color = Color.BLACK;
+        //parameter.borderColor = Color.BLUE;
         BitmapFont font = generator.generateFont(parameter);
         generator.dispose();
         return font;
@@ -49,7 +50,7 @@ public class NormalTextButtonFactory implements TextButtonFactory {
     public TextButton createTextButton(String text, ChangeListener listener) {
         TextButton button = new TextButton(text, skin);
         button.addListener(listener);
-        button.pad(8, 8, 8, 8);
+        button.pad(18, 18, 18, 18);
         return button;
     }
 
