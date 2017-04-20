@@ -3,8 +3,10 @@ package no.fusiontd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -31,6 +33,8 @@ public class OptionScreen implements Screen {
     @Override
     public void show(){
         stage = new MenuStage();
+        Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
+        stage.setBackground(new Image(backgroundImage));
         textButtonFactory = new NormalTextButtonFactory();
         checkButton = CheckButton.create("MyButton");
         checkButton.addListener(new ClickListener() {

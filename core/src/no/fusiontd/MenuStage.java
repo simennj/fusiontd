@@ -32,9 +32,6 @@ public class MenuStage extends Stage {
 
     private VerticalGroup mainGroup;
     private NormalTextButtonFactory textButtonFactory;
-    private Skin skin;
-    private FusionTD game;
-    private Label.LabelStyle popUpTextStyle;
 
     public MenuStage() {
         super(new FitViewport(1280, 720));

@@ -48,18 +48,6 @@ public class MenuScreen implements Screen{
         stage.addMenuContent(textButtonFactory.createTextButton("Multiplayer", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                /*Input.TextInputListener til = new Input.TextInputListener() {
-                    @Override
-                    public void input(String playerName) {
-                        game.connectMP(playerName);
-                    }
-
-                    @Override
-                    public void canceled() {
-
-                    }
-                };
-                Gdx.input.getTextInput(til, "Your Name?", "Saltminer", "");*/
                 game.openMultiplayer();
             }
         }));
