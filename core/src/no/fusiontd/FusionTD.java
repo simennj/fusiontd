@@ -42,15 +42,20 @@ public class FusionTD extends Game {
 		playScreen = new PlayScreen(this, multiplayer);
 		playScreen.setMap(mapName);
 		setScreen(playScreen);
+		System.out.println("Runs startgame");
 
-		//passes client or server to playscreen based on which one has been instantiated, does nothing if neither is instantiated
-		if(mpServer == null){
-			playScreen.setMpClient(mpc);
-		}
-		else if(mpc == null){
-			//Sends metadata to the client and starts game
-			mpServer.sendMetaData(mapName);
-			playScreen.setMpServer(mpServer);
+		if(multiplayer){
+			//passes client or server to playscreen based on which one has been instantiated, does nothing if neither is instantiated
+			if(mpc == null){
+				System.out.println("setting mpServer in playscreen");
+				playScreen.setMpServer(mpServer);
+				System.out.println("Sending metadata");
+				mpServer.sendMetaData(mapName);
+			}
+			else if(mpServer == null){
+				//Sends metadata to the client and starts game
+				playScreen.setMpClient(mpc);
+			}
 		}
 	}
 
@@ -73,17 +78,14 @@ public class FusionTD extends Game {
 
 	public void initMPServer(MPServer mpServer){
 		multiplayer = true;
-		if( mpServer == null){
-			this.mpServer = mpServer;
-		}
+		this.mpServer = mpServer;
+		//Passes the new game object to mapselectscreen
+		mapSelectScreen = new MapSelectScreen(this);
 	}
 
 	public void initMPClient(MPClient mpClient){
-		if( mpc == null){
-			mpc = mpClient;
-		}
+		mpc = mpClient;
 		multiplayer = true;
-
 	}
 
 	// Don't use this for now

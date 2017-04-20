@@ -15,7 +15,6 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-import java.util.Scanner;
 
 public class MPServer extends Listener {
 
@@ -51,19 +50,17 @@ public class MPServer extends Listener {
     private void registerPackets(){
         Kryo kryo = server.getKryo();
         kryo.register(java.util.ArrayList.class);
-        kryo.register(Packet.Packet0LoginRequest.class);
-        kryo.register(Packet.Packet1LoginAnswer.class);
+        kryo.register(Packet0LoginRequest.class);
+        kryo.register(Packet1LoginAnswer.class);
         kryo.register(Packet2Message.class);
-        kryo.register(Packet.Packet3Creep.class);
-        kryo.register(Packet.Packet4Lives.class);
-        kryo.register(Packet.Packet5score.class);
-        kryo.register(Packet.Packet6HighScore.class);
-        kryo.register(Packet.Packet7TowerPlaced.class);
-        kryo.register(Packet.Packet8Meta.class);
-        kryo.register(Packet.Packet9PlayerList.class);
-        kryo.register(Packet.Packet10RequestPlayerList.class);
-        kryo.register(Packet.Packet11RequestOpponent.class);
-        kryo.register(Packet.Packet12OpponentAnswer.class);
+        kryo.register(Packet3Creep.class);
+        kryo.register(Packet4Lives.class);
+        kryo.register(Packet5score.class);
+        kryo.register(Packet6HighScore.class);
+        kryo.register(Packet7TowerPlaced.class);
+        kryo.register(Packet8Meta.class);
+        kryo.register(Packet9TowerUpgrade.class);
+        kryo.register(Packet10Ready.class);
     }
 
     public void connected(Connection conn){
@@ -94,9 +91,16 @@ public class MPServer extends Listener {
             System.out.println(message);
             c.sendUDP(o);
         }
+        else if( o instanceof Packet10Ready){
+            System.out.println("dude");
+            if(((Packet10Ready) o).ready){
+                System.out.println("Received readyPacket");
+                //game.selectMap();
+            }
+        }
 
         else if( o instanceof FrameworkMessage.KeepAlive){
-            System.out.println("Stayin' Aliiiiiiiiiiiiiiiiiive!!!!!!!!!!!");
+            //System.out.println("Stayin' Aliiiiiiiiiiiiiiiiiive!!!!!!!!!!!");
         }
     }
 

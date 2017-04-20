@@ -6,6 +6,8 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 
+import no.fusiontd.MPAlternative.Packet.*;
+
 import java.io.IOException;
 
 import no.fusiontd.FusionTD;
@@ -43,25 +45,25 @@ public class MPClient extends Listener{
     private void registerPackets(){
         Kryo kryo = client.getKryo();
         kryo.register(java.util.ArrayList.class);
-        kryo.register(Packet.Packet0LoginRequest.class);
-        kryo.register(Packet.Packet1LoginAnswer.class);
-        kryo.register(Packet.Packet2Message.class);
-        kryo.register(Packet.Packet3Creep.class);
-        kryo.register(Packet.Packet4Lives.class);
-        kryo.register(Packet.Packet5score.class);
-        kryo.register(Packet.Packet6HighScore.class);
-        kryo.register(Packet.Packet7TowerPlaced.class);
-        kryo.register(Packet.Packet8Meta.class);
-        kryo.register(Packet.Packet9PlayerList.class);
-        kryo.register(Packet.Packet10RequestPlayerList.class);
-        kryo.register(Packet.Packet11RequestOpponent.class);
-        kryo.register(Packet.Packet12OpponentAnswer.class);
+        kryo.register(Packet0LoginRequest.class);
+        kryo.register(Packet1LoginAnswer.class);
+        kryo.register(Packet2Message.class);
+        kryo.register(Packet3Creep.class);
+        kryo.register(Packet4Lives.class);
+        kryo.register(Packet5score.class);
+        kryo.register(Packet6HighScore.class);
+        kryo.register(Packet7TowerPlaced.class);
+        kryo.register(Packet8Meta.class);
+        kryo.register(Packet9TowerUpgrade.class);
+        kryo.register(Packet10Ready.class);
     }
 
     public void received(Connection c, Object o) {
         if( o instanceof Packet.Packet1LoginAnswer){
             if(((Packet.Packet1LoginAnswer) o).accepted){
                 System.out.println("Logged in");
+                Packet.Packet10Ready ready = packetCreator.createReadyPacket(true);
+                client.sendUDP(ready);
             }
         }
         else if (o instanceof Packet.Packet2Message) {
@@ -85,6 +87,7 @@ public class MPClient extends Listener{
         else if ( o instanceof Packet.Packet8Meta){
             this.mapName = ((Packet.Packet8Meta) o).mapName;
             System.out.println("Launching game on map: " + ((Packet.Packet8Meta) o).mapName);
+            //game.startGame(mapName);  -_> No openglcontext found
         }
     }
 

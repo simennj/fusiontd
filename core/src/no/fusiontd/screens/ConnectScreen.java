@@ -28,11 +28,12 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
     private String serverIP, typedIPString;
     private boolean serverRunning = false;
     private Label labelIP, typedIPField;
-    private TextButton btnFindGame, btnHostGame, btnAccept;
+    private TextButton btnFindGame, btnHostGame, btnTest;
     private MenuStage stage;
     private LabelFactory labelFactory;
     private DialogFactory dialogFactory;
     private ExitButton exitButton;
+    private MPServer mpServer;
 
     public ConnectScreen(FusionTD game) {
         serverIP = null;
@@ -66,13 +67,13 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         labelIP = labelFactory.createLabel(serverIP);
         stage.addMenuContent(labelIP);
 
-
         final Dialog popUpDialog = dialogFactory.createDialog("", "Server is already running");
 
         btnHostGame = stage.createTextButton("Host Game", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(serverRunning){
+                    game.selectMap();
                     popUpDialog.show(stage);
 
                     Timer.schedule(new Timer.Task()
@@ -103,14 +104,11 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
             public void changed(ChangeEvent event, Actor actor) {
                 //System.out.println("clicked button FindGame");
 
-                if(btnFindGame.getText().equals("Play")){
-                    game.startGame(game.getMpc().getMapName());
-                }
-
-                else if(typedIPString != null){
+                if(typedIPString != null){
                     no.fusiontd.MPAlternative.MPClient mpClient = new no.fusiontd.MPAlternative.MPClient(typedIPString, game, "Saltminer");
                     mpClient.login();
-                    btnFindGame.setText("Play");
+                    game.initMPClient(mpClient);
+                    btnFindGame.setText("Connected");
                 }
 
                 else{
