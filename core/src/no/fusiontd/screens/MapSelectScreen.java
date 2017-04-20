@@ -39,7 +39,7 @@ public class MapSelectScreen implements Screen {
         stage.addMenuContent(textButtonFactory.createTextButton("Map 2", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.startGame("map2");
+                game.startGame("test");
             }
         }));
 

@@ -67,7 +67,7 @@ public class MenuScreen implements Screen{
         stage.addMenuContent(textButtonFactory.createTextButton("Map Editor", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.openOptions();
+                game.openMapEditor();
             }
         }));
 

@@ -1,118 +1,114 @@
 package no.fusiontd.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 import no.fusiontd.FusionTD;
-import no.fusiontd.game.CreepSpawner;
-import no.fusiontd.game.EntityComponentManager;
-import no.fusiontd.game.GameController;
-import no.fusiontd.game.Map;
-import no.fusiontd.maps.MapReader;
+import no.fusiontd.Graphics;
+import no.fusiontd.MenuStage;
+import no.fusiontd.maps.MapWriter;
 
-public class MapEditorScreen implements Screen, InputProcessor {
+public class MapEditorScreen implements Screen, Input.TextInputListener, InputProcessor {
 
 
+    private int width,height;
+    private FusionTD game;
+    private TextureAtlas atlas;
+    private Skin skin;
+    private List<String> playerList;
+    private String serverIP, MapName;
+    private boolean serverRunning = false;
+    private TextField typedIPField, serverIPField;
+    private TextButton btnCreateMap, btnHostGame, btnAccept;
+    private MenuStage stage;
     private static final float WIDTH = 16, HEIGHT = 9;
     public SpriteBatch batch;
     private float w, h;
-    private EntityComponentManager engine;
-    private FusionTD game;
-    private Map map;
-    private GameController controller;
-    private CreepSpawner creepSpawner;
     private OrthographicCamera camera;
     private float aspectRatio;
     private float tilesize;
     private int screenWidth, screenHeight;
     private float heightOffset, widthOffset;
-    private boolean multiplayer;
-    private String mapName="BlankMap";
-    private MapReader mapReader;
-
-    private Texture groundTex, roadTex, towerWhiteTex, towerBlueTex, pathStartTex, pathEndTex;
-
+    private MapEditorScreen.State state = MapEditorScreen.State.METADATA;
+    private String mapName;
+    private int[][] map;
+    public final int TILEROWS = 9, TILECOLS = 16;
 
     public MapEditorScreen(FusionTD game) {
         this.game = game;
+        atlas = new TextureAtlas(Gdx.files.internal("ui.atlas"));
     }
 
-
     @Override
-    public void show() {
-        camera = new OrthographicCamera(WIDTH, HEIGHT);
-        //map = new Map(mapName);
-        tilesize = Math.min(WIDTH / map.TILECOLS, HEIGHT / map.TILEROWS);
-        //controller = new GameController(map, this);
-        Gdx.input.setInputProcessor(this);
-        batch = new SpriteBatch();
-        //engine = new EntityComponentManager(this);
+    public void show(){
+        stage = new MenuStage();
+        Gdx.input.setInputProcessor(stage);
 
+        final TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Kenney Blocks.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 12;
+        final BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
+        generator.dispose(); // don't forget to dispose to avoid memory leaks!
+
+        //Displayed when you try you press HostGame a second time
+        Window.WindowStyle windowStyle = new Window.WindowStyle();
+        windowStyle.titleFont = font12;
+        TextureRegion windowBackground = uiAtlas.findRegion("yellow_button03");
+        windowStyle.background = new TextureRegionDrawable(windowBackground);
+
+        btnCreateMap = stage.createTextButton("Create Map", new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.input.getTextInput(MapEditorScreen.this, "Enter Map name", "", "Map Name");
+            }
+        });
+        camera = new OrthographicCamera(WIDTH, HEIGHT);
+        tilesize = Math.min(WIDTH / TILECOLS, HEIGHT / TILEROWS);
+        batch = new SpriteBatch();
+        map = new int[TILEROWS][TILECOLS];
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 1, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        drawMap(map, delta, batch);
-        batch.end();
-    }
-
-    private void drawMap(Map adj, float delta, SpriteBatch batch) {
-        for (int r = 0; r < adj.TILEROWS; r++) {
-            for (int c = 0; c < adj.TILECOLS; c++) {
-                batch.draw(getSprite(map.getTile(r, c)), c, r, 1, 1);
-            }
+        switch (state) {
+            case METADATA:
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                stage.act(Gdx.graphics.getDeltaTime());
+                stage.draw();
+                break;
+            case EDITING:
+                Gdx.gl.glClearColor(0, 1, 0, 1);
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                batch.setProjectionMatrix(camera.combined);
+                batch.begin();
+                drawMap(map, batch);
+                batch.end();
+                break;
         }
     }
 
-    private Texture getSprite(int type) {
-        switch (type) {
-            case 0:
-                return groundTex;
-            case 1:
-                return roadTex;
-            case 2:
-                return towerWhiteTex;
-            case 3:
-                return towerBlueTex;
-            case 4:
-                return pathStartTex;
-            case 5:
-                return pathEndTex;
-            default:
-                return groundTex;
-        }
-    }
-
-    private void initializeTextures() {
-        groundTex = new Texture("tiles/024.png");
-        roadTex = new Texture("tiles/050.png");
-        towerBlueTex = new Texture("tiles/128.png");
-        towerWhiteTex = new Texture("tiles/123.png");
-        pathStartTex = new Texture("tiles/091.png");
-        pathEndTex = new Texture("tiles/090.png");
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
+    public void dispose() {
+        stage.dispose();
     }
 
     @Override
@@ -121,12 +117,93 @@ public class MapEditorScreen implements Screen, InputProcessor {
     }
 
     @Override
-    public void dispose() {
+    public void input(String inputName) {
+        mapName = inputName;
+        state = State.EDITING;
+        Gdx.input.setInputProcessor(this);
+    }
 
+    @Override
+    public void canceled() {
+
+    }
+
+    public void setMap(String mapName) {
+        this.mapName = mapName;
+    }
+
+    private void drawMap(int[][] map, SpriteBatch batch) {
+        for (int y = 0; y < TILEROWS; y++) {
+            for (int x = 0; x < TILECOLS; x++) {
+                batch.draw(getSprite(map[MathUtils.floorPositive(MathUtils.clamp(y, 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(x, 0, TILECOLS - 1))]), x * tilesize, y * tilesize, tilesize, tilesize);
+            }
+        }
+    }
+
+    private TextureAtlas.AtlasRegion getSprite(int type) {
+        switch (type) {
+            case 0:
+                return Graphics.getRegion("groundTex");
+            case 1:
+                return Graphics.getRegion("roadTex");
+            case 2:
+                return Graphics.getRegion("pathStartTex");
+            case 3:
+                return Graphics.getRegion("pathEndTex");
+            default:
+                return Graphics.getRegion("groundTex");
+        }
+    }
+
+    public float getCameraX(int screenX) {
+        return (screenX - widthOffset) * w / screenWidth;
+    }
+
+    public float getCameraY(int screenY) {
+        return HEIGHT - (screenY - heightOffset) * h / screenHeight;
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        switch (state){
+            case METADATA:
+                stage.getViewport().update(width, height, true);
+                break;
+            case EDITING:
+                screenWidth = width;
+                screenHeight = height;
+                aspectRatio = (float) (width) / (float) (height);
+                if (aspectRatio > 16.0 / 9.0) {
+                    camera.viewportWidth = w = (HEIGHT * aspectRatio);
+                    camera.viewportHeight = h = HEIGHT;
+                    heightOffset = 0;
+                    widthOffset = (screenWidth - WIDTH * screenWidth / w) / 2;
+                } else {
+                    camera.viewportHeight = h = (WIDTH / aspectRatio);
+                    camera.viewportWidth = w = WIDTH;
+                    heightOffset = (screenHeight - HEIGHT * screenHeight / h) / 2;
+                    widthOffset = 0;
+                }
+                camera.position.set(WIDTH / 2, HEIGHT / 2, 0);
+                camera.update();
+                break;
+        }
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        switch (keycode) {
+            case 62:
+                saveMap();
+        }
         return false;
     }
 
@@ -142,14 +219,22 @@ public class MapEditorScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        switch (state) {
+            case METADATA:
+                break;
+            case EDITING:
+                if (map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] <= 3){
+                    map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))]++;
+                } else {
+                    map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] = 0;
+                }
+                break;
+        }
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        int tile = map.getTile(getCameraX(screenX), getCameraY(screenY));
-        map.placeTile((int)getCameraX(screenX), (int)getCameraY(screenY));
-
         return false;
     }
 
@@ -168,25 +253,15 @@ public class MapEditorScreen implements Screen, InputProcessor {
         return false;
     }
 
-    public int[][] newMap(){
-        int[][] initMap = new int[map.TILEROWS][map.TILECOLS];
-        for (int i=0; i<map.TILEROWS; i++){
-            for (int j=0; j<map.TILECOLS; j++){
-                initMap[i][j]=0;
-            }
-        }
-        return initMap;
+    public enum State {
+        METADATA,
+        EDITING,
     }
 
-    public int[][] loadMap(String mapName){
-        int[][] mapLoad = mapReader.loadMap(mapName, map.TILEROWS, map.TILECOLS);
-        return mapLoad;
-    }
-    public float getCameraX(int screenX) {
-        return (screenX - widthOffset) * w / screenWidth;
-    }
-
-    public float getCameraY(int screenY) {
-        return HEIGHT - (screenY - heightOffset) * h / screenHeight;
+    public boolean saveMap(){
+        MapWriter mapWriter = new MapWriter();
+        mapWriter.saveMap(map,mapName);
+        return false;
     }
 }
+
