@@ -40,6 +40,10 @@ public class MenuStage extends Stage {
     public void addMenuContent(Actor actor) {
         mainGroup.addActor(actor);
     }
+
+    public void removeMenuContent(Actor actor) {
+        mainGroup.removeActor(actor);
+    }
     /*
     public TextButton createTextButton(String text, ChangeListener listener) {
         TextButton button = buttonFactory.createTextButton(text, listener);

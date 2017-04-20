@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
@@ -67,6 +68,24 @@ public class MenuScreen implements Screen{
                 game.openOptions();
             }
         }));
+
+        /*
+        final TextButton mySpecialButton = textButtonFactory.createTextButton("mySpecial", new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("lolol");
+            }
+        });
+        stage.addMenuContent(mySpecialButton);
+
+        stage.addMenuContent(textButtonFactory.createTextButton("testButton", new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                stage.removeMenuContent(mySpecialButton);
+
+            }
+        }));*/
+
 
         stage.addImageButton(optionsButton);
 
