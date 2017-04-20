@@ -134,26 +134,35 @@ public class EntityComponentManager extends Engine {
                                 new Durability(10000000)
                         )),
                 new Upgradeable(10, new Targeting(3.5f, 1f, true,
-                        new Render(Graphics.getRegion("missile")),
+                        new Render(Graphics.getRegion("flame")),
                         new Timer(1),
-                        new Attack(.6f, 2),
+                        new Attack(.5f, 1),
                         new Durability(1),
-                        new Velocity(new Vector2(11, 0)),
+                        new Velocity(new Vector2(10, 0)),
                         new AddOnRemove(new Vector2(0, .5f),
-                                new Attack(.6f, 2))),
+                                new Render("explosion"),
+                                new Timer(2),
+                                new Attack(.6f, 2),
+                                new Durability(1000000)),
                         new Upgradeable(15, new Targeting(4f, 1.6f, true,
                                 new Render(Graphics.getRegion("missile")),
                                 new Timer(1),
                                 new Attack(.7f, 5),
                                 new Velocity(new Vector2(12, 0)),
                                 new AddOnRemove(new Vector2(0, .5f),
-                                        new Attack(.7f, 3))),
+                                        new Render("explosion"),
+                                        new Timer(2),
+                                        new Attack(.7f, 3),
+                                        new Durability(1000000))),
                                 new Upgradeable(20, new Targeting(4.5f, 1.4f, true,
                                         new Timer(1f),
                                         new Attack(.8f, 10),
                                         new Velocity(new Vector2(15, 0)),
                                         new AddOnRemove(new Vector2(0, .5f),
-                                                new Attack(.8f, 5)))))
+                                                new Attack(.8f, 5),
+                                                new Timer(2),
+                                                new Render("explosion"),
+                                                new Durability(10000000))))))
 
                 )));
 
@@ -237,6 +246,7 @@ public class EntityComponentManager extends Engine {
         towers = getEntitiesFor(Family.all(Geometry.class, Render.class, Targeting.class).get());
         for (Entity e : towers) {
             if((e.getComponent(Geometry.class).x - x) < 15 && e.getComponent(Geometry.class).y - y < 15) {
+                System.out.println(e.getComponent(Targeting.class).attackspeed);
                 return e;
             }
         }
