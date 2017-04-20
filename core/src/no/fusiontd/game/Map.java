@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Queue;
 
 public class Map {
+
+    //Map is represented as a grid (int[][]), where a cell-value of 0 means grass, 1 means road/path,
+    //2 means start (for path), and 3 means end of path.
     public final int TILEROWS = 9, TILECOLS = 16;
     public CatmullRomSpline<Vector2> path;
     private int[][] map;
@@ -39,18 +42,19 @@ public class Map {
     }
 
     public void placeTile(int x, int y){
+
         int tile = getTile(x, y);
         if (tile == 0){
-            map[getMapRow(y)][getMapCol(x)] = 1;
+            map[getMapRow(y)][getMapCol(x)] = 1;//place roadTexture
         }
         if (tile == 1){
-            map[getMapRow(y)][getMapCol(x)] = 2;
+            map[getMapRow(y)][getMapCol(x)] = 2;//place startPoint
         }
         if (tile == 2){
-            map[getMapRow(y)][getMapCol(x)] = 3;
+            map[getMapRow(y)][getMapCol(x)] = 3;//place endPoint
         }
-        if (tile==3){
-            map[getMapRow(y)][getMapCol(x)] = 0;
+        if (tile == 3){
+            map[getMapRow(y)][getMapCol(x)] = 0;//place grassTexture
         }
     }
 
