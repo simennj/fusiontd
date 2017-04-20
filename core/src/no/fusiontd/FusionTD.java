@@ -18,7 +18,7 @@ public class FusionTD extends Game {
     private Screen menuScreen;
 	private Screen optionScreen;
 	private Screen highscoreScreen;
-	private Screen mapEditorScreen;
+	private MapEditorScreen mapEditorScreen;
 	private PlayScreen playScreen;
 	private Screen connectScreen;
 	private Screen mapSelectScreen;

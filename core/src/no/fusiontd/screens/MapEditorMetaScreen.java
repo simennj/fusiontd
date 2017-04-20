@@ -1,143 +1,247 @@
 package no.fusiontd.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.fusiontd.FusionTD;
+import no.fusiontd.Graphics;
+import no.fusiontd.MenuStage;
 
-public class MapEditorMetaScreen implements Screen {
+public class MapEditorMetaScreen implements Screen, Input.TextInputListener, InputProcessor {
 
+
+    private int width,height;
     private FusionTD game;
-    private Stage stage;
+    private TextureAtlas atlas;
+    private Skin skin;
+    private List<String> playerList;
+    private String serverIP, MapName;
+    private boolean serverRunning = false;
+    private TextField typedIPField, serverIPField;
+    private TextButton btnCreateMap, btnHostGame, btnAccept;
+    private MenuStage stage;
+    private static final float WIDTH = 16, HEIGHT = 9;
+    public SpriteBatch batch;
+    private float w, h;
+    private OrthographicCamera camera;
+    private float aspectRatio;
+    private float tilesize;
+    private int screenWidth, screenHeight;
+    private float heightOffset, widthOffset;
+    private MapEditorMetaScreen.State state = MapEditorMetaScreen.State.METADATA;
+    private String mapName;
+    private int[][] map;
+    public final int TILEROWS = 9, TILECOLS = 16;
 
     public MapEditorMetaScreen(FusionTD game) {
         this.game = game;
+        atlas = new TextureAtlas(Gdx.files.internal("ui.atlas"));
     }
 
     @Override
     public void show(){
-        create();
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
-    }
-
-    public void create () {
-
-        stage = new Stage();
+        stage = new MenuStage(game);
         Gdx.input.setInputProcessor(stage);
 
-        TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
-
-        TextureRegion upRegion = uiAtlas.findRegion("blue_button00");
-        TextureRegion downRegion = uiAtlas.findRegion("blue_button03");
+        final TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Kenney Blocks.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 12;
-        BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
+        final BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.up = new TextureRegionDrawable(upRegion);
-        style.down = new TextureRegionDrawable(downRegion);
-        style.font = font12;
+        //Displayed when you try you press HostGame a second time
+        Window.WindowStyle windowStyle = new Window.WindowStyle();
+        windowStyle.titleFont = font12;
+        TextureRegion windowBackground = uiAtlas.findRegion("yellow_button03");
+        windowStyle.background = new TextureRegionDrawable(windowBackground);
 
-        Table table1 = new Table();
-        stage.addActor(table1);
-        table1.setPosition(stage.getWidth()/2, stage.getHeight()/2);
-
-        TextButton button1 = new TextButton("Button 1", style);
-        button1.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("touchDown 1");
-                return false;
-            }
-        });
-        table1.add(button1);
-
-        Table table2 = new Table();
-        stage.addActor(table2);
-        table2.setFillParent(true);
-        table2.setPosition(0,-stage.getHeight()/8);
-
-        TextButton button2 = new TextButton("Button 2", style);
-        button2.addListener(new ChangeListener() {
-            public void changed (ChangeEvent event, Actor actor) {
-                System.out.println("2!");
-            }
-        });
-        button2.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("touchDown 2");
-                return false;
-            }
-        });
-        table2.add(button2);
-
-        // back button
-        Button.ButtonStyle exitStyle = new Button.ButtonStyle();
-        exitStyle.up = new TextureRegionDrawable(uiAtlas.findRegion("grey_box"));
-        exitStyle.down = new TextureRegionDrawable(uiAtlas.findRegion("blue_boxCross"));
-
-        Table exitTable = new Table();
-        stage.addActor(exitTable);
-        exitTable.setFillParent(true);
-        exitTable.setPosition(stage.getWidth()/2 - stage.getWidth()/8,-stage.getHeight()/2 + stage.getHeight()/8);
-
-        Button exitButton = new Button(exitStyle);
-        exitButton.addListener(new ChangeListener() {
+        btnCreateMap = stage.createTextButton("Create Map", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.returnToMenu();
+                Gdx.input.getTextInput(MapEditorMetaScreen.this, "Enter Map name", "", "Map Name");
             }
         });
-        exitTable.add(exitButton);
+        camera = new OrthographicCamera(WIDTH, HEIGHT);
+        tilesize = Math.min(WIDTH / TILECOLS, HEIGHT / TILEROWS);
+        batch = new SpriteBatch();
+        map = new int[TILEROWS][TILECOLS];
     }
 
-    public void resize (int width, int height) {
-        stage.getViewport().update(width, height, true);
+    @Override
+    public void render(float delta) {
+        switch (state) {
+            case METADATA:
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                stage.act(Gdx.graphics.getDeltaTime());
+                stage.draw();
+                break;
+            case EDITING:
+                Gdx.input.setInputProcessor(stage);
+                Gdx.gl.glClearColor(0, 1, 0, 1);
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                batch.setProjectionMatrix(camera.combined);
+                batch.begin();
+                drawMap(map, batch);
+                batch.end();
+                break;
+        }
     }
 
-    public void dispose () {
+    public void dispose() {
         stage.dispose();
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
     }
 
     @Override
     public void hide() {
 
     }
+
+    @Override
+    public void input(String inputName) {
+        mapName = inputName;
+        state = State.EDITING;
+        dispose();
+    }
+
+    @Override
+    public void canceled() {
+
+    }
+
+    public void setMap(String mapName) {
+        this.mapName = mapName;
+    }
+
+    private void drawMap(int[][] map, SpriteBatch batch) {
+        for (int y = 0; y < TILEROWS; y++) {
+            for (int x = 0; x < TILECOLS; x++) {
+                batch.draw(getSprite(map[MathUtils.floorPositive(MathUtils.clamp(y, 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(x, 0, TILECOLS - 1))]), x * tilesize, y * tilesize, tilesize, tilesize);
+            }
+        }
+    }
+
+    private TextureAtlas.AtlasRegion getSprite(int type) {
+        switch (type) {
+            case 0:
+                return Graphics.getRegion("groundTex");
+            case 1:
+                return Graphics.getRegion("roadTex");
+            case 4:
+                return Graphics.getRegion("pathStartTex");
+            case 5:
+                return Graphics.getRegion("pathEndTex");
+            default:
+                return Graphics.getRegion("groundTex");
+        }
+    }
+
+    public float getCameraX(int screenX) {
+        return (screenX - widthOffset) * w / screenWidth;
+    }
+
+    public float getCameraY(int screenY) {
+        return HEIGHT - (screenY - heightOffset) * h / screenHeight;
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        switch (state){
+            case METADATA:
+                stage.getViewport().update(width, height, true);
+                break;
+            case EDITING:
+                screenWidth = width;
+                screenHeight = height;
+                aspectRatio = (float) (width) / (float) (height);
+                if (aspectRatio > 16.0 / 9.0) {
+                    camera.viewportWidth = w = (HEIGHT * aspectRatio);
+                    camera.viewportHeight = h = HEIGHT;
+                    heightOffset = 0;
+                    widthOffset = (screenWidth - WIDTH * screenWidth / w) / 2;
+                } else {
+                    camera.viewportHeight = h = (WIDTH / aspectRatio);
+                    camera.viewportWidth = w = WIDTH;
+                    heightOffset = (screenHeight - HEIGHT * screenHeight / h) / 2;
+                    widthOffset = 0;
+                }
+                camera.position.set(WIDTH / 2, HEIGHT / 2, 0);
+                camera.update();
+                break;
+        }
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
+    public enum State {
+        METADATA,
+        EDITING,
+    }
 }
+

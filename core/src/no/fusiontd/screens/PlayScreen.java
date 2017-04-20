@@ -99,9 +99,9 @@ public class PlayScreen implements Screen, InputProcessor {
                 return Graphics.getRegion("groundTex");
             case 1:
                 return Graphics.getRegion("roadTex");
-            case 4:
+            case 2:
                 return Graphics.getRegion("pathStartTex");
-            case 5:
+            case 3:
                 return Graphics.getRegion("pathEndTex");
             default:
                 return Graphics.getRegion("groundTex");
@@ -189,7 +189,7 @@ public class PlayScreen implements Screen, InputProcessor {
         } else if (engine.checkCreep(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
             // selected Creep
             ui.selectCreep(getCameraX(screenX), getCameraY(screenY));
-        } else if (map.getTile(getCameraX(screenX), getCameraY(screenY)) == 1 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 4 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 5){
+        } else if (map.getTile(getCameraX(screenX), getCameraY(screenY)) == 1 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 2 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 3){
             // is on road (or end or start), do nothing
             return false;
         } else if (!ui.isTowerSetting()){

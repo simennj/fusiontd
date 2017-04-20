@@ -62,14 +62,14 @@ public class UI{
             if (localPlayer.getCash() >= 5) {
                 showTowerSet = false;
                 engine.spawnTower("flameTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
-                localPlayer.addCash(-5);
+                localPlayer.addCash(-engine.getCost("flameTower"));
                 return true;
             } return false;
         } else if(cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY - 1.5f && cameraY < towerSettingY - 0.5f){
             if (localPlayer.getCash() >= 2) {
                 showTowerSet = false;
                 engine.spawnTower("cannonTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
-                localPlayer.addCash(-2);
+                localPlayer.addCash(-engine.getCost("cannonTower"));
                 return true;
             } return false;
         } else if (cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY + 0.5f && cameraY < towerSettingY + 1.5f){

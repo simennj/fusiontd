@@ -239,5 +239,11 @@ public class EntityComponentManager extends Engine {
         return false;
     }
 
+    public int getCost(String tower){
+        Entity e = spawn(blueprints.get(tower));
+        int cost = e.getComponent(Buyable.class).cost;
+        removeEntity(e);
+        return cost;
+    }
 
 }

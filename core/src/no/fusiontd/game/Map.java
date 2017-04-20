@@ -83,7 +83,7 @@ public class Map {
         for (int i = 0; i < TILEROWS; i++) {
             for (int j = 0; j < TILECOLS; j++) {
 
-                if (adj[i][j] == 4) {
+                if (adj[i][j] == 2) {
 
                     startPoint = new Point2D.Double(i, j);
                     points.add(startPoint);
@@ -91,7 +91,7 @@ public class Map {
 
                 }
 
-                if (adj[i][j] == 5) {
+                if (adj[i][j] == 3) {
                     endPoint = new Point2D.Double(i, j);
                     checked[i][j] = true;
                 }
