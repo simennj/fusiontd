@@ -68,7 +68,7 @@ public class UI{
         } else if(cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY - 1.5f && cameraY < towerSettingY - 0.5f){
             if (localPlayer.getCash() >= 2) {
                 showTowerSet = false;
-                engine.spawnTower("missileTower2", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+                engine.spawnTower("cannonTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
                 localPlayer.addCash(-2);
                 return true;
             } return false;

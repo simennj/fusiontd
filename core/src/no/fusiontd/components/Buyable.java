@@ -7,9 +7,9 @@ import no.fusiontd.CloneableComponent;
  */
 
 public class Buyable implements CloneableComponent<Buyable> {
-    public float cost;
+    public int cost;
 
-    Buyable(float cost) {
+    public Buyable(int cost) {
         this.cost = cost;
     }
     public Buyable cloneComponent() {
