@@ -59,7 +59,7 @@ public class MapEditorMetaScreen implements Screen, Input.TextInputListener, Inp
 
     @Override
     public void show(){
-        stage = new MenuStage(game);
+        stage = new MenuStage();
         Gdx.input.setInputProcessor(stage);
 
         final TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");

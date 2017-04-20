@@ -12,6 +12,7 @@ class Packet {
     static class Packet6HighScore{ String player; int finalScore;}
     static class Packet7TowerPlaced{ String towerType; float x; float y;}
     static class Packet8Meta{String mapName;}
+    static class Packet9TowerUpgrade{int towerID;/*smth*/}
 
     //might not need these
     static class Packet9PlayerList{ List<String> availablePlayers;}
