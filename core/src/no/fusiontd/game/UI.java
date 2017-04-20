@@ -41,7 +41,6 @@ public class UI{
     }
 
     public boolean isTowerSetting(){
-        System.out.println(showTowerSet);
         return showTowerSet;
     }
 
@@ -76,7 +75,7 @@ public class UI{
             if (localPlayer.getCash() >= 20) {
                 showTowerSet = false;
                 engine.spawnTower("sniperTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
-                localPlayer.addCash(-20);
+                localPlayer.addCash(-engine.getCost("sniperTower"));
                 return true;
             } return false;
         } else if (cameraX > 15.0f && cameraX < 15.7f && cameraY > 0.2f & cameraY < 0.9f){

@@ -26,6 +26,7 @@ public class EntityComponentManager extends Engine {
         super();
         this.localPlayer = localPlayer;
         this.mulPlayer = mulPlayer;
+
         addSystem(new VelocitySystem());
         addSystem(new RenderSystem(view.batch));
         addSystem(new PathSystem());
@@ -132,7 +133,7 @@ public class EntityComponentManager extends Engine {
                                 new Attack(.5f, 1),
                                 new Durability(10000000)
                         )),
-                new Upgradeable(10, new Targeting(3.5f, 1.8f, true,
+                new Upgradeable(10, new Targeting(3.5f, 1f, true,
                         new Render(Graphics.getRegion("missile")),
                         new Timer(1),
                         new Attack(.6f, 2),
@@ -232,6 +233,16 @@ public class EntityComponentManager extends Engine {
         return false;
     }
 
+    public Entity getTowerAt(float x, float y) {
+        towers = getEntitiesFor(Family.all(Geometry.class, Render.class, Targeting.class).get());
+        for (Entity e : towers) {
+            if((e.getComponent(Geometry.class).x - x) < 15 && e.getComponent(Geometry.class).y - y < 15) {
+                return e;
+            }
+        }
+        return null;
+    }
+
     public boolean checkCreep(Geometry geometry) {
         for (Entity creep : creeps) {
             if (mPos.get(creep).dst(geometry) < geometry.radius) return true;
@@ -240,10 +251,7 @@ public class EntityComponentManager extends Engine {
     }
 
     public int getCost(String tower){
-        Entity e = spawn(blueprints.get(tower));
-        int cost = e.getComponent(Buyable.class).cost;
-        removeEntity(e);
-        return cost;
+        return spawn(blueprints.get(tower)).getComponent(Buyable.class).cost;
     }
 
 }

@@ -1,5 +1,6 @@
 package no.fusiontd.screens;
 
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -184,8 +185,9 @@ public class PlayScreen implements Screen, InputProcessor {
             ui.towerSet(getCameraX(screenX), getCameraY(screenY));
         }
         else if (engine.checkTower(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
-            // selected Tower
+            // selected Tower and upgrade
             ui.selectTower(getCameraX(screenX), getCameraY(screenY));
+            engine.upgradeEntity(engine.getTowerAt(screenX,screenY));
         } else if (engine.checkCreep(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
             // selected Creep
             ui.selectCreep(getCameraX(screenX), getCameraY(screenY));
