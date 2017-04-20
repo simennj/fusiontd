@@ -3,7 +3,9 @@ package no.fusiontd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
@@ -28,6 +30,9 @@ public class MapSelectScreen implements Screen {
         stage = new MenuStage();
         textButtonFactory = new NormalTextButtonFactory();
         Gdx.input.setInputProcessor(stage);
+
+        Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
+        stage.setBackground(new Image(backgroundImage));
 
         stage.addMenuContent(textButtonFactory.createTextButton("Map 1", new ChangeListener() {
             @Override

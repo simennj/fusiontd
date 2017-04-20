@@ -18,6 +18,7 @@ import no.fusiontd.FusionTD;
 import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.MenuStage;
 import no.fusiontd.menu.DialogFactory;
+import no.fusiontd.menu.ExitButton;
 import no.fusiontd.menu.LabelFactory;
 
 public class ConnectScreen implements Screen, Input.TextInputListener {
@@ -31,6 +32,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
     private MenuStage stage;
     private LabelFactory labelFactory;
     private DialogFactory dialogFactory;
+    private ExitButton exitButton;
 
     public ConnectScreen(FusionTD game) {
         serverIP = null;
@@ -56,6 +58,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
 
         stage = new MenuStage();
         Gdx.input.setInputProcessor(stage);
+        exitButton = ExitButton.create(game);
 
         Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
         stage.setBackground(new Image(backgroundImage));
@@ -115,6 +118,8 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
                 }
             }
         });
+
+        stage.addImageButton(exitButton);
 
     }
 
