@@ -84,6 +84,8 @@ public class MapEditorLogic {
     }
 
     public boolean checkIfMapIsValid(int[][] adj){
+        //Function that checks for incomplete paths and if the map has  more than 1 startPoint or endPoint.
+        //Will also return false if there are road tiles which are not connected to the path.
 
         int endCounter = 0;
         int startCounter = 0;
@@ -93,10 +95,10 @@ public class MapEditorLogic {
         for (int i = 0; i < map.TILEROWS; i++) {
             for (int j = 0; j < map.TILECOLS; j++) {
 
-                if (adj[i][j]==4){
+                if (adj[i][j]==2){
                     startCounter=startCounter+1;
                 }
-                if (adj[i][j]==5){
+                if (adj[i][j]==3){
                     endCounter=endCounter+1;
                 }
 
@@ -114,6 +116,9 @@ public class MapEditorLogic {
     }
 
     public boolean checkIfPointIsInPath(List<Point2D> path, int i, int j){
+        //Takes a path, and coordinates (i and j) of another point, and sees if the given (i,j) point is in the path.
+        //Returns true if the point is in the path, and false if it's not in the path.
+        //Companion to the checkIfMapIsValid function.
 
         for (int k=0; k<path.size(); k++){
             Point2D point = path.get(k);
@@ -124,4 +129,5 @@ public class MapEditorLogic {
 
         return false;
     }
+
 }

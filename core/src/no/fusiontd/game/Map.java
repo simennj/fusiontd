@@ -38,34 +38,19 @@ public class Map {
         return MathUtils.floorPositive(MathUtils.clamp(y, 0, TILEROWS - 1));
     }
 
-
-    public void placeTower(float x, float y) {
-        placeTower((int) x, (int) y);
-    }
-
-    public void placeTower(int x, int y) {
-        int tile = getTile(x, y);
-        if (tile == 0) {
-            map[getMapRow(y)][getMapCol(x)] = 2;
-        } // placing white tower
-        else if (tile == 2) {
-            map[getMapRow(y)][getMapCol(x)] = 3;
-        } // placing blue tower
-        else if (tile == 3) {
-            map[getMapRow(y)][getMapCol(x)] = 0;
-        } // placing grass
-    }
-
     public void placeTile(int x, int y){
         int tile = getTile(x, y);
         if (tile == 0){
             map[getMapRow(y)][getMapCol(x)] = 1;
         }
         if (tile == 1){
-            map[getMapRow(y)][getMapCol(x)] = 4;
+            map[getMapRow(y)][getMapCol(x)] = 2;
         }
-        if (tile == 4){
-            map[getMapRow(y)][getMapCol(x)] = 5;
+        if (tile == 2){
+            map[getMapRow(y)][getMapCol(x)] = 3;
+        }
+        if (tile==3){
+            map[getMapRow(y)][getMapCol(x)] = 0;
         }
     }
 
