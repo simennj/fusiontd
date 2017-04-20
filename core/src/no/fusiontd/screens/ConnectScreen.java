@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -15,10 +17,11 @@ import com.badlogic.gdx.utils.Timer;
 import no.fusiontd.FusionTD;
 import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.MenuStage;
+import no.fusiontd.menu.DialogFactory;
+import no.fusiontd.menu.LabelFactory;
 
 public class ConnectScreen implements Screen, Input.TextInputListener {
 
-    private int width,height;
     private FusionTD game;
     private TextureAtlas atlas;
     private String serverIP, typedIPString;
@@ -26,10 +29,14 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
     private Label labelIP, typedIPField;
     private TextButton btnFindGame, btnHostGame, btnAccept;
     private MenuStage stage;
+    private LabelFactory labelFactory;
+    private DialogFactory dialogFactory;
 
     public ConnectScreen(FusionTD game) {
         serverIP = null;
         this.game = game;
+        this.labelFactory = new LabelFactory();
+        this.dialogFactory = new DialogFactory();
         atlas = new TextureAtlas(Gdx.files.internal("ui.atlas"));
     }
 
@@ -50,12 +57,14 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         stage = new MenuStage();
         Gdx.input.setInputProcessor(stage);
 
-        /*
-        labelIP = stage.createLabel(serverIP);
-        //labelIP.debug();
+        Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
+        stage.setBackground(new Image(backgroundImage));
+
+        labelIP = labelFactory.createLabel(serverIP);
+        stage.addMenuContent(labelIP);
 
 
-        final Dialog popUpDialog = stage.createDialog("", "Server is already running");
+        final Dialog popUpDialog = dialogFactory.createDialog("", "Server is already running");
 
         btnHostGame = stage.createTextButton("Host Game", new ChangeListener() {
             @Override
@@ -82,11 +91,9 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
             }
         });
 
+        typedIPField = labelFactory.createLabel("no Ip entered yet");
+        stage.addMenuContent(typedIPField);
 
-        // table.align(Align.right | Align.bottom);
-        typedIPField = stage.createLabel("no Ip entered yet");
-        //typedIPField.debug();
-        */
 
         btnFindGame = stage.createTextButton("Find Game", new ChangeListener() {
             @Override
