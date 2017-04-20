@@ -13,14 +13,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
 import no.fusiontd.MenuStage;
@@ -29,6 +24,9 @@ import no.fusiontd.maps.MapWriter;
 public class MapEditorScreen implements Screen, Input.TextInputListener, InputProcessor {
 
 
+    private static final float WIDTH = 16, HEIGHT = 9;
+    public final int TILEROWS = 9, TILECOLS = 16;
+    public SpriteBatch batch;
     private int width,height;
     private FusionTD game;
     private TextureAtlas atlas;
@@ -39,8 +37,6 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private TextField typedIPField, serverIPField;
     private TextButton btnCreateMap, btnHostGame, btnAccept;
     private MenuStage stage;
-    private static final float WIDTH = 16, HEIGHT = 9;
-    public SpriteBatch batch;
     private float w, h;
     private OrthographicCamera camera;
     private float aspectRatio;
@@ -50,7 +46,6 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private MapEditorScreen.State state = MapEditorScreen.State.METADATA;
     private String mapName;
     private int[][] map;
-    public final int TILEROWS = 9, TILECOLS = 16;
 
     public MapEditorScreen(FusionTD game) {
         this.game = game;
@@ -121,6 +116,8 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
         mapName = inputName;
         state = State.EDITING;
         Gdx.input.setInputProcessor(this);
+
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override
@@ -253,15 +250,15 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
         return false;
     }
 
-    public enum State {
-        METADATA,
-        EDITING,
-    }
-
     public boolean saveMap(){
         MapWriter mapWriter = new MapWriter();
         mapWriter.saveMap(map,mapName);
         return false;
+    }
+
+    public enum State {
+        METADATA,
+        EDITING,
     }
 }
 
