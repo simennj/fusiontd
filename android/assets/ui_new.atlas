@@ -1,0 +1,83 @@
+
+ui_new.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+back0
+  rotate: false
+  xy: 706, 765
+  size: 200, 176
+  orig: 200, 176
+  offset: 0, 0
+  index: -1
+back1
+  rotate: false
+  xy: 706, 589
+  size: 200, 174
+  orig: 200, 174
+  offset: 0, 0
+  index: -1
+button0
+  rotate: false
+  xy: 704, 943
+  size: 300, 63
+  orig: 300, 63
+  offset: 0, 0
+  index: -1
+button0shadow
+  rotate: false
+  xy: 2, 65
+  size: 400, 146
+  orig: 400, 146
+  offset: 0, 0
+  index: -1
+button1
+  rotate: false
+  xy: 2, 2
+  size: 300, 61
+  orig: 300, 61
+  offset: 0, 0
+  index: -1
+button1shadow
+  rotate: false
+  xy: 404, 125
+  size: 400, 146
+  orig: 400, 146
+  offset: 0, 0
+  index: -1
+gear0
+  rotate: false
+  xy: 404, 574
+  size: 300, 299
+  orig: 300, 299
+  offset: 0, 0
+  index: -1
+gear0shadow
+  rotate: false
+  xy: 2, 544
+  size: 400, 329
+  orig: 400, 329
+  offset: 0, 0
+  index: -1
+gear1
+  rotate: false
+  xy: 404, 273
+  size: 300, 299
+  orig: 300, 299
+  offset: 0, 0
+  index: -1
+gear1shadow
+  rotate: false
+  xy: 2, 213
+  size: 400, 329
+  orig: 400, 329
+  offset: 0, 0
+  index: -1
+logogrey
+  rotate: false
+  xy: 2, 875
+  size: 700, 131
+  orig: 700, 131
+  offset: 0, 0
+  index: -1

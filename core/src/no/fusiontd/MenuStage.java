@@ -8,13 +8,19 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import sun.security.util.DisabledAlgorithmConstraints;
 
 public class MenuStage extends Stage {
 
@@ -22,6 +28,7 @@ public class MenuStage extends Stage {
     private VerticalGroup mainGroup;
     private Skin skin;
     private FusionTD game;
+    private Label.LabelStyle popUpTextStyle;
 
     public MenuStage(FusionTD game) {
         super(new FitViewport(1280, 720));
@@ -34,35 +41,37 @@ public class MenuStage extends Stage {
     }
 
     private void populateSkin() {
-        BitmapFont font = generateBitmapFont();
-        BitmapFont tfFont = generateTextFieldBitMapFont();
+        BitmapFont font = generateBitmapFont(64);
+        BitmapFont tfFont = generateBitmapFont(22);
         NinePatchDrawable blueButton = new NinePatchDrawable(uiAtlas.createPatch("blue_button"));
         NinePatchDrawable blueButtonPressed = new NinePatchDrawable(uiAtlas.createPatch("blue_button_pressed"));
         NinePatchDrawable redButton = new NinePatchDrawable(uiAtlas.createPatch("red_button"));
         NinePatchDrawable redButtonPressed = new NinePatchDrawable(uiAtlas.createPatch("red_button_pressed"));
+        NinePatchDrawable yellowPopup = new NinePatchDrawable(uiAtlas.createPatch("yellow_popUp"));
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle(tfFont, Color.WHITE);
+        labelStyle.background = redButton;
+
+        popUpTextStyle = new Label.LabelStyle(tfFont, Color.BLACK);
+
         skin.add("font", font, BitmapFont.class);
+        skin.add("tfFont", tfFont, BitmapFont.class);
         skin.add("default", new TextButton.TextButtonStyle(blueButton, blueButtonPressed, blueButtonPressed, font));
         skin.add("red", new TextButton.TextButtonStyle(redButton, redButtonPressed, redButtonPressed, font));
         skin.add("red", new Button.ButtonStyle(redButton, redButtonPressed, redButtonPressed));
-        skin.add("default", new TextField.TextFieldStyle(tfFont, Color.BLACK, redButton, redButtonPressed, redButtonPressed));
+        skin.add("default", new TextField.TextFieldStyle(tfFont, Color.WHITE, redButton, redButtonPressed, redButtonPressed));
+        skin.add("default", labelStyle);
+        skin.add("default", new Window.WindowStyle(tfFont, Color.BLACK, yellowPopup));
+
     }
 
-    private BitmapFont generateBitmapFont() {
+    private BitmapFont generateBitmapFont(int fontSize) {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Kenney Blocks.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 64;
+        parameter.size = fontSize;
         BitmapFont font = generator.generateFont(parameter);
         generator.dispose();
         return font;
-    }
-
-    private BitmapFont generateTextFieldBitMapFont(){
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Kenney Blocks.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 12;
-        BitmapFont font12 = generator.generateFont(parameter);
-        generator.dispose();
-        return font12;
     }
 
     private void createMenuGroup() {
@@ -91,6 +100,20 @@ public class MenuStage extends Stage {
         button.pad(8, 8, 8, 8);
         mainGroup.addActor(button);
         return button;
+    }
+
+    public Label createLabel(String text){
+        Label label = new Label(text, skin);
+        label.setAlignment(Align.center);
+        mainGroup.addActor(label);
+        return label;
+    }
+
+    public Dialog createDialog(String title, String text){
+        Dialog dialog = new Dialog(title, skin);
+        dialog.text(text, popUpTextStyle);
+
+        return dialog;
     }
 
     public TextField createTextField(String text){
