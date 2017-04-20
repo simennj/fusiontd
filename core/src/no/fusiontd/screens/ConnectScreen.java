@@ -47,9 +47,10 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
 
     public void create () {
 
-        stage = new MenuStage(game);
+        stage = new MenuStage();
         Gdx.input.setInputProcessor(stage);
 
+        /*
         labelIP = stage.createLabel(serverIP);
         //labelIP.debug();
 
@@ -81,9 +82,11 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
             }
         });
 
+
         // table.align(Align.right | Align.bottom);
         typedIPField = stage.createLabel("no Ip entered yet");
         //typedIPField.debug();
+        */
 
         btnFindGame = stage.createTextButton("Find Game", new ChangeListener() {
             @Override

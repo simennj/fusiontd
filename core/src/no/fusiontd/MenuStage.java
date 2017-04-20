@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import no.fusiontd.menu.NormalTextButtonFactory;
 import sun.security.util.DisabledAlgorithmConstraints;
 
 import no.fusiontd.menu.ExitButton;
@@ -30,6 +31,7 @@ import no.fusiontd.menu.TextButtonFactory;
 public class MenuStage extends Stage {
 
     private VerticalGroup mainGroup;
+    private NormalTextButtonFactory textButtonFactory;
     private Skin skin;
     private FusionTD game;
     private Label.LabelStyle popUpTextStyle;
@@ -37,6 +39,7 @@ public class MenuStage extends Stage {
     public MenuStage() {
         super(new FitViewport(1280, 720));
         createMenuGroup();
+        this.textButtonFactory = new NormalTextButtonFactory();
         //addImageButton();
     }
 
@@ -59,8 +62,9 @@ public class MenuStage extends Stage {
         mainGroup.addActor(actor);
     }
 
+
     public TextButton createTextButton(String text, ChangeListener listener) {
-        TextButton button = buttonFactory.createTextButton(text, listener);
+        TextButton button = textButtonFactory.createTextButton(text, listener);
         mainGroup.addActor(button);
         return button;
     }
