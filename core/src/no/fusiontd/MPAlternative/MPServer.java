@@ -53,7 +53,6 @@ public class MPServer extends Listener {
 
     private void registerPackets(){
         Kryo kryo = server.getKryo();
-        kryo.register(Entity.class);
         kryo.register(java.util.ArrayList.class);
         kryo.register(Packet0LoginRequest.class);
         kryo.register(Packet1LoginAnswer.class);
@@ -86,7 +85,6 @@ public class MPServer extends Listener {
     }
 
     public void received(Connection c, Object o) {
-        System.out.println("received" + o.toString());
         if (o instanceof Packet.Packet0LoginRequest){
             Packet.Packet1LoginAnswer lPacket = new Packet.Packet1LoginAnswer();
             lPacket.accepted = true;
@@ -153,6 +151,7 @@ public class MPServer extends Listener {
     }
 
     public void sendMetaData(String mapName){
+        System.out.println("Sending metadata: " + mapName);
         Packet8Meta metaPacket = packetCreator.createMetaPacket(mapName);
         connection.sendUDP(metaPacket);
     }
@@ -174,5 +173,9 @@ public class MPServer extends Listener {
 
     public void initEngine(EntityComponentManager engine){
         this.engine = engine;
+    }
+
+    public Connection getConnection(){
+        return connection;
     }
 }

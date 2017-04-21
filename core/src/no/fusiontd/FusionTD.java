@@ -49,7 +49,6 @@ public class FusionTD extends Game {
 			if(mpc == null){
 				System.out.println("setting mpServer in playscreen");
 				playScreen.setMpServer(mpServer);
-				System.out.println("Sending metadata");
 				mpServer.sendMetaData(mapName);
 			}
 			else if(mpServer == null){
