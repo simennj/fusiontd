@@ -5,11 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -26,12 +23,9 @@ import no.fusiontd.menu.DialogFactory;
 import no.fusiontd.menu.ExitButton;
 import no.fusiontd.menu.LabelFactory;
 
-import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.actor;
-
 public class ConnectScreen implements Screen, Input.TextInputListener {
 
     private FusionTD game;
-    private TextureAtlas atlas;
     private String serverIP, typedIPString;
     private boolean serverRunning = false;
     private Label labelIP, typedIPField;
@@ -49,7 +43,6 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         this.game = game;
         this.labelFactory = new LabelFactory();
         this.dialogFactory = new DialogFactory();
-        atlas = new TextureAtlas(Gdx.files.internal("ui.atlas"));
         pending = false;
     }
 
