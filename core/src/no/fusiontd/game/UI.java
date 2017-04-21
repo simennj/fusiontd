@@ -31,8 +31,6 @@ public class UI{
         this.showTowerSet = false;
         this.engine = engine;
         this.multiPlayer = false;
-        font = new BitmapFont(Gdx.files.internal("fonts/main.fnt"),
-                Gdx.files.internal("fonts/main.png"), false);
     }
 
     public void render(SpriteBatch batch) {
