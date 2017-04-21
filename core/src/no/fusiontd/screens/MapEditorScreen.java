@@ -16,6 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
+
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
 import no.fusiontd.MenuStage;
@@ -44,6 +48,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private int screenWidth, screenHeight;
     private float heightOffset, widthOffset;
     private MapEditorScreen.State state = MapEditorScreen.State.METADATA;
+    public tileType tileType;
     private String mapName;
     private int[][] map;
 
@@ -150,6 +155,39 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
             default:
                 return Graphics.getRegion("groundTex");
         }
+    }
+
+    public enum tileType{
+        PATH,
+        GRASS,
+        NORTH,
+        EAST,
+        SOUTH,
+        WEST,
+        NORTHEAST,
+        NORTHWEST,
+        SOUTHEAST,
+        SOUTHWEST,
+    }
+
+    private TextureAtlas.AtlasRegion checkNeighbours(int[][] map, int x, int y){
+
+        int[] grass = {0,0,0,0,0,0,0,0};
+        int[] neighbours = {0,0,0,0,0,0,0,0};
+        neighbours[0] = map[x-1][y-1];
+        neighbours[1] = map[x][y-1];
+        neighbours[2] = map[x+1][y-1];
+        neighbours[3] = map[x+1][y];
+        neighbours[4] = map[x+1][y+1];
+        neighbours[5] = map[x][y+1];
+        neighbours[6] = map[x-1][y+1];
+        neighbours[7] = map[x-1][y];
+
+
+            if (neighbours.equals(grass)){
+                Graphics.getTile(tileType.GRASS);
+            }
+        return Graphics.getTile(tileType.GRASS);
     }
 
     public float getCameraX(int screenX) {
