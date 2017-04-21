@@ -1,5 +1,6 @@
 package no.fusiontd.MPAlternative;
 
+import com.badlogic.ashley.core.Entity;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -11,6 +12,8 @@ import no.fusiontd.MPAlternative.Packet.*;
 import java.io.IOException;
 
 import no.fusiontd.FusionTD;
+import no.fusiontd.components.Geometry;
+import no.fusiontd.game.EntityComponentManager;
 
 
 public class MPClient extends Listener{
@@ -22,6 +25,7 @@ public class MPClient extends Listener{
     private static PacketCreator packetCreator;
     private String playerName, mapName;
     private FusionTD game;
+    private EntityComponentManager engine;
 
     public MPClient(String serverIP, FusionTD game, String playerName) {
         this.serverIP = serverIP;
@@ -73,8 +77,11 @@ public class MPClient extends Listener{
             c.sendUDP(o);
         }
 
-        else if( o instanceof FrameworkMessage.KeepAlive){
-            //System.out.println("Stayin' Aliiiiiiiiiiiiiiiiiive!!!!!!!!!!!");
+        else if( o instanceof Packet7TowerPlaced){
+            System.out.println("Received towerPacket");
+            String type = ((Packet7TowerPlaced) o).type;
+            Entity towerEntity = ((Packet7TowerPlaced) o).tower;
+            engine.spawnTower(type , towerEntity.getComponent(Geometry.class));
         }
 
         else if( o instanceof Packet.Packet3Creep){
@@ -90,6 +97,9 @@ public class MPClient extends Listener{
             System.out.println("Launching game on map: " + ((Packet.Packet8Meta) o).mapName);
             //game.startGame(mapName);  -_> No openglcontext found
         }
+        else if( o instanceof FrameworkMessage.KeepAlive){
+            //System.out.println("Stayin' Aliiiiiiiiiiiiiiiiiive!!!!!!!!!!!");
+        }
     }
 
     public void login(){
@@ -98,8 +108,9 @@ public class MPClient extends Listener{
     }
 
 
-    public void sendTower(String towerType, float xpos, float ypos){
-        Packet.Packet7TowerPlaced towerPacket = packetCreator.createTowerPacket(towerType, xpos, ypos);
+    public void sendTower(String towerType, Entity tower){
+        System.out.println("sending towerPacket");
+        Packet7TowerPlaced towerPacket = packetCreator.createTowerPacket(towerType, tower);
         client.sendUDP(towerPacket);
     }
 
@@ -115,5 +126,9 @@ public class MPClient extends Listener{
 
     public String getMapName(){
         return mapName;
+    }
+
+    public void initEngine(EntityComponentManager engine){
+        this.engine = engine;
     }
 }

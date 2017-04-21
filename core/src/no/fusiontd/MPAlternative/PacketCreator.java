@@ -1,6 +1,8 @@
 package no.fusiontd.MPAlternative;
 
 
+import com.badlogic.ashley.core.Entity;
+
 /**
  * Created by Odd on 14.04.2017.
  */
@@ -50,11 +52,10 @@ class PacketCreator {
         return highScore;
     }
 
-    Packet.Packet7TowerPlaced createTowerPacket(String towerType, float x, float y){
+    Packet.Packet7TowerPlaced createTowerPacket(String towerType, Entity tower){
         Packet.Packet7TowerPlaced towerPlaced = new Packet.Packet7TowerPlaced();
-        towerPlaced.towerType = towerType;
-        towerPlaced.x = x;
-        towerPlaced.y = y;
+        towerPlaced.tower = tower;
+        towerPlaced.type = towerType;
         return towerPlaced;
     }
 

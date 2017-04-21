@@ -2,12 +2,16 @@ package no.fusiontd.MPAlternative;
 
 import no.fusiontd.FusionTD;
 import no.fusiontd.MPAlternative.Packet.*;
+import no.fusiontd.components.Geometry;
+import no.fusiontd.game.EntityComponentManager;
 
+import com.badlogic.ashley.core.Entity;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.minlog.Log;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -26,15 +30,16 @@ public class MPServer extends Listener {
     private static PacketCreator packetCreator;
     private FusionTD game;
     private String playerName;
+    private EntityComponentManager engine;
 
     public MPServer(FusionTD game, String playerName){
-
         this.game = game;
         this.playerName = playerName;
         server = new Server();
         packetCreator = new PacketCreator();
         packetCreator = new PacketCreator();
         server.addListener(this);
+
 
         try{
             server.bind(tcpPort, udpPort);
@@ -81,6 +86,7 @@ public class MPServer extends Listener {
     }
 
     public void received(Connection c, Object o) {
+        System.out.println("received" + o.toString());
         if (o instanceof Packet.Packet0LoginRequest){
             Packet.Packet1LoginAnswer lPacket = new Packet.Packet1LoginAnswer();
             lPacket.accepted = true;
@@ -92,11 +98,24 @@ public class MPServer extends Listener {
             c.sendUDP(o);
         }
         else if( o instanceof Packet10Ready){
-            System.out.println("dude");
             if(((Packet10Ready) o).ready){
                 System.out.println("Received readyPacket");
                 //game.selectMap();
             }
+        }
+        else if( o instanceof Packet7TowerPlaced){
+            System.out.println("Received towerPacket");
+            String type = ((Packet7TowerPlaced) o).type;
+            Entity towerEntity = ((Packet7TowerPlaced) o).tower;
+            engine.spawnTower(type , towerEntity.getComponent(Geometry.class));
+        }
+
+        else if( o instanceof Packet.Packet3Creep){
+            //Create creep or something
+        }
+
+        else if(o instanceof Packet.Packet4Lives){
+            //Update lives
         }
 
         else if( o instanceof FrameworkMessage.KeepAlive){
@@ -136,8 +155,9 @@ public class MPServer extends Listener {
         Packet8Meta metaPacket = packetCreator.createMetaPacket(mapName);
         connection.sendUDP(metaPacket);
     }
-    public void sendTower(String towerType, float xpos, float ypos){
-        Packet7TowerPlaced towerPacket = packetCreator.createTowerPacket(towerType, xpos, ypos);
+    public void sendTower(String towerType, Entity tower){
+        System.out.println("sending towerPacket");
+        Packet7TowerPlaced towerPacket = packetCreator.createTowerPacket(towerType, tower);
         connection.sendUDP(towerPacket);
     }
 
@@ -149,5 +169,9 @@ public class MPServer extends Listener {
     public void sendCreeps(int creepnum){
         Packet3Creep creepPacket = packetCreator.createCreepPacket(creepnum);
         connection.sendUDP(creepPacket);
+    }
+
+    public void initEngine(EntityComponentManager engine){
+        this.engine = engine;
     }
 }
