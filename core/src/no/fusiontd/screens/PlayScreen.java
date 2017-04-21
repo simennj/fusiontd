@@ -220,13 +220,9 @@ public class PlayScreen implements Screen, InputProcessor {
         return false;
     }
 
-    public void setMpServer(MPServer mpServer){
-        this.mpServer = mpServer;
-    }
+    public void setMpServer(MPServer mpServer){ this.mpServer = mpServer; ui.initMPServer(mpServer);}
 
-    public void setMpClient(MPClient mpClient){
-        this.mpClient = mpClient;
-    }
+    public void setMpClient(MPClient mpClient){ this. mpClient = mpClient; ui.initMPClient(mpClient);}
 
     public enum State {
         PAUSE,

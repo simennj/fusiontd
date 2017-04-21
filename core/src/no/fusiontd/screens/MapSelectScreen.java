@@ -2,10 +2,14 @@ package no.fusiontd.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
@@ -34,26 +38,34 @@ public class MapSelectScreen implements Screen {
         Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
         stage.setBackground(new Image(backgroundImage));
 
-        stage.addMenuContent(textButtonFactory.createTextButton("Map 1", new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.startGame("map1");
-            }
-        }));
+        //1. Navigate to the map folder, find amount of maps. maps are found in android/maps.
+        FileHandle[] files = Gdx.files.local("maps/").list();
+        int numberOfMaps=files.length;
+        //2. create and add textButtons to a table.
+        Table table = new Table();
+        //final String mapName;
+        for (int i=0; i<numberOfMaps; i++){
+            final String mapName=files[i].nameWithoutExtension();//
+            table.add(textButtonFactory.createTextButton(mapName, new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.startGame(mapName);
+                }
+            }));
+            table.row();
+        }
 
-        stage.addMenuContent(textButtonFactory.createTextButton("Map 2", new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.startGame("map2");
-            }
-        }));
+        //3. create a scrollPane (?) with the table
 
-        stage.addMenuContent(textButtonFactory.createTextButton("Map 3", new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.startGame("map3");
-            }
-        }));
+        ScrollPane scrollPane = new ScrollPane(table);
+        Table container = new Table();
+        container.add(scrollPane).width(500f).height(410f);
+
+        //4. set scrollPane's position and size. You can disable scrolling in a direction using scrollPane.setScrollingDisabled()
+        scrollPane.setSize(10, 10);
+
+        //5. add ScrollPane to stage.
+        stage.addMenuContent(container);
 
         stage.addImageButton(exitButton);
     }

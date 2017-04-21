@@ -76,14 +76,14 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
             public void changed(ChangeEvent event, Actor actor) {
                 if (serverRunning) {
                     game.selectMap();
-                    popUpDialog.show(stage);
+                    /*popUpDialog.show(stage);
 
                     Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
                             popUpDialog.hide();
                         }
-                    }, 2);
+                    }, 2);*/
                 } else {
                     mpServer = new MPServer(game, "Haxor1337");
                     serverIP = mpServer.getIp();
@@ -107,16 +107,19 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
                     mpClient.login();
                     game.initMPClient(mpClient);
                     btnFindGame.setText("Connected");
-                    Timer.schedule(new Timer.Task() {
+
+                    final Timer timer = Timer.instance();
+                    timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
-                            System.out.println("Checking for map in mpClient");
+                            System.out.println("Checking for map in mpClient: " + mpClient.getMapName());
                             if(!mpClient.getMapName().equals("")){
                                 game.startGame(mpClient.getMapName());
+                                timer.clear();
                             }
                         }
                     }, 2, 2, 10);
-                } else {
+                } else{
                     Gdx.input.getTextInput(ConnectScreen.this, "Enter Ip to Connect to", "", "");
                 }
             }

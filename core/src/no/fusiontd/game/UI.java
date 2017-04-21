@@ -1,12 +1,16 @@
 package no.fusiontd.game;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.LinkedList;
 
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
+import no.fusiontd.MPAlternative.MPClient;
+import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.components.Buyable;
 import no.fusiontd.components.Geometry;
 
@@ -17,11 +21,16 @@ public class UI{
     private boolean showTowerSet = false;
     private float towerSettingX, towerSettingY;
     private EntityComponentManager engine;
+    private MPClient mpClient;
+    private MPServer mpServer;
+    private boolean multiPlayer;
+    private BitmapFont font;
 
     public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine) {
         this.game = game; this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
         this.showTowerSet = false;
         this.engine = engine;
+        this.multiPlayer = false;
     }
 
     public void render(SpriteBatch batch) {
@@ -66,6 +75,16 @@ public class UI{
             if (localPlayer.getCash() >= 5) {
                 showTowerSet = false;
                 engine.spawnTower("flameTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+
+                //Sends tower to the other player
+                if(multiPlayer) {
+                    if (mpClient == null) {
+                        mpServer.sendTower("flameTower", cameraX, cameraY);
+                    } else if (mpServer == null) {
+                        mpClient.sendTower("flameTower", cameraX, cameraY);
+                    }
+                }
+
                 localPlayer.addCash(-engine.getCost("flameTower"));
                 return true;
             } return false;
@@ -76,11 +95,25 @@ public class UI{
                 localPlayer.addCash(-engine.getCost("cannonTower"));
                 return true;
             } return false;
+        } else if(cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY - 0.5f && cameraY < towerSettingY + 0.5f){
+            if (localPlayer.getCash() >= 5) {
+                showTowerSet = false;
+                engine.spawnTower("flameTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+                localPlayer.addCash(-engine.getCost("flameTower"));
+                return true;
+            } return false;
         } else if (cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY + 0.5f && cameraY < towerSettingY + 1.5f){
             if (localPlayer.getCash() >= 20) {
                 showTowerSet = false;
                 engine.spawnTower("sniperTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
                 localPlayer.addCash(-engine.getCost("sniperTower"));
+                return true;
+            } return false;
+        } else if (cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY + 1.5f && cameraY < towerSettingY + 2.5f){
+            if (localPlayer.getCash() >= 20) {
+                showTowerSet = false;
+                engine.spawnTower("missileTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+                localPlayer.addCash(-engine.getCost("missileTower"));
                 return true;
             } return false;
         } else if (cameraX > 15.0f && cameraX < 15.7f && cameraY > 0.2f & cameraY < 0.9f){
@@ -178,5 +211,17 @@ public class UI{
                     System.out.println("cash:" + localPlayer.getCash());
             }
         }
+    }
+
+    public void initMPClient(MPClient mpClient){
+        this.mpClient = mpClient;
+        mpClient.initEngine(engine);
+        multiPlayer = true;
+    }
+
+    public void initMPServer(MPServer mpServer){
+        this.mpServer = mpServer;
+        mpServer.initEngine(engine);
+        multiPlayer = true;
     }
 }

@@ -42,7 +42,7 @@ public class FusionTD extends Game {
 		playScreen = new PlayScreen(this, multiplayer);
 		playScreen.setMap(mapName);
 		setScreen(playScreen);
-		System.out.println("Runs startgame");
+		//System.out.println("Runs startgame");
 
 		if(multiplayer){
 			//passes client or server to playscreen based on which one has been instantiated, does nothing if neither is instantiated
@@ -54,6 +54,7 @@ public class FusionTD extends Game {
 			}
 			else if(mpServer == null){
 				//Sends metadata to the client and starts game
+				System.out.println("setting mpClient in playscreen");
 				playScreen.setMpClient(mpc);
 			}
 		}
