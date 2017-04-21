@@ -172,6 +172,7 @@ public class EntityComponentManager extends Engine {
                 new Buyable(5),
                 new Targeting(1, .05f, new Vector2(0, .5f), true,
                         new Render(Graphics.getRegion("flame")),
+                        new Timer(1),
                         new Attack(.05f, 30),
                         new Durability(30)
                 ),
@@ -181,6 +182,7 @@ public class EntityComponentManager extends Engine {
                         new Durability(40)),
                         new Upgradeable(15, new Targeting(1, .05f, new Vector2(0, .5f), true,
                                 new Attack(.05f, 60),
+                                new Timer(1),
                                 new Render(Graphics.getRegion("flame")),
                                 new Durability(60))))
         ));
@@ -244,8 +246,9 @@ public class EntityComponentManager extends Engine {
 
     public Entity getTowerAt(float x, float y) {
         towers = getEntitiesFor(Family.all(Geometry.class, Render.class, Targeting.class).get());
+
         for (Entity e : towers) {
-            if((e.getComponent(Geometry.class).x - x) < 15 && e.getComponent(Geometry.class).y - y < 15) {
+            if (mPos.get(e).dst(e.getComponent(Geometry.class)) < e.getComponent(Geometry.class).radius) {
                 System.out.println(e.getComponent(Targeting.class).attackspeed);
                 return e;
             }

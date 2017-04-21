@@ -63,5 +63,11 @@ class PacketCreator {
         metaPacket.mapName = metadata;
         return metaPacket;
     }
+
+    Packet.Packet10Ready createReadyPacket(boolean ready){
+        Packet.Packet10Ready packet10Ready = new Packet.Packet10Ready();
+        packet10Ready.ready = ready;
+        return packet10Ready;
+    }
 }
 
