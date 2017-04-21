@@ -41,9 +41,9 @@ public class MapSelectScreen implements Screen {
         //1. Navigate to the map folder, find amount of maps. maps are found in android/maps.
         FileHandle[] files = Gdx.files.local("maps/").list();
         int numberOfMaps=files.length;
+
         //2. create and add textButtons to a table.
         Table table = new Table();
-        //final String mapName;
         for (int i=0; i<numberOfMaps; i++){
             final String mapName=files[i].nameWithoutExtension();//
             table.add(textButtonFactory.createTextButton(mapName, new ChangeListener() {
@@ -62,7 +62,6 @@ public class MapSelectScreen implements Screen {
         container.add(scrollPane).width(500f).height(410f);
 
         //4. set scrollPane's position and size. You can disable scrolling in a direction using scrollPane.setScrollingDisabled()
-        scrollPane.setSize(10, 10);
 
         //5. add ScrollPane to stage.
         stage.addMenuContent(container);
