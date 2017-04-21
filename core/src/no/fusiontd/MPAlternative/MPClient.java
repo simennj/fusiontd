@@ -97,9 +97,9 @@ public class MPClient extends Listener{
             this.mapName = ((Packet.Packet8Meta) o).mapName;
             System.out.println("Launching game on map: " + ((Packet.Packet8Meta) o).mapName);
         }
-        else if( o instanceof FrameworkMessage.KeepAlive){
+        /*else if( o instanceof FrameworkMessage.KeepAlive){
             //System.out.println("Stayin' Aliiiiiiiiiiiiiiiiiive!!!!!!!!!!!");
-        }
+        }*/
     }
 
     public void login(){
@@ -130,5 +130,9 @@ public class MPClient extends Listener{
 
     public void initEngine(EntityComponentManager engine){
         this.engine = engine;
+    }
+
+    public void stopClient(){
+        client.stop();
     }
 }

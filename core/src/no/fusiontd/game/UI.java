@@ -24,7 +24,6 @@ public class UI{
     private MPClient mpClient;
     private MPServer mpServer;
     private boolean multiPlayer;
-    private BitmapFont font;
 
     public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine) {
         this.game = game; this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
@@ -78,11 +77,7 @@ public class UI{
 
                 //Sends tower to the other player
                 if(multiPlayer) {
-                    if (mpClient == null) {
-                        mpServer.sendTower("flameTower", cameraX, cameraY);
-                    } else if (mpServer == null) {
-                        mpClient.sendTower("flameTower", cameraX, cameraY);
-                    }
+                    sendTower("flameTower", towerSettingX, towerSettingY);
                 }
 
                 localPlayer.addCash(-engine.getCost("flameTower"));
@@ -92,20 +87,21 @@ public class UI{
             if (localPlayer.getCash() >= 2) {
                 showTowerSet = false;
                 engine.spawnTower("cannonTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+                if(multiPlayer) {
+                    sendTower("cannonTower", towerSettingX, towerSettingY);
+                }
+
                 localPlayer.addCash(-engine.getCost("cannonTower"));
-                return true;
-            } return false;
-        } else if(cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY - 0.5f && cameraY < towerSettingY + 0.5f){
-            if (localPlayer.getCash() >= 5) {
-                showTowerSet = false;
-                engine.spawnTower("flameTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
-                localPlayer.addCash(-engine.getCost("flameTower"));
                 return true;
             } return false;
         } else if (cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY + 0.5f && cameraY < towerSettingY + 1.5f){
             if (localPlayer.getCash() >= 20) {
                 showTowerSet = false;
                 engine.spawnTower("sniperTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+                if(multiPlayer) {
+                    sendTower("sniperTower", towerSettingX, towerSettingY);
+                }
+
                 localPlayer.addCash(-engine.getCost("sniperTower"));
                 return true;
             } return false;
@@ -113,6 +109,10 @@ public class UI{
             if (localPlayer.getCash() >= 20) {
                 showTowerSet = false;
                 engine.spawnTower("missileTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+                if(multiPlayer) {
+                    sendTower("missileTower", towerSettingX, towerSettingY);
+                }
+
                 localPlayer.addCash(-engine.getCost("missileTower"));
                 return true;
             } return false;
@@ -223,5 +223,15 @@ public class UI{
         this.mpServer = mpServer;
         mpServer.initEngine(engine);
         multiPlayer = true;
+    }
+
+    //Sends tower to the other player
+
+    public void sendTower(String towerType, float x, float y) {
+        if (mpClient == null) {
+            mpServer.sendTower(towerType, x, y);
+        } else if (mpServer == null) {
+            mpClient.sendTower(towerType, x, y);
+        }
     }
 }
