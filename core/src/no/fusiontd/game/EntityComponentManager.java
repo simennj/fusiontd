@@ -76,10 +76,10 @@ public class EntityComponentManager extends Engine {
         creeps = getEntitiesFor(Family.all(Geometry.class, Attackable.class, Durability.class).get());
 
         blueprints.put("missileTower", Arrays.<CloneableComponent>asList(
-                new Render("missileTower"),
+                new Render("t_hybrida0"),
                 new Buyable(1),
                 new Targeting(5, .5f, true,
-                        new Render(Graphics.getRegion("missile")),
+                        new Render(Graphics.getRegion("missile0")),
                         new Timer(1),
                         new Attack(.5f, 12),
                         new Durability(12),
@@ -91,9 +91,9 @@ public class EntityComponentManager extends Engine {
                 ),
                 new Upgradeable(10,
                         new Targeting(5, .5f, true,
-                                new Render(Graphics.getRegion("missile")),
+                                new Render(Graphics.getRegion("missile0")),
                                 new Timer(1),
-                                new Attack(.6f, 2),
+                                new Attack(.6f, 20),
                                 new Durability(12),
                                 new Velocity(new Vector2(11, 0)),
                                 new AddOnRemove(new Vector2(0, .5f),
@@ -102,7 +102,7 @@ public class EntityComponentManager extends Engine {
                                 )
                         ),
                         new Upgradeable(15, new Targeting(5, .5f, true,
-                                new Render(Graphics.getRegion("missile")),
+                                new Render(Graphics.getRegion("missile0")),
                                 new Timer(1),
                                 new Durability(12),
                                 new Attack(.7f, 5),
@@ -118,7 +118,7 @@ public class EntityComponentManager extends Engine {
         ));
 
         blueprints.put("cannonTower", Arrays.<CloneableComponent>asList(
-                new Render("t_hybrida0"),
+                new Render("t_volvox0"),
                 new Buyable(2),
                 new Targeting(3f, 2f, true,
                         new Render(Graphics.getRegion("missile0")),
@@ -129,7 +129,7 @@ public class EntityComponentManager extends Engine {
                         new AddOnRemove(new Vector2(0, .5f),
                                 new Render("explosion"),
                                 new Timer(2),
-                                new Attack(.5f, 1),
+                                new Attack(.5f, 10),
                                 new Durability(10000000)
                         )),
                 new Upgradeable(10, new Targeting(3.5f, 1f, true,
@@ -172,7 +172,7 @@ public class EntityComponentManager extends Engine {
                 new Targeting(1, .05f, new Vector2(0, .5f), true,
                         new Render(Graphics.getRegion("flame")),
                         new Timer(1),
-                        new Attack(.05f, 30),
+                        new Attack(.1f, 15),
                         new Durability(30)
                 ),
                 new Upgradeable(10, new Targeting(1.5f, .05f, new Vector2(0, .5f), true,
@@ -180,22 +180,21 @@ public class EntityComponentManager extends Engine {
                         new Attack(.05f, 40),
                         new Durability(40)),
                         new Upgradeable(15, new Targeting(1, .05f, new Vector2(0, .5f), true,
-                                new Attack(.05f, 60),
-                                new Timer(1),
                                 new Render(Graphics.getRegion("flame")),
+                                new Attack(.05f, 30),
                                 new Durability(60))))
         ));
         blueprints.put("sniperTower", Arrays.<CloneableComponent>asList(
-                new Render("t_volvox0"),
+                new Render("t_emil0"),
                 new Buyable(3),
                 new Targeting(5, 1.5f, false,
-                        new Render(Graphics.getRegion("LF")),
+                        new Render(Graphics.getRegion("missile0")),
                         new Timer(1),
                         new Attack(.1f, 2000),
                         new Durability(1),
                         new Velocity(new Vector2(10, 0))),
                 new Upgradeable(10, new Targeting(10, 1f, false,
-                        new Render(Graphics.getRegion("LF")),
+                        new Render(Graphics.getRegion("missile0")),
                         new Attack(.1f, 2500),
                         new Timer(1),
                         new Durability(1),
@@ -228,7 +227,7 @@ public class EntityComponentManager extends Engine {
         return entity;
     }
 
-    void spawnTower(String name, Geometry geometry) {
+public void spawnTower(String name, Geometry geometry) {
         for (Entity tower : towers) {
             if (mPos.get(tower).dst(geometry) < geometry.radius) return;
         }
