@@ -26,6 +26,7 @@ public class MPClient extends Listener{
     public MPClient(String serverIP, FusionTD game, String playerName) {
         this.serverIP = serverIP;
         this.game = game;
+        this.mapName = "";
         this.playerName = playerName;
         packetCreator = new PacketCreator();
         client = new Client();

@@ -246,9 +246,9 @@ public class EntityComponentManager extends Engine {
 
     public Entity getTowerAt(float x, float y) {
         towers = getEntitiesFor(Family.all(Geometry.class, Render.class, Targeting.class).get());
-
+        Vector2 vec = new Vector2(x,y);
         for (Entity e : towers) {
-            if (mPos.get(e).dst(e.getComponent(Geometry.class)) < e.getComponent(Geometry.class).radius) {
+            if (mPos.get(e).dst(vec) < e.getComponent(Geometry.class).radius) {
                 System.out.println(e.getComponent(Targeting.class).attackspeed);
                 return e;
             }

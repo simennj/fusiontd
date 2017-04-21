@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 
 import no.fusiontd.FusionTD;
+import no.fusiontd.MPAlternative.MPClient;
 import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.MenuStage;
 import no.fusiontd.menu.DialogFactory;
@@ -28,11 +29,12 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
     private String serverIP, typedIPString;
     private boolean serverRunning = false;
     private Label labelIP, typedIPField;
-    private TextButton btnFindGame, btnHostGame, btnTest;
+    private TextButton btnFindGame, btnHostGame;
     private MenuStage stage;
     private LabelFactory labelFactory;
     private DialogFactory dialogFactory;
     private ExitButton exitButton;
+    private MPClient mpClient;
     private MPServer mpServer;
 
     public ConnectScreen(FusionTD game) {
@@ -72,21 +74,18 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         btnHostGame = stage.createTextButton("Host Game", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(serverRunning){
+                if (serverRunning) {
                     game.selectMap();
                     popUpDialog.show(stage);
 
-                    Timer.schedule(new Timer.Task()
-                    {
+                    Timer.schedule(new Timer.Task() {
                         @Override
-                        public void run()
-                        {
+                        public void run() {
                             popUpDialog.hide();
                         }
                     }, 2);
-                }
-                else{
-                    MPServer mpServer = new MPServer(game, "Haxor1337");
+                } else {
+                    mpServer = new MPServer(game, "Haxor1337");
                     serverIP = mpServer.getIp();
                     labelIP.setText("Server running on: " + serverIP);
                     serverRunning = true;
@@ -103,23 +102,29 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 //System.out.println("clicked button FindGame");
-
-                if(typedIPString != null){
-                    no.fusiontd.MPAlternative.MPClient mpClient = new no.fusiontd.MPAlternative.MPClient(typedIPString, game, "Saltminer");
+                if (typedIPString != null) {
+                    mpClient = new MPClient(typedIPString, game, "Saltminer");
                     mpClient.login();
                     game.initMPClient(mpClient);
                     btnFindGame.setText("Connected");
-                }
-
-                else{
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            System.out.println("Checking for map in mpClient");
+                            if(!mpClient.getMapName().equals("")){
+                                game.startGame(mpClient.getMapName());
+                            }
+                        }
+                    }, 2, 2, 10);
+                } else {
                     Gdx.input.getTextInput(ConnectScreen.this, "Enter Ip to Connect to", "", "");
                 }
             }
         });
 
         stage.addImageButton(exitButton);
-
     }
+
 
     public void resize (int width, int height) {
         stage.getViewport().update(width, height, true);
