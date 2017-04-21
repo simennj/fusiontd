@@ -1,5 +1,6 @@
 package no.fusiontd;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ObjectMap;
 
@@ -7,6 +8,7 @@ public class Graphics {
     private static final ObjectMap<String, TextureAtlas.AtlasRegion> regions;
     private static TextureAtlas tileAtlas = new TextureAtlas("tiles.atlas");
     private static TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
+    private static TextureAtlas spriteAtlas = new TextureAtlas("sprites.atlas");
 
     static {
         regions = new ObjectMap<String, TextureAtlas.AtlasRegion>();
@@ -34,6 +36,14 @@ public class Graphics {
         regions.put("eight", tileAtlas.findRegion("284"));
         regions.put("nine", tileAtlas.findRegion("285"));
         regions.put("red_button", uiAtlas.findRegion("red_button"));
+        regions.put("c_0",spriteAtlas.findRegion("c_0"));
+        regions.put("c_bat0",spriteAtlas.findRegion("c_bat0"));
+        regions.put("c_manyeyed0",spriteAtlas.findRegion("c_manyeyed0"));
+        regions.put("missile0",spriteAtlas.findRegion("missile0"));
+        regions.put("t_0",spriteAtlas.findRegion("t_0"));
+        regions.put("t_emil0",spriteAtlas.findRegion("t_emil0"));
+        regions.put("t_hybrida0",spriteAtlas.findRegion("t_hybrida0"));
+        regions.put("t_volvox0",spriteAtlas.findRegion("t_volvox0"));
     }
 
     public static TextureAtlas.AtlasRegion getRegion(String name) {

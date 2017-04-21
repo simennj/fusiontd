@@ -119,10 +119,10 @@ public class EntityComponentManager extends Engine {
         ));
 
         blueprints.put("cannonTower", Arrays.<CloneableComponent>asList(
-                new Render("missileTower"),
+                new Render("t_hybrida0"),
                 new Buyable(2),
                 new Targeting(3f, 2f, true,
-                        new Render(Graphics.getRegion("missile")),
+                        new Render(Graphics.getRegion("missile0")),
                         new Timer(1),
                         new Attack(.5f, 1),
                         new Durability(1),
@@ -168,7 +168,7 @@ public class EntityComponentManager extends Engine {
 
 
         blueprints.put("flameTower", Arrays.<CloneableComponent>asList(
-                new Render("flameTower"),
+                new Render("t_emil0"),
                 new Buyable(5),
                 new Targeting(1, .05f, new Vector2(0, .5f), true,
                         new Render(Graphics.getRegion("flame")),
@@ -187,7 +187,7 @@ public class EntityComponentManager extends Engine {
                                 new Durability(60))))
         ));
         blueprints.put("sniperTower", Arrays.<CloneableComponent>asList(
-                new Render("sniperTower"),
+                new Render("t_volvox0"),
                 new Buyable(3),
                 new Targeting(5, 1.5f, false,
                         new Render(Graphics.getRegion("LF")),

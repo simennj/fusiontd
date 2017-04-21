@@ -4,21 +4,21 @@ size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-c
+c_0
   rotate: false
   xy: 670, 279
   size: 104, 93
   orig: 104, 93
   offset: 0, 0
   index: 0
-c
+c_1
   rotate: false
   xy: 205, 168
   size: 104, 93
   orig: 104, 93
   offset: 0, 0
   index: 1
-c
+c_2
   rotate: false
   xy: 119, 2
   size: 104, 93
@@ -109,21 +109,21 @@ shadow_big
   orig: 241, 111
   offset: 0, 0
   index: -1
-t
+t_0
   rotate: false
   xy: 641, 184
   size: 104, 93
   orig: 104, 93
   offset: 0, 0
   index: 0
-t
+t_1
   rotate: false
   xy: 747, 184
   size: 104, 93
   orig: 104, 93
   offset: 0, 0
   index: 1
-t
+t_2
   rotate: false
   xy: 853, 184
   size: 104, 93
