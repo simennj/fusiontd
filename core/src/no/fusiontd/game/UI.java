@@ -54,26 +54,27 @@ public class UI{
     }
 
     public void towerSetMenu(float cameraX, float cameraY, SpriteBatch batch) {
-        batch.draw(Graphics.getRegion("missileTower"), cameraX - 0.5f, cameraY - 1.5f, 1f, 1f);
-        batch.draw(Graphics.getRegion("flameTower"), cameraX - 0.5f , cameraY - 0.75f, 1f, 1f);
-        batch.draw(Graphics.getRegion("sniperTower"), cameraX - 0.5f , cameraY, 1f, 1f);
+        batch.draw(Graphics.getRegion("t_0"), cameraX - 0.5f, cameraY + 0.75f, 1f, 1f);
+        batch.draw(Graphics.getRegion("t_hybrida0"), cameraX - 0.5f, cameraY - 1.5f, 1f, 1f);
+        batch.draw(Graphics.getRegion("t_emil0"), cameraX - 0.5f , cameraY - 0.75f, 1f, 1f);
+        batch.draw(Graphics.getRegion("t_volvox0"), cameraX - 0.5f , cameraY, 1f, 1f);
         batch.draw(Graphics.getRegion("red_button"), 15.0f , 0.2f, 0.7f, 0.7f);
     }
 
     public boolean towerSet(float cameraX, float cameraY){
-        System.out.println(cameraX + "," + cameraY + ";" + towerSettingX + "," + towerSettingY);
-        if(cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY - 0.5f && cameraY < towerSettingY + 0.5f){
-            if (localPlayer.getCash() >= 5) {
-                showTowerSet = false;
-                engine.spawnTower("flameTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
-                localPlayer.addCash(-engine.getCost("flameTower"));
-                return true;
-            } return false;
-        } else if(cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY - 1.5f && cameraY < towerSettingY - 0.5f){
+
+        if(cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY - 1.5f && cameraY < towerSettingY - 0.5f) {
             if (localPlayer.getCash() >= 2) {
                 showTowerSet = false;
                 engine.spawnTower("cannonTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
                 localPlayer.addCash(-engine.getCost("cannonTower"));
+                return true;
+            } return false;
+        } else if(cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY - 0.5f && cameraY < towerSettingY + 0.5f){
+            if (localPlayer.getCash() >= 5) {
+                showTowerSet = false;
+                engine.spawnTower("flameTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+                localPlayer.addCash(-engine.getCost("flameTower"));
                 return true;
             } return false;
         } else if (cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY + 0.5f && cameraY < towerSettingY + 1.5f){
@@ -81,6 +82,13 @@ public class UI{
                 showTowerSet = false;
                 engine.spawnTower("sniperTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
                 localPlayer.addCash(-engine.getCost("sniperTower"));
+                return true;
+            } return false;
+        } else if (cameraX > towerSettingX - 0.35f && cameraX < towerSettingX + 0.35f && cameraY > towerSettingY + 1.5f && cameraY < towerSettingY + 2.5f){
+            if (localPlayer.getCash() >= 20) {
+                showTowerSet = false;
+                engine.spawnTower("missileTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
+                localPlayer.addCash(-engine.getCost("missileTower"));
                 return true;
             } return false;
         } else if (cameraX > 15.0f && cameraX < 15.7f && cameraY > 0.2f & cameraY < 0.9f){
