@@ -7,16 +7,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
 import no.fusiontd.MenuStage;
@@ -30,10 +26,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private static final float WIDTH = 16, HEIGHT = 9;
     public final int TILEROWS = 9, TILECOLS = 16;
     public SpriteBatch batch;
-    private int width,height;
     private FusionTD game;
-    private TextureAtlas atlas;
-    private Skin skin;
     private MenuStage stage;
     private float w, h;
     private OrthographicCamera camera;
@@ -44,13 +37,11 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private MapEditorScreen.State state = MapEditorScreen.State.METADATA;
     private String mapName;
     private int[][] map;
-    private NormalTextButtonFactory textButtonFactory;
     private ExitButton exitButton;
     private TextButton btnCreateMap;
 
     public MapEditorScreen(FusionTD game) {
         this.game = game;
-        atlas = new TextureAtlas(Gdx.files.internal("ui.atlas"));
     }
 
     @Override
