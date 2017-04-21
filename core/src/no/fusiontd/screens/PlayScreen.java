@@ -187,7 +187,7 @@ public class PlayScreen implements Screen, InputProcessor {
         else if (engine.checkTower(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
             // selected Tower and upgrade
             ui.selectTower(getCameraX(screenX), getCameraY(screenY));
-            engine.upgradeEntity(engine.getTowerAt(screenX,screenY));
+            engine.upgradeEntity(engine.getTowerAt(getCameraX(screenX),getCameraY(screenY)));
         } else if (engine.checkCreep(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
             // selected Creep
             ui.selectCreep(getCameraX(screenX), getCameraY(screenY));
