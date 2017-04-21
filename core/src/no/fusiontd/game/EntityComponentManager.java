@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectMap;
-
 import no.fusiontd.CloneableComponent;
 import no.fusiontd.Graphics;
 import no.fusiontd.components.*;
@@ -73,7 +72,7 @@ public class EntityComponentManager extends Engine {
                 }
             }
         });
-        towers = getEntitiesFor(Family.all(Geometry.class, Render.class, Targeting.class).get());
+        towers = getEntitiesFor(Family.all(Geometry.class, Targeting.class).get());
         creeps = getEntitiesFor(Family.all(Geometry.class, Attackable.class, Durability.class).get());
 
         blueprints.put("missileTower", Arrays.<CloneableComponent>asList(
@@ -207,7 +206,7 @@ public class EntityComponentManager extends Engine {
 
     }
 
-    public void upgradeEntity(Entity e) {
+    void upgradeEntity(Entity e) {
         ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
         Upgradeable upgrade = mUpgr.get(e);
         for (CloneableComponent component : upgrade.upgrades) {
@@ -216,11 +215,11 @@ public class EntityComponentManager extends Engine {
     }
 
 
-    public Entity spawn(CloneableComponent... components) {
+    private Entity spawn(CloneableComponent... components) {
         return spawn(Arrays.asList(components));
     }
 
-    public Entity spawn(Iterable<CloneableComponent> components) {
+    private Entity spawn(Iterable<CloneableComponent> components) {
         Entity entity = new Entity();
         for (CloneableComponent component : components) {
             entity.add(component.cloneComponent());
@@ -229,7 +228,7 @@ public class EntityComponentManager extends Engine {
         return entity;
     }
 
-    public void spawnTower(String name, Geometry geometry) {
+    void spawnTower(String name, Geometry geometry) {
         for (Entity tower : towers) {
             if (mPos.get(tower).dst(geometry) < geometry.radius) return;
         }
@@ -244,8 +243,7 @@ public class EntityComponentManager extends Engine {
         return false;
     }
 
-    public Entity getTowerAt(float x, float y) {
-        towers = getEntitiesFor(Family.all(Geometry.class, Render.class, Targeting.class).get());
+    Entity getTowerAt(float x, float y) {
         Vector2 vec = new Vector2(x,y);
         for (Entity e : towers) {
             if (mPos.get(e).dst(vec) < e.getComponent(Geometry.class).radius) {
@@ -263,7 +261,7 @@ public class EntityComponentManager extends Engine {
         return false;
     }
 
-    public int getCost(String tower){
+    int getCost(String tower) {
         return spawn(blueprints.get(tower)).getComponent(Buyable.class).cost;
     }
 
