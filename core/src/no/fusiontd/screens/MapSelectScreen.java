@@ -37,7 +37,7 @@ public class MapSelectScreen implements Screen {
 
         Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
         stage.setBackground(new Image(backgroundImage));
-        
+
         //1. Navigate to the map folder, find amount of maps. maps are found in android/maps.
         FileHandle[] files = Gdx.files.local("maps/").list();
         int numberOfMaps=files.length;
@@ -59,7 +59,7 @@ public class MapSelectScreen implements Screen {
 
         ScrollPane scrollPane = new ScrollPane(table);
         Table container = new Table();
-        container.add(scrollPane).width(500f).height(300f);
+        container.add(scrollPane).width(500f).height(410f);
 
         //4. set scrollPane's position and size. You can disable scrolling in a direction using scrollPane.setScrollingDisabled()
         scrollPane.setSize(10, 10);
