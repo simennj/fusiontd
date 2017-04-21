@@ -1,6 +1,8 @@
 package no.fusiontd.game;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.LinkedList;
@@ -22,12 +24,15 @@ public class UI{
     private MPClient mpClient;
     private MPServer mpServer;
     private boolean multiPlayer;
+    private BitmapFont font;
 
     public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine) {
         this.game = game; this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
         this.showTowerSet = false;
         this.engine = engine;
         this.multiPlayer = false;
+        font = new BitmapFont(Gdx.files.internal("fonts/main.fnt"),
+                Gdx.files.internal("fonts/main.png"), false);
     }
 
     public void render(SpriteBatch batch) {
