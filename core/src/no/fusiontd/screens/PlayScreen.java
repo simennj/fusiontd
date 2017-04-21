@@ -187,7 +187,6 @@ public class PlayScreen implements Screen, InputProcessor {
         else if (engine.checkTower(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
             // selected Tower and upgrade
             ui.selectTower(getCameraX(screenX), getCameraY(screenY));
-            engine.upgradeEntity(engine.getTowerAt(getCameraX(screenX),getCameraY(screenY)));
         } else if (engine.checkCreep(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
             // selected Creep
             ui.selectCreep(getCameraX(screenX), getCameraY(screenY));
@@ -221,13 +220,9 @@ public class PlayScreen implements Screen, InputProcessor {
         return false;
     }
 
-    public void setMpServer(MPServer mpServer){
-        this.mpServer = mpServer;
-    }
+    public void setMpServer(MPServer mpServer){ this.mpServer = mpServer; ui.initMPServer(mpServer);}
 
-    public void setMpClient(MPClient mpClient){
-        this.mpClient = mpClient;
-    }
+    public void setMpClient(MPClient mpClient){ this. mpClient = mpClient; ui.initMPClient(mpClient);}
 
     public enum State {
         PAUSE,

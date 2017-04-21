@@ -1,5 +1,6 @@
 package no.fusiontd.MPAlternative;
 
+import com.badlogic.ashley.core.Entity;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -11,6 +12,8 @@ import no.fusiontd.MPAlternative.Packet.*;
 import java.io.IOException;
 
 import no.fusiontd.FusionTD;
+import no.fusiontd.components.Geometry;
+import no.fusiontd.game.EntityComponentManager;
 
 
 public class MPClient extends Listener{
@@ -22,10 +25,12 @@ public class MPClient extends Listener{
     private static PacketCreator packetCreator;
     private String playerName, mapName;
     private FusionTD game;
+    private EntityComponentManager engine;
 
     public MPClient(String serverIP, FusionTD game, String playerName) {
         this.serverIP = serverIP;
         this.game = game;
+        this.mapName = "";
         this.playerName = playerName;
         packetCreator = new PacketCreator();
         client = new Client();
@@ -69,11 +74,15 @@ public class MPClient extends Listener{
         else if (o instanceof Packet.Packet2Message) {
             String message = ((Packet.Packet2Message) o).message;
             //System.out.println(message);
-            c.sendUDP(o);
+            client.sendUDP(o);
         }
 
-        else if( o instanceof FrameworkMessage.KeepAlive){
-            //System.out.println("Stayin' Aliiiiiiiiiiiiiiiiiive!!!!!!!!!!!");
+        else if( o instanceof Packet7TowerPlaced){
+            System.out.println("Received towerPacket");
+            String type = ((Packet7TowerPlaced) o).type;
+            float towerSettingX = ((Packet7TowerPlaced) o).xpos;
+            float towerSettingY = ((Packet7TowerPlaced) o).ypos;
+            engine.spawnTower(type , new Geometry(towerSettingX, towerSettingY, 0, .5f));
         }
 
         else if( o instanceof Packet.Packet3Creep){
@@ -87,8 +96,10 @@ public class MPClient extends Listener{
         else if ( o instanceof Packet.Packet8Meta){
             this.mapName = ((Packet.Packet8Meta) o).mapName;
             System.out.println("Launching game on map: " + ((Packet.Packet8Meta) o).mapName);
-            //game.startGame(mapName);  -_> No openglcontext found
         }
+        /*else if( o instanceof FrameworkMessage.KeepAlive){
+            //System.out.println("Stayin' Aliiiiiiiiiiiiiiiiiive!!!!!!!!!!!");
+        }*/
     }
 
     public void login(){
@@ -98,7 +109,8 @@ public class MPClient extends Listener{
 
 
     public void sendTower(String towerType, float xpos, float ypos){
-        Packet.Packet7TowerPlaced towerPacket = packetCreator.createTowerPacket(towerType, xpos, ypos);
+        System.out.println("sending towerPacket to Server");
+        Packet7TowerPlaced towerPacket = packetCreator.createTowerPacket(towerType, xpos, ypos);
         client.sendUDP(towerPacket);
     }
 
@@ -114,5 +126,13 @@ public class MPClient extends Listener{
 
     public String getMapName(){
         return mapName;
+    }
+
+    public void initEngine(EntityComponentManager engine){
+        this.engine = engine;
+    }
+
+    public void stopClient(){
+        client.stop();
     }
 }

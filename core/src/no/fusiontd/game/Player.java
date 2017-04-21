@@ -2,7 +2,8 @@ package no.fusiontd.game;
 
 import no.fusiontd.FusionTD;
 
-public class Player {
+public class
+Player {
     private int lives, cash, score;
     private FusionTD game;
 

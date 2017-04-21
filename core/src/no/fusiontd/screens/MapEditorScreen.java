@@ -6,24 +6,19 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
-
-import java.util.ArrayList;
-
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
 import no.fusiontd.MenuStage;
 import no.fusiontd.maps.MapWriter;
+import no.fusiontd.menu.ExitButton;
+import no.fusiontd.menu.NormalTextButtonFactory;
 
 public class MapEditorScreen implements Screen, Input.TextInputListener, InputProcessor {
 
@@ -31,15 +26,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private static final float WIDTH = 16, HEIGHT = 9;
     public final int TILEROWS = 9, TILECOLS = 16;
     public SpriteBatch batch;
-    private int width,height;
     private FusionTD game;
-    private TextureAtlas atlas;
-    private Skin skin;
-    private List<String> playerList;
-    private String serverIP, MapName;
-    private boolean serverRunning = false;
-    private TextField typedIPField, serverIPField;
-    private TextButton btnCreateMap, btnHostGame, btnAccept;
     private MenuStage stage;
     private float w, h;
     private OrthographicCamera camera;
@@ -51,30 +38,22 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     public tileType tileType;
     private String mapName;
     private int[][] map;
+    private ExitButton exitButton;
+    private TextButton btnCreateMap;
 
     public MapEditorScreen(FusionTD game) {
         this.game = game;
-        atlas = new TextureAtlas(Gdx.files.internal("ui.atlas"));
     }
 
     @Override
     public void show(){
         stage = new MenuStage();
         Gdx.input.setInputProcessor(stage);
+        exitButton = ExitButton.create(game);
+        stage.addImageButton(exitButton);
 
-        final TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Kenney Blocks.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 12;
-        final BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
-        generator.dispose(); // don't forget to dispose to avoid memory leaks!
-
-        //Displayed when you try you press HostGame a second time
-        Window.WindowStyle windowStyle = new Window.WindowStyle();
-        windowStyle.titleFont = font12;
-        TextureRegion windowBackground = uiAtlas.findRegion("yellow_button03");
-        windowStyle.background = new TextureRegionDrawable(windowBackground);
+        Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
+        stage.setBackground(new Image(backgroundImage));
 
         btnCreateMap = stage.createTextButton("Create Map", new ChangeListener() {
             @Override
@@ -82,6 +61,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
                 Gdx.input.getTextInput(MapEditorScreen.this, "Enter Map name", "", "Map Name");
             }
         });
+
         camera = new OrthographicCamera(WIDTH, HEIGHT);
         tilesize = Math.min(WIDTH / TILECOLS, HEIGHT / TILEROWS);
         batch = new SpriteBatch();
@@ -121,7 +101,6 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
         mapName = inputName;
         state = State.EDITING;
         Gdx.input.setInputProcessor(this);
-
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
