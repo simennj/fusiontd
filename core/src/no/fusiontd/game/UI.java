@@ -1,11 +1,13 @@
 package no.fusiontd.game;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.LinkedList;
 
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
+import no.fusiontd.components.Buyable;
 import no.fusiontd.components.Geometry;
 
 public class UI{
@@ -31,6 +33,9 @@ public class UI{
     }
 
     public void selectTower(float cameraX, float cameraY) {
+        Entity e = engine.getTowerAt(cameraX, cameraY);
+        engine.upgradeEntity(e);
+        localPlayer.addCash(-e.getComponent(Buyable.class).cost);
     }
 
     public void selectCreep(float cameraX, float cameraY) {
@@ -128,6 +133,8 @@ public class UI{
             }
         }
     }
+
+
 
     public void showCash(SpriteBatch batch) {
 
