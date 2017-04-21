@@ -74,14 +74,15 @@ public class MPClient extends Listener{
         else if (o instanceof Packet.Packet2Message) {
             String message = ((Packet.Packet2Message) o).message;
             //System.out.println(message);
-            c.sendUDP(o);
+            client.sendUDP(o);
         }
 
         else if( o instanceof Packet7TowerPlaced){
             System.out.println("Received towerPacket");
             String type = ((Packet7TowerPlaced) o).type;
-            Entity towerEntity = ((Packet7TowerPlaced) o).tower;
-            engine.spawnTower(type , towerEntity.getComponent(Geometry.class));
+            float towerSettingX = ((Packet7TowerPlaced) o).xpos;
+            float towerSettingY = ((Packet7TowerPlaced) o).ypos;
+            engine.spawnTower(type , new Geometry(towerSettingX, towerSettingY, 0, .5f));
         }
 
         else if( o instanceof Packet.Packet3Creep){
@@ -95,7 +96,6 @@ public class MPClient extends Listener{
         else if ( o instanceof Packet.Packet8Meta){
             this.mapName = ((Packet.Packet8Meta) o).mapName;
             System.out.println("Launching game on map: " + ((Packet.Packet8Meta) o).mapName);
-            //game.startGame(mapName);  -_> No openglcontext found
         }
         else if( o instanceof FrameworkMessage.KeepAlive){
             //System.out.println("Stayin' Aliiiiiiiiiiiiiiiiiive!!!!!!!!!!!");
@@ -108,9 +108,9 @@ public class MPClient extends Listener{
     }
 
 
-    public void sendTower(String towerType, Entity tower){
-        System.out.println("sending towerPacket");
-        Packet7TowerPlaced towerPacket = packetCreator.createTowerPacket(towerType, tower);
+    public void sendTower(String towerType, float xpos, float ypos){
+        System.out.println("sending towerPacket to Server");
+        Packet7TowerPlaced towerPacket = packetCreator.createTowerPacket(towerType, xpos, ypos);
         client.sendUDP(towerPacket);
     }
 

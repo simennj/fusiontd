@@ -54,6 +54,7 @@ public class FusionTD extends Game {
 			}
 			else if(mpServer == null){
 				//Sends metadata to the client and starts game
+				System.out.println("setting mpClient in playscreen");
 				playScreen.setMpClient(mpc);
 			}
 		}

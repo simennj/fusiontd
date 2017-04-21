@@ -12,7 +12,7 @@ class Packet {
     static class Packet4Lives { int lives;}
     static class Packet5score { int score;}
     static class Packet6HighScore{ String player; int finalScore;}
-    static class Packet7TowerPlaced{ String type; Entity tower;}
+    static class Packet7TowerPlaced{ String type; float xpos; float ypos;}
     static class Packet8Meta{String mapName;}
     static class Packet9TowerUpgrade{int towerID;/*smth*/}
     static class Packet10Ready{boolean ready;}

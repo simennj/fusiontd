@@ -11,7 +11,6 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.esotericsoftware.minlog.Log;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -54,6 +53,7 @@ public class MPServer extends Listener {
 
     private void registerPackets(){
         Kryo kryo = server.getKryo();
+        kryo.register(Entity.class);
         kryo.register(java.util.ArrayList.class);
         kryo.register(Packet0LoginRequest.class);
         kryo.register(Packet1LoginAnswer.class);
@@ -106,8 +106,9 @@ public class MPServer extends Listener {
         else if( o instanceof Packet7TowerPlaced){
             System.out.println("Received towerPacket");
             String type = ((Packet7TowerPlaced) o).type;
-            Entity towerEntity = ((Packet7TowerPlaced) o).tower;
-            engine.spawnTower(type , towerEntity.getComponent(Geometry.class));
+            float towerSettingX = ((Packet7TowerPlaced) o).xpos;
+            float towerSettingY = ((Packet7TowerPlaced) o).ypos;
+            engine.spawnTower(type , new Geometry(towerSettingX, towerSettingY, 0, .5f));
         }
 
         else if( o instanceof Packet.Packet3Creep){
@@ -155,9 +156,9 @@ public class MPServer extends Listener {
         Packet8Meta metaPacket = packetCreator.createMetaPacket(mapName);
         connection.sendUDP(metaPacket);
     }
-    public void sendTower(String towerType, Entity tower){
-        System.out.println("sending towerPacket");
-        Packet7TowerPlaced towerPacket = packetCreator.createTowerPacket(towerType, tower);
+    public void sendTower(String towerType, float xpos, float ypos){
+        System.out.println("sending towerPacket to Client");
+        Packet7TowerPlaced towerPacket = packetCreator.createTowerPacket(towerType, xpos, ypos);
         connection.sendUDP(towerPacket);
     }
 

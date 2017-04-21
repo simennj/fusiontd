@@ -21,11 +21,13 @@ public class UI{
     private EntityComponentManager engine;
     private MPClient mpClient;
     private MPServer mpServer;
+    private boolean multiPlayer;
 
     public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine) {
         this.game = game; this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
         this.showTowerSet = false;
         this.engine = engine;
+        this.multiPlayer = false;
     }
 
     public void render(SpriteBatch batch) {
@@ -72,12 +74,13 @@ public class UI{
                 engine.spawnTower("flameTower", new Geometry(towerSettingX, towerSettingY, 0, .5f));
 
                 //Sends tower to the other player
-                if(mpClient == null){
-                    mpServer.sendTower("flameTower", engine.getTowerAt(cameraX, cameraY));
+                if(multiPlayer) {
+                    if (mpClient == null) {
+                        mpServer.sendTower("flameTower", cameraX, cameraY);
+                    } else if (mpServer == null) {
+                        mpClient.sendTower("flameTower", cameraX, cameraY);
                     }
-                else if( mpServer == null){
-                    mpClient.sendTower("flameTower", engine.getTowerAt(cameraX, cameraY));
-                    }
+                }
 
                 localPlayer.addCash(-engine.getCost("flameTower"));
                 return true;
@@ -210,10 +213,12 @@ public class UI{
     public void initMPClient(MPClient mpClient){
         this.mpClient = mpClient;
         mpClient.initEngine(engine);
+        multiPlayer = true;
     }
 
     public void initMPServer(MPServer mpServer){
         this.mpServer = mpServer;
         mpServer.initEngine(engine);
+        multiPlayer = true;
     }
 }

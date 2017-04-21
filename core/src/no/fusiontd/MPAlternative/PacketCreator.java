@@ -52,10 +52,11 @@ class PacketCreator {
         return highScore;
     }
 
-    Packet.Packet7TowerPlaced createTowerPacket(String towerType, Entity tower){
+    Packet.Packet7TowerPlaced createTowerPacket(String towerType, float xpos, float ypos){
         Packet.Packet7TowerPlaced towerPlaced = new Packet.Packet7TowerPlaced();
-        towerPlaced.tower = tower;
         towerPlaced.type = towerType;
+        towerPlaced.xpos = xpos;
+        towerPlaced.ypos = ypos;
         return towerPlaced;
     }
 
