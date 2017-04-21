@@ -35,6 +35,8 @@ public class PlayScreen implements Screen, InputProcessor {
     private String mapName;
     private UI ui;
     private Player localPlayer, mulPlayer;
+    private MPServer mpServer;
+    private MPClient mpClient;
 
     public PlayScreen(FusionTD game, boolean multiplayer) {
         this.game = game;
@@ -163,6 +165,9 @@ public class PlayScreen implements Screen, InputProcessor {
         switch (keycode) {
             case 62:
                 creepSpawner.startNextWave();
+                if(mpClient == null){
+                    mpServer.sendCreepWaveStarted();
+                }
         }
         return false;
     }
@@ -218,9 +223,9 @@ public class PlayScreen implements Screen, InputProcessor {
         return false;
     }
 
-    public void setMpServer(MPServer mpServer){ ui.initMPServer(mpServer);}
+    public void setMpServer(MPServer mpServer){ this.mpServer = mpServer; ui.initMPServer(mpServer);}
 
-    public void setMpClient(MPClient mpClient){ ui.initMPClient(mpClient);}
+    public void setMpClient(MPClient mpClient){ this.mpClient = mpClient; mpClient.initCreepSpawner(creepSpawner); ui.initMPClient(mpClient);}
 
     public enum State {
         PAUSE,

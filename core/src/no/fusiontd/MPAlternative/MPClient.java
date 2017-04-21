@@ -12,8 +12,11 @@ import no.fusiontd.MPAlternative.Packet.*;
 import java.io.IOException;
 
 import no.fusiontd.FusionTD;
+import no.fusiontd.components.Buyable;
 import no.fusiontd.components.Geometry;
+import no.fusiontd.game.CreepSpawner;
 import no.fusiontd.game.EntityComponentManager;
+import no.fusiontd.game.Player;
 
 
 public class MPClient extends Listener{
@@ -26,6 +29,8 @@ public class MPClient extends Listener{
     private String playerName, mapName;
     private FusionTD game;
     private EntityComponentManager engine;
+    private CreepSpawner creepSpawner;
+    private Player mulPlayer;
 
     public MPClient(String serverIP, FusionTD game, String playerName) {
         this.serverIP = serverIP;
@@ -83,10 +88,17 @@ public class MPClient extends Listener{
             float towerSettingX = ((Packet7TowerPlaced) o).xpos;
             float towerSettingY = ((Packet7TowerPlaced) o).ypos;
             engine.spawnTower(type , new Geometry(towerSettingX, towerSettingY, 0, .5f));
+            Entity towerEntity = engine.getTowerAt(((Packet7TowerPlaced) o).xpos, ((Packet7TowerPlaced) o).ypos);
+            mulPlayer.addCash(-towerEntity.getComponent(Buyable.class).cost);
+        }
+        else if ( o instanceof Packet9TowerUpgrade){
+            Entity towerEntity = engine.getTowerAt(((Packet9TowerUpgrade) o).xpos, ((Packet9TowerUpgrade) o).ypos);
+            engine.upgradeEntity(towerEntity);
+            mulPlayer.addCash(-towerEntity.getComponent(Buyable.class).cost);
         }
 
         else if( o instanceof Packet.Packet3Creep){
-            //Create creep or something
+            creepSpawner.startNextWave();
         }
 
         else if(o instanceof Packet.Packet4Lives){
@@ -114,13 +126,18 @@ public class MPClient extends Listener{
         client.sendUDP(towerPacket);
     }
 
+    public void sendUpgradeTower(float xpos, float ypos){
+        Packet9TowerUpgrade upgrade = packetCreator.createTowerUpgradePacket(xpos, ypos);
+        client.sendUDP(upgrade);
+    }
+
     public void sendLives(int lives){
         Packet.Packet4Lives lPacket = packetCreator.createLivesPacket(lives);
         client.sendUDP(lPacket);
     }
 
     public void sendCreeps(int creepnum){
-        Packet.Packet3Creep creepPacket = packetCreator.createCreepPacket(creepnum);
+        Packet.Packet3Creep creepPacket = packetCreator.createCreepPacket();
         client.sendUDP(creepPacket);
     }
 
@@ -132,7 +149,19 @@ public class MPClient extends Listener{
         this.engine = engine;
     }
 
+    public void initCreepSpawner(CreepSpawner creepSpawner){
+        this.creepSpawner = creepSpawner;
+    }
+
     public void stopClient(){
         client.stop();
+    }
+
+    public Player getMulPlayer(){
+        return mulPlayer;
+    }
+
+    public void setMulPlayer(Player mulPlayer){
+        this.mulPlayer = mulPlayer;
     }
 }

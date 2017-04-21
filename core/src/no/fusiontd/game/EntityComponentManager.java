@@ -205,7 +205,7 @@ public class EntityComponentManager extends Engine {
 
     }
 
-    void upgradeEntity(Entity e) {
+    public void upgradeEntity(Entity e) {
         ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
         Upgradeable upgrade = mUpgr.get(e);
         for (CloneableComponent component : upgrade.upgrades) {
@@ -227,7 +227,7 @@ public class EntityComponentManager extends Engine {
         return entity;
     }
 
-public void spawnTower(String name, Geometry geometry) {
+    public void spawnTower(String name, Geometry geometry) {
         for (Entity tower : towers) {
             if (mPos.get(tower).dst(geometry) < geometry.radius) return;
         }
@@ -242,7 +242,7 @@ public void spawnTower(String name, Geometry geometry) {
         return false;
     }
 
-    Entity getTowerAt(float x, float y) {
+    public Entity getTowerAt(float x, float y) {
         Vector2 vec = new Vector2(x,y);
         for (Entity e : towers) {
             if (mPos.get(e).dst(vec) < e.getComponent(Geometry.class).radius) {

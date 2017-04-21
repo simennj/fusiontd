@@ -35,6 +35,9 @@ public class UI{
     public void render(SpriteBatch batch) {
         showLives(batch);
         showCash(batch);
+        if(multiPlayer){
+            showCashMultiPlayer(batch);
+        }
         if (showTowerSet){
             towerSetMenu(towerSettingX, towerSettingY, batch);
         }
@@ -43,6 +46,9 @@ public class UI{
     public void selectTower(float cameraX, float cameraY) {
         Entity e = engine.getTowerAt(cameraX, cameraY);
         engine.upgradeEntity(e);
+        if(multiPlayer){
+            sendTowerUpgrade(cameraX, cameraY);
+        }
         localPlayer.addCash(-e.getComponent(Buyable.class).cost);
     }
 
@@ -213,25 +219,89 @@ public class UI{
         }
     }
 
+    public void showCashMultiPlayer(SpriteBatch batch) {
+
+        mulPlayer = getMulPlayerFromNetwork();
+        int cash = mulPlayer.getCash();
+
+        if (cash == 0){
+            batch.draw(Graphics.getRegion("zeros"), 1.0f, 0.2f, 1f, 1f);
+        }
+
+        LinkedList<Integer> stack = new LinkedList<Integer>();
+        while (cash > 0) {
+            stack.push( cash % 10 );
+            cash = cash / 10;
+        }
+
+        float i = -0.4f;
+        while (!stack.isEmpty()) {
+            i += 0.4f;
+            switch (stack.pop()){
+                case 0:
+                    batch.draw(Graphics.getRegion("zeros"), 1.0f + i, 0.2f, 1f, 1f); break;
+                case 1:
+                    batch.draw(Graphics.getRegion("one"), 1.0f + i, 0.2f, 1f, 1f); break;
+                case 2:
+                    batch.draw(Graphics.getRegion("two"), 1.0f + i, 0.2f, 1f, 1f); break;
+                case 3:
+                    batch.draw(Graphics.getRegion("three"), 1.0f + i, 0.2f, 1f, 1f); break;
+                case 4:
+                    batch.draw(Graphics.getRegion("four"), 1.0f + i, 0.2f, 1f, 1f); break;
+                case 5:
+                    batch.draw(Graphics.getRegion("five"), 1.0f + i, 0.2f, 1f, 1f); break;
+                case 6:
+                    batch.draw(Graphics.getRegion("six"), 1.0f + i, 0.2f, 1f, 1f); break;
+                case 7:
+                    batch.draw(Graphics.getRegion("seven"), 1.0f + i, 0.2f, 1f, 1f); break;
+                case 8:
+                    batch.draw(Graphics.getRegion("eight"), 1.0f + i, 0.2f, 1f, 1f); break;
+                case 9:
+                    batch.draw(Graphics.getRegion("nine"), 1.0f + i, 0.2f, 1f, 1f); break;
+                default:
+                    System.out.println("cash:" + mulPlayer.getCash());
+            }
+        }
+    }
+
     public void initMPClient(MPClient mpClient){
         this.mpClient = mpClient;
         mpClient.initEngine(engine);
+        mpClient.setMulPlayer(mulPlayer);
         multiPlayer = true;
     }
 
     public void initMPServer(MPServer mpServer){
         this.mpServer = mpServer;
         mpServer.initEngine(engine);
+        mpServer.setMulPlayer(mulPlayer);
         multiPlayer = true;
     }
 
     //Sends tower to the other player
 
-    public void sendTower(String towerType, float x, float y) {
+    private void sendTower(String towerType, float x, float y) {
         if (mpClient == null) {
             mpServer.sendTower(towerType, x, y);
         } else if (mpServer == null) {
             mpClient.sendTower(towerType, x, y);
         }
+    }
+
+    private void sendTowerUpgrade(float x, float y){
+        if (mpClient == null) {
+            mpServer.sendUpgradeTower(x, y);
+        } else if (mpServer == null) {
+            mpClient.sendUpgradeTower(x, y);
+        }
+    }
+
+    private Player getMulPlayerFromNetwork(){
+        if (mpClient == null) {
+            return mpServer.getMulPlayer();
+        } else if (mpServer == null) {
+            return mpClient.getMulPlayer();
+        }
+        return mulPlayer;
     }
 }
