@@ -7,6 +7,7 @@ public class Graphics {
     private static final ObjectMap<String, TextureAtlas.AtlasRegion> regions;
     private static TextureAtlas tileAtlas = new TextureAtlas("tiles.atlas");
     private static TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
+    private static TextureAtlas tileAtlasNew = new TextureAtlas("tiles_new.atlas");
 
     static {
         regions = new ObjectMap<String, TextureAtlas.AtlasRegion>();
@@ -34,6 +35,70 @@ public class Graphics {
         regions.put("eight", tileAtlas.findRegion("284"));
         regions.put("nine", tileAtlas.findRegion("285"));
         regions.put("red_button", uiAtlas.findRegion("red_button"));
+
+        regions.put("g0", tileAtlasNew.findRegion("t_g0"));
+        regions.put("g1", tileAtlasNew.findRegion("t_g1"));
+        regions.put("g2", tileAtlasNew.findRegion("t_g2"));
+        regions.put("g3", tileAtlasNew.findRegion("t_g3"));
+        regions.put("g4", tileAtlasNew.findRegion("t_g4"));
+        regions.put("g5", tileAtlasNew.findRegion("t_g5"));
+        regions.put("g6", tileAtlasNew.findRegion("t_g6"));
+        regions.put("g7", tileAtlasNew.findRegion("t_g7"));
+        regions.put("g_E0", tileAtlasNew.findRegion("t_g_E0"));
+        regions.put("g_E1", tileAtlasNew.findRegion("t_g_E1"));
+        regions.put("g_E2", tileAtlasNew.findRegion("t_g_E2"));
+        regions.put("g_E3", tileAtlasNew.findRegion("t_g_E3"));
+        regions.put("g_E4", tileAtlasNew.findRegion("t_g_E4"));
+        regions.put("g_E5", tileAtlasNew.findRegion("t_g_E5"));
+        regions.put("g_N0", tileAtlasNew.findRegion("t_g_N0"));
+        regions.put("g_N1", tileAtlasNew.findRegion("t_g_N1"));
+        regions.put("g_N2", tileAtlasNew.findRegion("t_g_N2"));
+        regions.put("g_N3", tileAtlasNew.findRegion("t_g_N3"));
+        regions.put("g_N4", tileAtlasNew.findRegion("t_g_N4"));
+        regions.put("g_N5", tileAtlasNew.findRegion("t_g_N5"));
+        regions.put("g_NE0", tileAtlasNew.findRegion("t_g_NE0"));
+        regions.put("g_NE1", tileAtlasNew.findRegion("t_g_NE1"));
+        regions.put("g_NW0", tileAtlasNew.findRegion("t_g_NW0"));
+        regions.put("g_NW1", tileAtlasNew.findRegion("t_g_NW1"));
+        regions.put("g_S0", tileAtlasNew.findRegion("t_g_S0"));
+        regions.put("g_S1", tileAtlasNew.findRegion("t_g_S1"));
+        regions.put("g_S2", tileAtlasNew.findRegion("t_g_S2"));
+        regions.put("g_S3", tileAtlasNew.findRegion("t_g_S3"));
+        regions.put("g_S4", tileAtlasNew.findRegion("t_g_S4"));
+        regions.put("g_S5", tileAtlasNew.findRegion("t_g_S5"));
+        regions.put("g_SE0", tileAtlasNew.findRegion("t_g_SE0"));
+        regions.put("g_SE1", tileAtlasNew.findRegion("t_g_SE1"));
+        regions.put("g_SW0", tileAtlasNew.findRegion("t_g_SW0"));
+        regions.put("g_SW1", tileAtlasNew.findRegion("t_g_SW1"));
+        regions.put("g_W0", tileAtlasNew.findRegion("t_g_W0"));
+        regions.put("g_W1", tileAtlasNew.findRegion("t_g_W1"));
+        regions.put("g_W2", tileAtlasNew.findRegion("t_g_W2"));
+        regions.put("g_W3", tileAtlasNew.findRegion("t_g_W3"));
+        regions.put("g_W4", tileAtlasNew.findRegion("t_g_W4"));
+        regions.put("g_W5", tileAtlasNew.findRegion("t_g_W5"));
+        regions.put("p0", tileAtlasNew.findRegion("t_p0"));
+        regions.put("p1", tileAtlasNew.findRegion("t_p1"));
+        regions.put("p2", tileAtlasNew.findRegion("t_p2"));
+        regions.put("p3", tileAtlasNew.findRegion("t_p3"));
+        regions.put("p_NE0", tileAtlasNew.findRegion("t_p_NE0"));
+        regions.put("p_NE1", tileAtlasNew.findRegion("t_p_NE1"));
+        regions.put("p_NW0", tileAtlasNew.findRegion("t_p_NW0"));
+        regions.put("p_NW1", tileAtlasNew.findRegion("t_p_NW1"));
+        regions.put("p_SE0", tileAtlasNew.findRegion("t_p_SE0"));
+        regions.put("p_SE1", tileAtlasNew.findRegion("t_p_SE1"));
+        regions.put("p_SW0", tileAtlasNew.findRegion("t_p_SW0"));
+        regions.put("p_SW1", tileAtlasNew.findRegion("t_p_SW1"));
+        regions.put("tree0", tileAtlasNew.findRegion("tree0"));
+        regions.put("tree1", tileAtlasNew.findRegion("tree1"));
+        regions.put("tree2", tileAtlasNew.findRegion("tree2"));
+
+
+
+
+
+
+
+
     }
 
     public static TextureAtlas.AtlasRegion getRegion(String name) {
