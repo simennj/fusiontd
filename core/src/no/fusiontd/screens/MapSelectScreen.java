@@ -4,12 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import java.util.ArrayList;
@@ -18,7 +15,6 @@ import java.util.List;
 
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
-import no.fusiontd.menu.ExitButton;
 import no.fusiontd.menu.NormalTextButtonFactory;
 import no.fusiontd.menu.TextButtonFactory;
 
@@ -27,11 +23,9 @@ public class MapSelectScreen implements Screen {
     private FusionTD game;
     private MenuStage stage;
     private TextButtonFactory textButtonFactory;
-    private ExitButton exitButton;
 
     public MapSelectScreen(FusionTD game) {
         this.game = game;
-        exitButton = ExitButton.create(game);
     }
 
     @Override
@@ -71,7 +65,13 @@ public class MapSelectScreen implements Screen {
         //5. add ScrollPane to stage.
         stage.addMenuContent(container);
 
-        stage.addImageButton(exitButton);
+        stage.addImageButton("backButton", new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.returnToMenu();
+            }
+        });
+
     }
 
     @Override
@@ -88,7 +88,6 @@ public class MapSelectScreen implements Screen {
     public void dispose() {
         stage.dispose();
         textButtonFactory.dispose();
-        exitButton.dispose();
     }
 
     @Override

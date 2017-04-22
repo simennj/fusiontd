@@ -9,10 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
-import no.fusiontd.menu.ExitButton;
 import no.fusiontd.menu.NormalTextButtonFactory;
 import no.fusiontd.menu.TextButtonFactory;
 
@@ -20,12 +18,10 @@ public class MapDeleteScreen implements Screen{
         private FusionTD game;
         private MenuStage stage;
         private TextButtonFactory textButtonFactory;
-        private ExitButton exitButton;
         private TextButton textButton;
 
         public MapDeleteScreen(FusionTD game) {
             this.game = game;
-            exitButton = ExitButton.create(game);
         }
 
         @Override
@@ -48,7 +44,6 @@ public class MapDeleteScreen implements Screen{
                 textButton = textButtonFactory.createTextButton(mapName, new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        table.removeActor(textButton);
                         deleteMap(mapName);
                     }
                 });
@@ -67,7 +62,12 @@ public class MapDeleteScreen implements Screen{
             //5. add ScrollPane to stage.
             stage.addMenuContent(container);
 
-            stage.addImageButton(exitButton);
+            stage.addImageButton("backButton", new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.returnToMenu();
+                }
+            });
         }
 
         @Override
@@ -84,7 +84,6 @@ public class MapDeleteScreen implements Screen{
         public void dispose() {
             stage.dispose();
             textButtonFactory.dispose();
-            exitButton.dispose();
         }
 
         @Override

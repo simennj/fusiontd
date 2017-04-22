@@ -186,6 +186,13 @@ repeat: none
   orig: 128, 128
   offset: 0, 0
   index: -1
+groundTex
+  rotate: false
+  xy: 262, 324
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 025
   rotate: false
   xy: 392, 454
@@ -417,6 +424,13 @@ repeat: none
   offset: 0, 0
   index: -1
 060
+  rotate: false
+  xy: 2, 782
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+roadTex
   rotate: false
   xy: 2, 782
   size: 128, 128
@@ -689,7 +703,21 @@ repeat: none
   orig: 128, 128
   offset: 0, 0
   index: -1
+pathEndTex
+  rotate: false
+  xy: 782, 522
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 091
+  rotate: false
+  xy: 392, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+pathStartTex
   rotate: false
   xy: 392, 2
   size: 128, 128

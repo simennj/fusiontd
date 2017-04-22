@@ -12,13 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
-
 import no.fusiontd.FusionTD;
 import no.fusiontd.MPAlternative.MPClient;
 import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.MenuStage;
-import no.fusiontd.menu.DialogFactory;
-import no.fusiontd.menu.ExitButton;
 import no.fusiontd.menu.LabelFactory;
 
 public class ConnectScreen implements Screen, Input.TextInputListener {
@@ -30,18 +27,15 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
     private TextButton btnFindGame, btnHostGame;
     private MenuStage stage;
     private LabelFactory labelFactory;
-    private DialogFactory dialogFactory;
     private MPClient mpClient;
     private MPServer mpServer;
     private boolean pending;
     private Timer timer;
-    private ExitButton exitButton;
 
     public ConnectScreen(FusionTD game) {
         serverIP = null;
         this.game = game;
         this.labelFactory = new LabelFactory();
-        this.dialogFactory = new DialogFactory();
         pending = false;
     }
 
@@ -61,8 +55,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
 
         stage = new MenuStage();
         Gdx.input.setInputProcessor(stage);
-        exitButton = ExitButton.create(game);
-        exitButton.addListener(new ChangeListener() {
+        stage.addImageButton("backButton", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(mpClient != null){
@@ -73,6 +66,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
                     serverRunning = false;
                 }
                 game.stopMP();
+                game.returnToMenu();
             }
         });
 
@@ -82,7 +76,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         labelIP = labelFactory.createLabel(serverIP);
         stage.addMenuContent(labelIP);
 
-        final Dialog popUpDialog = dialogFactory.createDialog("", "No one has Connected yet :C");
+        final Dialog popUpDialog = stage.createDialog("", "No one has Connected yet :C");
 
         btnHostGame = stage.createTextButton("Host Game", new ChangeListener() {
             @Override
@@ -132,7 +126,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
                     pending = true;
 
                     timer = Timer.instance();
-                    timer.schedule(new Timer.Task() {
+                    Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
                             System.out.println("Checking for map in mpClient");
@@ -153,7 +147,6 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
                 }
         });
 
-        stage.addImageButton(exitButton);
     }
 
 
@@ -163,8 +156,6 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
 
     public void dispose () {
         stage.dispose();
-        dialogFactory.dispose();
-        exitButton.dispose();
     }
 
     @Override
