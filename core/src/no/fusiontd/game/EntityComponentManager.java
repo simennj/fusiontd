@@ -20,6 +20,7 @@ public class EntityComponentManager extends Engine {
     private ComponentMapper<Geometry> mPos = ComponentMapper.getFor(Geometry.class);
     private ImmutableArray<Entity> creeps;
     private Player localPlayer, mulPlayer;
+    ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
 
     public EntityComponentManager(PlayScreen view, final Player localPlayer, Player mulPlayer) {
         super();
@@ -35,7 +36,6 @@ public class EntityComponentManager extends Engine {
         addEntityListener(Family.all(AddOnRemove.class, Geometry.class).get(), new EntityListener() {
             ComponentMapper<AddOnRemove> removeActionMapper = ComponentMapper.getFor(AddOnRemove.class);
             ComponentMapper<Geometry> positionMapper = ComponentMapper.getFor(Geometry.class);
-
             @Override
             public void entityAdded(Entity entity) {
 
@@ -135,7 +135,7 @@ public class EntityComponentManager extends Engine {
                         new AddOnRemove(new Vector2(0, .5f),
                                 new Render("explosion"),
                                 new Timer(2),
-                                new Attack(.6f, 2),
+                                new Attack(.6f, 20),
                                 new Durability(1000000)),
                         new Upgradeable(15, new Targeting(4f, 1.6f, true,
                                 new Render(Graphics.getRegion("missile")),
@@ -145,7 +145,7 @@ public class EntityComponentManager extends Engine {
                                 new AddOnRemove(new Vector2(0, .5f),
                                         new Render("explosion"),
                                         new Timer(2),
-                                        new Attack(.7f, 3),
+                                        new Attack(.7f, 30),
                                         new Durability(1000000))),
                                 new Upgradeable(20, new Targeting(4.5f, 1.4f, true,
                                         new Timer(1f),
@@ -165,18 +165,20 @@ public class EntityComponentManager extends Engine {
                 new Value(5),
                 new Targeting(1, .05f, new Vector2(0, .5f), true,
                         new Render(Graphics.getRegion("flame")),
-                        new Timer(1),
-                        new Attack(.1f, 30),
-                        new Durability(30)
+                        new Timer(.05f),
+                        new Attack(.1f, 3),
+                        new Durability(3)
                 ),
                 new Upgradeable(10, new Targeting(1.5f, .05f, new Vector2(0, .5f), true,
                         new Render(Graphics.getRegion("flame")),
-                        new Attack(.05f, 40),
-                        new Durability(40)),
+                        new Timer(.05f),
+                        new Attack(.05f, 10),
+                        new Durability(10)),
                         new Upgradeable(15, new Targeting(1, .05f, new Vector2(0, .5f), true,
                                 new Render(Graphics.getRegion("flame")),
-                                new Attack(.05f, 60),
-                                new Durability(60))))
+                                new Timer(.05f),
+                                new Attack(.05f, 15),
+                                new Durability(15))))
         ));
         blueprints.put("t_emil", Arrays.<CloneableComponent>asList(
                 new Render("t_emil0"),
@@ -200,7 +202,6 @@ public class EntityComponentManager extends Engine {
     }
 
     public boolean upgradeEntity(Entity e) {
-        ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
         Upgradeable upgrade = mUpgr.get(e);
         if(upgrade == null) {
             return false;
