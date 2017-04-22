@@ -14,9 +14,9 @@ public class MapWriter extends MapReader {
         String mapString = "";
         String locRoot = Gdx.files.getLocalStoragePath();
         mapString = mapToString(map);
-        String mapSaveString = "maps/" + mapName + ".txt";
-        FileHandle file = Gdx.files.local(mapSaveString);
-        //locRoot + mapName + ".txt";
+        String mapSaveString = locRoot + "maps/" + mapName + ".txt";
+        //FileHandle file = Gdx.files.local(mapSaveString);
+        FileHandle file = Gdx.files.absolute(mapSaveString);
 
         file.writeString(mapString, false); //"False"-value overwrites current content.
     }

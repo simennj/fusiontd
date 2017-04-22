@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import no.fusiontd.FusionTD;
@@ -20,6 +21,7 @@ public class MapDeleteScreen implements Screen{
         private MenuStage stage;
         private TextButtonFactory textButtonFactory;
         private ExitButton exitButton;
+        private TextButton textButton;
 
         public MapDeleteScreen(FusionTD game) {
             this.game = game;
@@ -36,19 +38,33 @@ public class MapDeleteScreen implements Screen{
         stage.setBackground(new Image(backgroundImage));*/
 
             //1. Navigate to the map folder, find amount of maps. maps are found in android/maps.
-            FileHandle[] files = Gdx.files.internal("maps/").list();
+            String locRoot = Gdx.files.getLocalStoragePath();
+            FileHandle[] assetMaps = Gdx.files.internal("maps/").list();
+            FileHandle[] createdMaps = Gdx.files.absolute(locRoot + "maps/").list();
+
+            FileHandle[] files = new FileHandle[createdMaps.length + assetMaps.length];
+            int count = 0;
+            for(int i = 0; i<assetMaps.length; i++) {
+                files[i] = assetMaps[i];
+                count++;
+            }
+            for(int j = 0;j<createdMaps.length;j++) {
+                files[count++] = createdMaps[j];
+            }
             int numberOfMaps=files.length;
 
             //2. create and add textButtons to a table.
-            Table table = new Table();
+            final Table table = new Table();
             for (int i=0; i<numberOfMaps; i++){
                 final String mapName=files[i].nameWithoutExtension();//
-                table.add(textButtonFactory.createTextButton(mapName, new ChangeListener() {
+                textButton = textButtonFactory.createTextButton(mapName, new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
+                        table.removeActor(textButton);
                         deleteMap(mapName);
                     }
-                }));
+                });
+                table.add(textButton);
                 table.row();
             }
 
@@ -99,8 +115,9 @@ public class MapDeleteScreen implements Screen{
         }
 
         public void deleteMap(String mapName){
-            String mapSaveString = "maps/" + mapName + ".txt";
-            FileHandle file = Gdx.files.local(mapSaveString);
+            String locRoot = Gdx.files.getLocalStoragePath();
+            String mapSaveString = locRoot + "maps/" + mapName + ".txt";
+            FileHandle file = Gdx.files.absolute(mapSaveString);
 
             file.delete();
             System.out.println("deleted " + mapName);//"False"-value overwrites current content.
