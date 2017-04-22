@@ -7,10 +7,10 @@ class WavePart {
     final CreepBluePrint creepBluePrint;
     final float delay;
 
-    WavePart(int amount, String texture, float life, float speed, float delay) {
+    WavePart(int amount, String texture, int life, float speed, float delay, int reward) {
         this.amount = amount;
         this.delay = delay;
-        creepBluePrint = new CreepBluePrint(texture, life, speed);
+        creepBluePrint = new CreepBluePrint(texture, life, speed, reward);
     }
 
     @Override

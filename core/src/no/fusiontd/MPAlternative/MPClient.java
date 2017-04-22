@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 
 import no.fusiontd.MPAlternative.Packet.*;
@@ -12,7 +11,7 @@ import no.fusiontd.MPAlternative.Packet.*;
 import java.io.IOException;
 
 import no.fusiontd.FusionTD;
-import no.fusiontd.components.Buyable;
+import no.fusiontd.components.Value;
 import no.fusiontd.components.Geometry;
 import no.fusiontd.game.CreepSpawner;
 import no.fusiontd.game.EntityComponentManager;
@@ -89,12 +88,12 @@ public class MPClient extends Listener{
             float towerSettingY = ((Packet7TowerPlaced) o).ypos;
             engine.spawnTower(type , new Geometry(towerSettingX, towerSettingY, 0, .5f));
             Entity towerEntity = engine.getTowerAt(((Packet7TowerPlaced) o).xpos, ((Packet7TowerPlaced) o).ypos);
-            mulPlayer.addCash(-towerEntity.getComponent(Buyable.class).cost);
+            mulPlayer.addCash(-towerEntity.getComponent(Value.class).cost);
         }
         else if ( o instanceof Packet9TowerUpgrade){
             Entity towerEntity = engine.getTowerAt(((Packet9TowerUpgrade) o).xpos, ((Packet9TowerUpgrade) o).ypos);
             engine.upgradeEntity(towerEntity);
-            mulPlayer.addCash(-towerEntity.getComponent(Buyable.class).cost);
+            mulPlayer.addCash(-towerEntity.getComponent(Value.class).cost);
         }
 
         else if( o instanceof Packet.Packet3Creep){

@@ -1,8 +1,6 @@
 package no.fusiontd.game;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.LinkedList;
@@ -11,7 +9,7 @@ import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
 import no.fusiontd.MPAlternative.MPClient;
 import no.fusiontd.MPAlternative.MPServer;
-import no.fusiontd.components.Buyable;
+import no.fusiontd.components.Value;
 import no.fusiontd.components.Geometry;
 
 public class UI{
@@ -49,7 +47,7 @@ public class UI{
         if(multiPlayer){
             sendTowerUpgrade(cameraX, cameraY);
         }
-        localPlayer.addCash(-e.getComponent(Buyable.class).cost);
+        localPlayer.addCash(-e.getComponent(Value.class).cost);
     }
 
     public void selectCreep(float cameraX, float cameraY) {

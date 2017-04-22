@@ -2,7 +2,7 @@ package no.fusiontd.MPAlternative;
 
 import no.fusiontd.FusionTD;
 import no.fusiontd.MPAlternative.Packet.*;
-import no.fusiontd.components.Buyable;
+import no.fusiontd.components.Value;
 import no.fusiontd.components.Geometry;
 import no.fusiontd.game.EntityComponentManager;
 import no.fusiontd.game.Player;
@@ -110,13 +110,13 @@ public class MPServer extends Listener {
             float towerSettingY = ((Packet7TowerPlaced) o).ypos;
             engine.spawnTower(type , new Geometry(towerSettingX, towerSettingY, 0, .5f));
             Entity towerEntity = engine.getTowerAt(towerSettingX, towerSettingY);
-            mulPlayer.addCash(-towerEntity.getComponent(Buyable.class).cost);
+            mulPlayer.addCash(-towerEntity.getComponent(Value.class).cost);
         }
 
         else if ( o instanceof Packet9TowerUpgrade){
             Entity towerEntity = engine.getTowerAt(((Packet9TowerUpgrade) o).xpos, ((Packet9TowerUpgrade) o).ypos);
             engine.upgradeEntity(towerEntity);
-            mulPlayer.addCash(-towerEntity.getComponent(Buyable.class).cost);
+            mulPlayer.addCash(-towerEntity.getComponent(Value.class).cost);
         }
 
         else if( o instanceof Packet.Packet3Creep){
