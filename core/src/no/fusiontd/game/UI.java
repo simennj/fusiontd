@@ -1,28 +1,16 @@
 package no.fusiontd.game;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
-import java.util.LinkedList;
-
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
 import no.fusiontd.MPAlternative.MPClient;
 import no.fusiontd.MPAlternative.MPServer;
-import no.fusiontd.MenuStage;
-import no.fusiontd.components.Value;
 import no.fusiontd.components.Geometry;
-import no.fusiontd.menu.ExitButton;
-import no.fusiontd.screens.MenuScreen;
-import no.fusiontd.screens.PlayScreen;
+import no.fusiontd.components.Value;
+
+import java.util.LinkedList;
 
 public class UI{
 
@@ -60,7 +48,7 @@ public class UI{
         }
 
         batch.draw(Graphics.getRegion("back0"), 15.0f , 0.0f, 1f, 1f); // back button
-        if(!multiPlayer || mpServer != null) {
+        if (!multiPlayer || mpServer != null) {
             batch.draw(play, 0.0f, 0.0f, 1f, 1f);
         }
 

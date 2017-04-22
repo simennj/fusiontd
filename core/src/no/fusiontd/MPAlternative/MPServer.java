@@ -1,18 +1,17 @@
 package no.fusiontd.MPAlternative;
 
-import no.fusiontd.FusionTD;
-import no.fusiontd.MPAlternative.Packet.*;
-import no.fusiontd.components.Value;
-import no.fusiontd.components.Geometry;
-import no.fusiontd.game.EntityComponentManager;
-import no.fusiontd.game.Player;
-
 import com.badlogic.ashley.core.Entity;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.FrameworkMessage;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import no.fusiontd.FusionTD;
+import no.fusiontd.MPAlternative.Packet.*;
+import no.fusiontd.components.Geometry;
+import no.fusiontd.components.Value;
+import no.fusiontd.game.EntityComponentManager;
+import no.fusiontd.game.Player;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -23,12 +22,12 @@ import java.util.Enumeration;
 
 public class MPServer extends Listener {
 
+    private static Connection connection;
+    private static PacketCreator packetCreator;
     private int timeout = 5000;
     private int udpPort = 54556;
     private int tcpPort = 54555;
     private Server server;
-    private static Connection connection;
-    private static PacketCreator packetCreator;
     private FusionTD game;
     private String playerName;
     private EntityComponentManager engine;

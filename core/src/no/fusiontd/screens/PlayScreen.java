@@ -1,6 +1,5 @@
 package no.fusiontd.screens;
 
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -183,8 +182,7 @@ public class PlayScreen implements Screen, InputProcessor {
                     creepSpawner.startNextWave();
                     mpServer.sendCreepWaveStarted();
                 }
-            }
-            else{
+            } else {
                 creepSpawner.startNextWave();
             }
         } else if (ui.isTowerSetting()) {

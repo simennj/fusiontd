@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import no.fusiontd.components.*;
 
 public class CreepSpawner {
+    public int waveNumber = 0;
     private Path<Vector2> path;
     private Engine engine;
     private WaveReader waveReader;
@@ -17,7 +18,6 @@ public class CreepSpawner {
     private Vector2 startPosition = new Vector2();
     private boolean waveActive;
     private TextureAtlas spriteAtlas = new TextureAtlas("sprites.atlas");
-    public int waveNumber = 0;
 
     public CreepSpawner(Path<Vector2> path, Engine engine) {
         this.path = path;

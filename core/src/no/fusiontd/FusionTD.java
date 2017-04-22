@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
-
 import no.fusiontd.MPAlternative.MPClient;
 import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.maps.MapReader;
@@ -42,7 +41,7 @@ public class FusionTD extends Game {
 		//System.out.println("Runs startgame");
 		boolean mapExists = false;
 		FileHandle[] maps =  Gdx.files.internal("maps/").list();
-		for(int i = 0; i < maps.length; i++) {
+		for (int i = 0; i < maps.length; i++) {
 			System.out.println(maps[i].toString());
 			String[] map = maps[i].toString().split("[/.]");
 			System.out.println(map[1]);

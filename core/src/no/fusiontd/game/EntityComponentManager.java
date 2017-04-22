@@ -10,12 +10,12 @@ import no.fusiontd.systems.*;
 
 public class EntityComponentManager extends Engine {
 
+    ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
     private ImmutableArray<Entity> towers = getEntitiesFor(Family.all(Geometry.class, Targeting.class).get());
     private ImmutableArray<Entity> creeps = getEntitiesFor(Family.all(Geometry.class, Attackable.class, Durability.class).get());
     private ComponentMapper<Geometry> mPos = ComponentMapper.getFor(Geometry.class);
     private TowerBlueprints towerBlueprints = new TowerBlueprints();
     private Player localPlayer, mulPlayer;
-    ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
 
     public EntityComponentManager(PlayScreen view, final Player localPlayer, Player mulPlayer) {
         super();
