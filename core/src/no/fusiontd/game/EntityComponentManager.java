@@ -82,6 +82,7 @@ public class EntityComponentManager extends Engine {
         if(upgrade == null) {
             return false;
         }
+        e.getComponent(Value.class).cost = upgrade.cost;
         e.remove(Upgradeable.class);
         for (CloneableComponent component : upgrade.upgrades) {
             e.add(component.cloneComponent());
