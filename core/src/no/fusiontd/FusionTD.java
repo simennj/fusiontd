@@ -42,7 +42,7 @@ public class FusionTD extends Game {
 		//System.out.println("Runs startgame");
 		boolean mapExists = false;
 		FileHandle[] maps =  Gdx.files.internal("maps/").list();
-		for (int i = 0; i < maps.length; i++) {
+		for(int i = 0; i < maps.length; i++) {
 			System.out.println(maps[i].toString());
 			String[] map = maps[i].toString().split("[/.]");
 			System.out.println(map[1]);

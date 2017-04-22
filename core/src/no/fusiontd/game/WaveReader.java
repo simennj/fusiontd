@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 class WaveReader {
-    public LinkedList<CreepWave> waves;
+    LinkedList<CreepWave> waves;
 
     WaveReader(String wave) {
         waves = new LinkedList<CreepWave>();
@@ -44,6 +44,10 @@ class WaveReader {
                 Float.parseFloat(line[4]) / 1000f,
                 Integer.parseInt(line[5])
         );
+    }
+
+    public boolean hasNextWave() {
+        return (waves.size() > 0);
     }
 
     CreepWave popWave() {

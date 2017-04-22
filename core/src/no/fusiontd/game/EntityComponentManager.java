@@ -15,6 +15,7 @@ public class EntityComponentManager extends Engine {
     private ComponentMapper<Geometry> mPos = ComponentMapper.getFor(Geometry.class);
     private TowerBlueprints towerBlueprints = new TowerBlueprints();
     private Player localPlayer, mulPlayer;
+    ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
 
     public EntityComponentManager(PlayScreen view, final Player localPlayer, Player mulPlayer) {
         super();
@@ -28,7 +29,6 @@ public class EntityComponentManager extends Engine {
         addEntityListener(Family.all(AddOnRemove.class, Geometry.class).get(), new EntityListener() {
             ComponentMapper<AddOnRemove> removeActionMapper = ComponentMapper.getFor(AddOnRemove.class);
             ComponentMapper<Geometry> positionMapper = ComponentMapper.getFor(Geometry.class);
-
             @Override
             public void entityAdded(Entity entity) {
 
@@ -78,7 +78,6 @@ public class EntityComponentManager extends Engine {
     }
 
     public boolean upgradeEntity(Entity e) {
-        ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
         Upgradeable upgrade = mUpgr.get(e);
         if(upgrade == null) {
             return false;

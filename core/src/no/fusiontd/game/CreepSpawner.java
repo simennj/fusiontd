@@ -17,6 +17,7 @@ public class CreepSpawner {
     private Vector2 startPosition = new Vector2();
     private boolean waveActive;
     private TextureAtlas spriteAtlas = new TextureAtlas("sprites.atlas");
+    public int waveNumber = 0;
 
     public CreepSpawner(Path<Vector2> path, Engine engine) {
         this.path = path;
@@ -36,8 +37,13 @@ public class CreepSpawner {
     }
 
     public void startNextWave() {
-        currentWave = waveReader.popWave();
-        waveActive = true;
+        if (waveReader.hasNextWave()) {
+            currentWave = waveReader.popWave();
+            waveNumber++;
+            waveActive = true;
+        } else {
+            System.out.println("You have won!");
+        }
     }
 
     private void spawnCreep(String region, int life, float speed, int reward, Component... components) {
