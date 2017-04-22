@@ -48,14 +48,29 @@ public class MapSelectScreen implements Screen {
         FileHandle[] assetMaps = Gdx.files.internal("maps/").list();
         FileHandle[] createdMaps = Gdx.files.absolute(locRoot + "maps/").list();
 
-        FileHandle[] files = new FileHandle[createdMaps.length + assetMaps.length];
-        int count = 0;
-        for(int i = 0; i<assetMaps.length; i++) {
-            files[i] = assetMaps[i];
-            count++;
+        boolean equalArrays = true;
+        for (int i = 0; i < assetMaps.length; i++) {
+            if(!assetMaps[i].nameWithoutExtension().equals(createdMaps[i].nameWithoutExtension())){
+                equalArrays = false;
+                break;
+            }
+
         }
-        for(int j = 0;j<createdMaps.length;j++) {
-            files[count++] = createdMaps[j];
+        FileHandle[] files;
+        System.out.println(equalArrays);
+        if(equalArrays){
+            files = assetMaps;
+        }
+        else{
+            files = new FileHandle[createdMaps.length + assetMaps.length];
+            int count = 0;
+            for(int i = 0; i<assetMaps.length; i++) {
+                files[i] = assetMaps[i];
+                count++;
+            }
+            for(int j = 0;j<createdMaps.length;j++) {
+                files[count++] = createdMaps[j];
+            }
         }
 
         int numberOfMaps = files.length;

@@ -35,6 +35,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
     private MPServer mpServer;
     private boolean pending;
     private Timer timer;
+    private ExitButton exitButton;
 
     public ConnectScreen(FusionTD game) {
         serverIP = null;
@@ -60,7 +61,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
 
         stage = new MenuStage();
         Gdx.input.setInputProcessor(stage);
-        ExitButton exitButton = ExitButton.create(game);
+        exitButton = ExitButton.create(game);
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -162,6 +163,8 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
 
     public void dispose () {
         stage.dispose();
+        dialogFactory.dispose();
+        exitButton.dispose();
     }
 
     @Override
