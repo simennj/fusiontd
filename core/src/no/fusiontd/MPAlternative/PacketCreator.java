@@ -1,8 +1,6 @@
 package no.fusiontd.MPAlternative;
 
 
-import com.badlogic.ashley.core.Entity;
-
 /**
  * Created by Odd on 14.04.2017.
  */
@@ -26,9 +24,8 @@ class PacketCreator {
         return mPacket;
     }
 
-    Packet.Packet3Creep createCreepPacket(int creepNumber){
+    Packet.Packet3Creep createCreepPacket(){
         Packet.Packet3Creep creepPacket = new Packet.Packet3Creep();
-        creepPacket.creepnumber = creepNumber;
         return creepPacket;
     }
 
@@ -60,9 +57,17 @@ class PacketCreator {
         return towerPlaced;
     }
 
-    Packet.Packet8Meta createMetaPacket(String metadata){
+    Packet.Packet9TowerUpgrade createTowerUpgradePacket(float xpos, float ypos){
+        Packet.Packet9TowerUpgrade upgrade = new Packet.Packet9TowerUpgrade();
+        upgrade.xpos = xpos;
+        upgrade.ypos = ypos;
+        return upgrade;
+    }
+
+    Packet.Packet8Meta createMetaPacket(String metadata, String mapString){
         Packet.Packet8Meta metaPacket = new Packet.Packet8Meta();
         metaPacket.mapName = metadata;
+        metaPacket.mapAsString = mapString;
         return metaPacket;
     }
 

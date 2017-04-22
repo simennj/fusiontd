@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
+
 class WaveReader {
     private LinkedList<CreepWave> waves;
 
@@ -24,7 +26,7 @@ class WaveReader {
     private void parseWavesFromFile(Scanner scanner) {
         while (scanner.hasNextLine()) {
             String[] line = scanner.nextLine().split(" ");
-            if (line.length == 5) {
+            if (line.length == 6) {
                 waves.getLast().addPart(parsePart(line));
             } else {
                 waves.add(new CreepWave());
@@ -36,9 +38,10 @@ class WaveReader {
         return new WavePart(
                 Integer.parseInt(line[0]),
                 line[1],
-                Float.parseFloat(line[2]),
+                Integer.parseInt(line[2]),
                 Float.parseFloat(line[3]),
-                Float.parseFloat(line[4]) / 1000f
+                Float.parseFloat(line[4]) / 1000f,
+                Integer.parseInt(line[5])
         );
     }
 

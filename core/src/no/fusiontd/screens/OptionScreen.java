@@ -33,8 +33,8 @@ public class OptionScreen implements Screen {
     @Override
     public void show(){
         stage = new MenuStage();
-        Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
-        stage.setBackground(new Image(backgroundImage));
+        /*Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
+        stage.setBackground(new Image(backgroundImage));*/
         textButtonFactory = new NormalTextButtonFactory();
         checkButton = CheckButton.create("MyButton");
         checkButton.addListener(new ClickListener() {

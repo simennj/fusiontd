@@ -2,8 +2,10 @@ package no.fusiontd.MPAlternative;
 
 import no.fusiontd.FusionTD;
 import no.fusiontd.MPAlternative.Packet.*;
+import no.fusiontd.components.Value;
 import no.fusiontd.components.Geometry;
 import no.fusiontd.game.EntityComponentManager;
+import no.fusiontd.game.Player;
 
 import com.badlogic.ashley.core.Entity;
 import com.esotericsoftware.kryo.Kryo;
@@ -30,6 +32,7 @@ public class MPServer extends Listener {
     private FusionTD game;
     private String playerName;
     private EntityComponentManager engine;
+    private Player mulPlayer;
 
     public MPServer(FusionTD game, String playerName){
         this.game = game;
@@ -53,7 +56,7 @@ public class MPServer extends Listener {
 
     private void registerPackets(){
         Kryo kryo = server.getKryo();
-        kryo.register(Entity.class);
+        kryo.register(int[][].class);
         kryo.register(java.util.ArrayList.class);
         kryo.register(Packet0LoginRequest.class);
         kryo.register(Packet1LoginAnswer.class);
@@ -86,11 +89,9 @@ public class MPServer extends Listener {
     }
 
     public void received(Connection c, Object o) {
-        System.out.println("received" + o.toString());
         if (o instanceof Packet.Packet0LoginRequest){
-            Packet.Packet1LoginAnswer lPacket = new Packet.Packet1LoginAnswer();
-            lPacket.accepted = true;
-            c.sendUDP(lPacket);
+            System.out.println(((Packet0LoginRequest) o).playerName + " connected to the server");
+            c.sendUDP(packetCreator.createLoginAnswer(true));
         }
         else if (o instanceof Packet2Message) {
             String message = ((Packet2Message) o).message;
@@ -100,7 +101,6 @@ public class MPServer extends Listener {
         else if( o instanceof Packet10Ready){
             if(((Packet10Ready) o).ready){
                 System.out.println("Received readyPacket");
-                //game.selectMap();
             }
         }
         else if( o instanceof Packet7TowerPlaced){
@@ -109,6 +109,14 @@ public class MPServer extends Listener {
             float towerSettingX = ((Packet7TowerPlaced) o).xpos;
             float towerSettingY = ((Packet7TowerPlaced) o).ypos;
             engine.spawnTower(type , new Geometry(towerSettingX, towerSettingY, 0, .5f));
+            Entity towerEntity = engine.getTowerAt(towerSettingX, towerSettingY);
+            mulPlayer.addCash(-towerEntity.getComponent(Value.class).cost);
+        }
+
+        else if ( o instanceof Packet9TowerUpgrade){
+            Entity towerEntity = engine.getTowerAt(((Packet9TowerUpgrade) o).xpos, ((Packet9TowerUpgrade) o).ypos);
+            engine.upgradeEntity(towerEntity);
+            mulPlayer.addCash(-towerEntity.getComponent(Value.class).cost);
         }
 
         else if( o instanceof Packet.Packet3Creep){
@@ -152,8 +160,9 @@ public class MPServer extends Listener {
         return ipAddress;
     }
 
-    public void sendMetaData(String mapName){
-        Packet8Meta metaPacket = packetCreator.createMetaPacket(mapName);
+    public void sendMetaData(String mapName, String mapAsString){
+        System.out.println("Sending metadata: " + mapName);
+        Packet8Meta metaPacket = packetCreator.createMetaPacket(mapName, mapAsString);
         connection.sendUDP(metaPacket);
     }
     public void sendTower(String towerType, float xpos, float ypos){
@@ -162,17 +171,38 @@ public class MPServer extends Listener {
         connection.sendUDP(towerPacket);
     }
 
+    public void sendUpgradeTower(float xpos, float ypos){
+        Packet9TowerUpgrade upgrade = packetCreator.createTowerUpgradePacket(xpos, ypos);
+        connection.sendUDP(upgrade);
+    }
+
     public void sendLives(int lives){
         Packet4Lives lPacket = packetCreator.createLivesPacket(lives);
         connection.sendUDP(lPacket);
     }
 
-    public void sendCreeps(int creepnum){
-        Packet3Creep creepPacket = packetCreator.createCreepPacket(creepnum);
+    public void sendCreepWaveStarted(){
+        Packet3Creep creepPacket = packetCreator.createCreepPacket();
         connection.sendUDP(creepPacket);
     }
 
     public void initEngine(EntityComponentManager engine){
         this.engine = engine;
+    }
+
+    public Connection getConnection(){
+        return connection;
+    }
+
+    public Player getMulPlayer(){
+        return mulPlayer;
+    }
+
+    public void setMulPlayer(Player mulPlayer){
+        this.mulPlayer = mulPlayer;
+    }
+
+    public void stopServer(){
+        server.stop();
     }
 }

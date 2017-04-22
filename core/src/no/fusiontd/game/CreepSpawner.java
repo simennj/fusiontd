@@ -30,7 +30,7 @@ public class CreepSpawner {
             waveActive = !currentWave.finished();
             timer = 0;
             CreepBluePrint creepBluePrint = currentWave.popCreep();
-            spawnCreep(creepBluePrint.texture, creepBluePrint.life, creepBluePrint.speed);
+            spawnCreep(creepBluePrint.texture, creepBluePrint.life, creepBluePrint.speed, creepBluePrint.reward);
         }
     }
 
@@ -39,11 +39,12 @@ public class CreepSpawner {
         waveActive = true;
     }
 
-    private void spawnCreep(String region, float life, float speed, Component... components) {
+    private void spawnCreep(String region, int life, float speed, int reward, Component... components) {
         Entity creep = new Entity()
                 .add(new Geometry(startPosition, 0, .5f))
                 .add(new Attackable(.1f))
                 .add(new Durability(life))
+                .add(new Value(reward))
                 .add(new Render(Graphics.getRegion(region)))
                 .add(new PathFollow(path, speed));
         for (Component component : components) {
