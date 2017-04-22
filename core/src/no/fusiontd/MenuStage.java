@@ -29,7 +29,7 @@ public class MenuStage extends Stage {
     private void createMenuGroup() {
         mainGroup = new VerticalGroup();
         addActor(mainGroup);
-        mainGroup.setPosition(getWidth() / 2, getHeight() / 3);
+        mainGroup.setPosition(getWidth() / 2, getHeight() / 2.6f);
         mainGroup.center();
         mainGroup.space(18);
         mainGroup.setZIndex(1);

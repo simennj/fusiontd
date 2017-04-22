@@ -25,10 +25,10 @@ public class NormalTextButtonFactory implements TextButtonFactory {
 
     private void populateSkin() {
         BitmapFont font = generateBitmapFont();
-        SpriteDrawable blueButton = new SpriteDrawable(uiAtlas.createSprite("button0"));
-        SpriteDrawable blueButtonPressed = new SpriteDrawable(uiAtlas.createSprite("button1"));
-        SpriteDrawable redButton = new SpriteDrawable(uiAtlas.createSprite("button0"));
-        SpriteDrawable redButtonPressed = new SpriteDrawable(uiAtlas.createSprite("button1"));
+        SpriteDrawable blueButton = new SpriteDrawable(uiAtlas.createSprite("button0_long"));
+        SpriteDrawable blueButtonPressed = new SpriteDrawable(uiAtlas.createSprite("button1_long"));
+        SpriteDrawable redButton = new SpriteDrawable(uiAtlas.createSprite("button0_long"));
+        SpriteDrawable redButtonPressed = new SpriteDrawable(uiAtlas.createSprite("button1_long"));
         skin.add("font", font, BitmapFont.class);
         skin.add("default", new TextButton.TextButtonStyle(blueButton, blueButtonPressed, blueButtonPressed, font));
         skin.add("red", new TextButton.TextButtonStyle(redButton, redButtonPressed, redButtonPressed, font));
@@ -38,9 +38,9 @@ public class NormalTextButtonFactory implements TextButtonFactory {
     private BitmapFont generateBitmapFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/CANDY-SHOP-BLACK.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 30;
+        parameter.size = 20;
         //parameter.borderWidth = 8;
-        parameter.color = Color.BLACK;
+        parameter.color = Color.DARK_GRAY;
         //parameter.borderColor = Color.BLUE;
         BitmapFont font = generator.generateFont(parameter);
         generator.dispose();
