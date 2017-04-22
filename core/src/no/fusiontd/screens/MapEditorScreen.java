@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
@@ -18,7 +17,6 @@ import no.fusiontd.Graphics;
 import no.fusiontd.MenuStage;
 import no.fusiontd.maps.MapWriter;
 import no.fusiontd.menu.ExitButton;
-import no.fusiontd.menu.NormalTextButtonFactory;
 
 public class MapEditorScreen implements Screen, Input.TextInputListener, InputProcessor {
 
@@ -233,6 +231,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] = 1;
         return false;
     }
 
