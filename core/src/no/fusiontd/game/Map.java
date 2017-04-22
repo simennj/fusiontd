@@ -1,13 +1,17 @@
 package no.fusiontd.game;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+
+import no.fusiontd.Graphics;
 import no.fusiontd.maps.MapReader;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 
@@ -18,29 +22,34 @@ public class Map {
     public final int TILEROWS = 9, TILECOLS = 16;
     public CatmullRomSpline<Vector2> path;
     private int[][] map;
+    private int[][] padMap;
     private MapReader mapReader = new MapReader();
+    private TextureAtlas tilesAtlas = new TextureAtlas("tiles_new.atlas");
 
     public Map(String mapName) {
         map = mapReader.loadMap(mapName + ".txt", TILEROWS, TILECOLS);
         path = getPath();
+        padMap = padMap(map);
     }
 
     public void mapEditor(String mapName){
         map = mapReader.loadMap(mapName + ".txt", TILEROWS, TILECOLS);
     }
 
-    public int[][] padMap(Map map) {
+    public int[][] padMap(int[][] map) {
         int[][] paddedMap = new int[TILEROWS+2][TILECOLS+2];
-        for (int i = TILEROWS+1; i >= 0; i--) {
-            for (int j = 0; j < TILECOLS+2; j++) {
-                if (i == 0 || j == 0 || i == TILEROWS+1 || j == TILECOLS+1 || map.getTile((float)j-1, (float)i-1) == 2 || map.getTile((float)j-1, (float)i-1) == 3) {
-                    paddedMap[i][j] = 0;
-                }
-                else {
-                    paddedMap[i][j] = map.getTile((float)j-1, (float)i-1);
-                }
-            }
+        String str = "";
+        int y_max = TILEROWS + 1;
+        for (int i = 0; i < TILEROWS + 2; i++) {
+            for (int j = 0; j < TILECOLS + 2; j++) {
+                if (i == 0 || j == 0 || i == TILEROWS + 1 || j == TILECOLS + 1) { //  || map[y_max - i - 1][j-1] == 2 || map[y_max - i- 1][j-1] == 3
+                    paddedMap[y_max - i][j] = 0;
+                } else {
+                    paddedMap[y_max - i][j] = Math.min(map[y_max - i - 1][j-1], 1);
+                } str = str + paddedMap[y_max - i][j];
+            } str = str + "\n";
         }
+        System.out.println(str);
         return paddedMap;
     }
 
@@ -73,6 +82,87 @@ public class Map {
         }
     }
 
+    public enum tileType{
+        PATH,
+        GRASS,
+        NORTH,
+        EAST,
+        SOUTH,
+        WEST,
+        NORTHEAST,
+        NORTHWEST,
+        SOUTHEAST,
+        SOUTHWEST,
+    }
+
+    // (0,0) is in upper right corner (northeast) and going clockwise around the point
+
+    private int[] grass = {0,0,0,0,0,0,0,0},
+            roadNorth1 = {1,0,0,0,0,0,1,1}, roadNorth2 = {1,0,0,0,0,0,0,1}, roadNorth3 = {0,0,0,0,0,0,1,1},
+            roadWest1 = {0,0,0,0,1,1,1,0}, roadWest2 = {0,0,0,0,0,1,1,0}, roadWest3 = {0,0,0,0,1,1,0,0},
+            roadSouth1 = {0,0,1,1,1,0,0,0}, roadSouth2 = {0,0,0,1,1,0,0,0}, roadSouth3 = {0,0,1,1,0,0,0,0},
+            roadEast1 = {1,1,1,0,0,0,0,0}, roadEast2 = {0,1,1,0,0,0,0,0}, roadEast3 = {1,1,0,0,0,0,0,0},
+            roadNorthEast  = {1,0,0,0,0,0,0,0}, roadNorthWest  = {0,0,0,0,0,0,1,0}, roadSouthEast = {0,0,1,0,0,0,0,0}, roadSouthWest = {0,0,0,0,1,0,0,0},
+            cornerNorthEast1 = {1,1,1,0,0,0,1,1}, cornerNorthEast2 = {1,1,0,0,0,0,1,1}, cornerNorthEast3 = {1,1,1,0,0,0,0,1}, cornerNorthEast4 = {1,1,0,0,0,0,0,1},
+            cornerNorthWest1  = {1,0,0,0,1,1,1,1}, cornerNorthWest2 = {0,0,0,0,1,1,1,1}, cornerNorthWest3 = {1,0,0,0,0,1,1,1}, cornerNorthWest4 = {0,0,0,0,0,1,1,1},
+            cornerSouthEast1 = {1,1,1,1,1,0,0,0}, cornerSouthEast2 = {0,1,1,1,1,0,0,0}, cornerSouthEast3 = {1,1,1,1,0,0,0,0}, cornerSouthEast4 = {0,1,1,1,0,0,0,0},
+            cornerSouthWest1  = {0,0,1,1,1,1,1,0}, cornerSouthWest2  = {0,0,1,1,1,1,0,0}, cornerSouthWest3 = {0,0,0,1,1,1,1,0}, cornerSouthWest4 = {0,0,0,1,1,1,0,0},
+            neighbours = {0,0,0,0,0,0,0,0};
+
+    public TextureAtlas.AtlasRegion getTileGraphic(int x, int y) {
+        if (padMap[y][x] == 1 || padMap[y][x] == 2 || padMap[y][x] == 3){
+            return tilesAtlas.findRegion("t_p0");
+        }
+        return checkNeighbours(padMap,y,x);
+    }
+
+    private TextureAtlas.AtlasRegion checkNeighbours(int[][] map, int x, int y){
+
+        // (0,0) is in upper right corner (northeast) and going clockwise around the point
+
+        neighbours[0] = map[x-1][y-1];
+        neighbours[1] = map[x][y-1];
+        neighbours[2] = map[x+1][y-1];
+        neighbours[3] = map[x+1][y];
+        neighbours[4] = map[x+1][y+1];
+        neighbours[5] = map[x][y+1];
+        neighbours[6] = map[x-1][y+1];
+        neighbours[7] = map[x-1][y];
+
+
+        //OBS!: Unfortunately inverted graphics from arrey, i.e. RoadWest gives GroundEast tile etc.
+        // The corners are seriously messed up. BEWARE!!!
+
+        if (Arrays.equals(neighbours,grass)){
+            return tilesAtlas.findRegion("t_g0");
+        } else if (Arrays.equals(neighbours,roadNorth1) || Arrays.equals(neighbours,roadNorth2) || Arrays.equals(neighbours,roadNorth3)){
+            return tilesAtlas.findRegion("t_g_N0");
+        } else if (Arrays.equals(neighbours,roadWest1) || Arrays.equals(neighbours,roadWest2) || Arrays.equals(neighbours,roadWest3)){
+            return tilesAtlas.findRegion("t_g_W0");
+        } else if (Arrays.equals(neighbours,roadSouth1) || Arrays.equals(neighbours,roadSouth2) || Arrays.equals(neighbours,roadSouth3)){
+            return tilesAtlas.findRegion("t_g_S0");
+        } else if (Arrays.equals(neighbours,roadEast1) || Arrays.equals(neighbours,roadEast2) || Arrays.equals(neighbours,roadEast3)){
+            return tilesAtlas.findRegion("t_g_E0");
+        } else if (Arrays.equals(neighbours,roadNorthEast)){
+            return tilesAtlas.findRegion("t_g_NE0");
+        } else if (Arrays.equals(neighbours,roadNorthWest)){
+            return tilesAtlas.findRegion("t_g_NW0");
+        } else if (Arrays.equals(neighbours,roadSouthEast)){
+            return tilesAtlas.findRegion("t_g_SE0");
+        } else if (Arrays.equals(neighbours,roadSouthWest)){
+            return tilesAtlas.findRegion("t_g_SW0");
+        } else if (Arrays.equals(neighbours,cornerNorthEast1) || Arrays.equals(neighbours,cornerNorthEast2) || Arrays.equals(neighbours,cornerNorthEast3) || Arrays.equals(neighbours,cornerNorthEast4)){
+            return tilesAtlas.findRegion("t_p_SW0");
+        } else if (Arrays.equals(neighbours,cornerNorthWest1) || Arrays.equals(neighbours,cornerNorthWest2) || Arrays.equals(neighbours,cornerNorthWest3) || Arrays.equals(neighbours,cornerNorthWest4)){
+            return tilesAtlas.findRegion("t_p_SE0");
+        } else if (Arrays.equals(neighbours,cornerSouthEast1) || Arrays.equals(neighbours,cornerSouthEast2) || Arrays.equals(neighbours,cornerSouthEast3) || Arrays.equals(neighbours,cornerSouthEast4)){
+            return tilesAtlas.findRegion("t_p_NW0");
+        } else if (Arrays.equals(neighbours,cornerSouthWest1) || Arrays.equals(neighbours,cornerSouthWest2) || Arrays.equals(neighbours,cornerSouthWest3) || Arrays.equals(neighbours,cornerSouthWest4)){
+            return tilesAtlas.findRegion("t_p_NE0");
+        }
+        return tilesAtlas.findRegion("t_g0");
+        // return null;
+    }
 
     public List<Point2D> findPath(int[][] adj) {
         //Function that takes a map as input, and returns a list (with Point2D-objects) of path as a return value.

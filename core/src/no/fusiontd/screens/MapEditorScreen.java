@@ -59,6 +59,13 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
             }
         });
 
+        stage.createTextButton("Delete Maps", new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.openDeleteScreen();
+            }
+        });
+
         camera = new OrthographicCamera(WIDTH, HEIGHT);
         tilesize = Math.min(WIDTH / TILECOLS, HEIGHT / TILEROWS);
         batch = new SpriteBatch();
@@ -207,6 +214,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
             case EDITING:
                 if (getCameraX(screenX) > 15.0f && getCameraX(screenX) < 16.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
                     game.returnToMenu();
+                    state = State.METADATA;
                 } else if (getCameraX(screenX) > 0.0f && getCameraX(screenX) < 1.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
                     saveMap();
                 } else if (map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] <= 3) {
@@ -226,6 +234,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] = 1;
         return false;
     }
 
