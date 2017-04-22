@@ -84,19 +84,19 @@ public class UI{
 
     public void towerSetMenu(float cameraX, float cameraY, SpriteBatch batch) {
 
-        batch.draw(Graphics.getRegion("button0"), cameraX - 0.5f, cameraY - 0.5f, 1f, 1f);
+        batch.draw(Graphics.getRegion("placeholder"), cameraX - 0.45f, cameraY - 0.35f, 0.79f, 0.76f);
 
         batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY + 1.5f, 2f, 1f);
-        batch.draw(Graphics.getRegion("t_0"), cameraX + 0.5f, cameraY + 1.5f, 1f, 1f);
+        batch.draw(Graphics.getRegion("t_0"), cameraX + 0.5f, cameraY + 1.6f, 0.9f, 0.8f);
 
         batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY + 0.5f, 2f, 1f);
-        batch.draw(Graphics.getRegion("t_emil0"), cameraX + 0.5f, cameraY + 0.5f, 1f, 1f);
+        batch.draw(Graphics.getRegion("t_emil0"), cameraX + 0.5f, cameraY + 0.5f, 0.9f, 1f);
 
         batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY - 0.5f, 2f, 1f);
-        batch.draw(Graphics.getRegion("t_hybrida0"), cameraX + 0.5f, cameraY - 0.5f, 1f, 1f);
+        batch.draw(Graphics.getRegion("t_hybrida0"), cameraX + 0.5f, cameraY - 0.4f, 1f, 0.783f);
 
         batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY - 1.5f, 2f, 1f);
-        batch.draw(Graphics.getRegion("t_volvox0"), cameraX + 0.5f, cameraY - 1.5f, 1f, 1f);
+        batch.draw(Graphics.getRegion("t_volvox0"), cameraX + 0.5f, cameraY - 1.4f, 1f, 0.78f);
     }
 
     public boolean towerSet(float cameraX, float cameraY){

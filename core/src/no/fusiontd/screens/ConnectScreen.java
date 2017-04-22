@@ -66,6 +66,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
                     serverRunning = false;
                 }
                 game.stopMP();
+                game.returnToMenu();
             }
         });
 
