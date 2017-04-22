@@ -1,8 +1,6 @@
 package no.fusiontd.MPAlternative;
 
 
-import com.badlogic.ashley.core.Entity;
-
 /**
  * Created by Odd on 14.04.2017.
  */
@@ -66,9 +64,10 @@ class PacketCreator {
         return upgrade;
     }
 
-    Packet.Packet8Meta createMetaPacket(String metadata){
+    Packet.Packet8Meta createMetaPacket(String metadata, String mapString){
         Packet.Packet8Meta metaPacket = new Packet.Packet8Meta();
         metaPacket.mapName = metadata;
+        metaPacket.mapAsString = mapString;
         return metaPacket;
     }
 

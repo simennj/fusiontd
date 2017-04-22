@@ -1,17 +1,14 @@
 package no.fusiontd;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.esotericsoftware.kryonet.Connection;
+import com.badlogic.gdx.files.FileHandle;
 
 import no.fusiontd.MPAlternative.MPClient;
 import no.fusiontd.MPAlternative.MPServer;
+import no.fusiontd.maps.MapReader;
+import no.fusiontd.maps.MapWriter;
 import no.fusiontd.screens.*;
 
 public class FusionTD extends Game {
@@ -43,13 +40,40 @@ public class FusionTD extends Game {
 		playScreen.setMap(mapName);
 		setScreen(playScreen);
 		//System.out.println("Runs startgame");
+		boolean mapExists = false;
+		FileHandle[] maps =  Gdx.files.internal("maps/").list();
+		for (int i = 0; i < maps.length; i++) {
+			System.out.println(maps[i].toString());
+			String[] map = maps[i].toString().split("[/.]");
+			System.out.println(map[1]);
+			if(map[1].equals(mapName)){
+				mapExists = true;
+			}
+		}
+		if(!mapExists){
+			String mapAsString = mpc.getMapAsString();
+			int [][] mapArray = new int[9][16];
+			int k = 0;
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 16; j++) {
+					mapArray[i][j] = mapAsString.charAt(k);
+					k++;
+				}
+			}
+			MapWriter mapWriter = new MapWriter();
+			mapWriter.saveMap(mapArray,mapName);
+		}
 
 		if(multiplayer){
 			//passes client or server to playscreen based on which one has been instantiated, does nothing if neither is instantiated
 			if(mpc == null){
+				MapReader mapReader = new MapReader();
+				int [][] mapArray = mapReader.loadMap(mapName +".txt", 9, 16);
+				MapWriter mapWriter = new MapWriter();
+				String mapAsString = mapWriter.mapToString(mapArray);
 				System.out.println("setting mpServer in playscreen");
 				playScreen.setMpServer(mpServer);
-				mpServer.sendMetaData(mapName);
+				mpServer.sendMetaData(mapName, mapAsString);
 			}
 			else if(mpServer == null){
 				//Sends metadata to the client and starts game

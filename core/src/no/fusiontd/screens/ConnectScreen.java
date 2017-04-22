@@ -64,9 +64,9 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(mpServer == null){
+                if(mpClient != null){
                     mpClient.stopClient();
-                }else{
+                }else if(serverRunning){
                     serverIP = null;
                     mpServer.stopServer();
                     serverRunning = false;
@@ -119,8 +119,6 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         });
         stage.addMenuContent(typedIPField);
 
-        //final Dialog popUpConnected = dialogFactory.createDialog("", ":)");
-
         btnFindGame = stage.createTextButton("Find Game", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -144,13 +142,13 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
                         }
                     }, 2, 2, 10);
                 }
-                    else if(pending){
-                        mpClient.close();
-                        btnFindGame.setText("Connect");
-                        timer.clear();
-                        pending = false;
-                        typedIPField.setText(typedIPString);
-                    }
+                else if(pending){
+                    mpClient.close();
+                    btnFindGame.setText("Connect");
+                    timer.clear();
+                    pending = false;
+                    typedIPField.setText(typedIPString);
+                }
                 }
         });
 

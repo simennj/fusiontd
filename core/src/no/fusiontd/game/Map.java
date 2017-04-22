@@ -29,6 +29,21 @@ public class Map {
         map = mapReader.loadMap(mapName + ".txt", TILEROWS, TILECOLS);
     }
 
+    public int[][] padMap(Map map) {
+        int[][] paddedMap = new int[TILEROWS+2][TILECOLS+2];
+        for (int i = TILEROWS+1; i >= 0; i--) {
+            for (int j = 0; j < TILECOLS+2; j++) {
+                if (i == 0 || j == 0 || i == TILEROWS+1 || j == TILECOLS+1 || map.getTile((float)j-1, (float)i-1) == 2 || map.getTile((float)j-1, (float)i-1) == 3) {
+                    paddedMap[i][j] = 0;
+                }
+                else {
+                    paddedMap[i][j] = map.getTile((float)j-1, (float)i-1);
+                }
+            }
+        }
+        return paddedMap;
+    }
+
     public int getTile(float x, float y) {
         return map[getMapRow(y)][getMapCol(x)];
     }

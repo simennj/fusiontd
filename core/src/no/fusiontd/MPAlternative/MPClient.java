@@ -25,7 +25,7 @@ public class MPClient extends Listener{
     private int udpPort = 54556;
     private String serverIP;
     private static PacketCreator packetCreator;
-    private String playerName, mapName;
+    private String playerName, mapName, mapAsString;
     private FusionTD game;
     private EntityComponentManager engine;
     private CreepSpawner creepSpawner;
@@ -34,6 +34,7 @@ public class MPClient extends Listener{
     public MPClient(String serverIP, FusionTD game, String playerName) {
         this.serverIP = serverIP;
         this.game = game;
+        this.mapAsString = "";
         this.mapName = "";
         this.playerName = playerName;
         packetCreator = new PacketCreator();
@@ -53,6 +54,7 @@ public class MPClient extends Listener{
 
     private void registerPackets(){
         Kryo kryo = client.getKryo();
+        kryo.register(int[][].class);
         kryo.register(java.util.ArrayList.class);
         kryo.register(Packet0LoginRequest.class);
         kryo.register(Packet1LoginAnswer.class);
@@ -106,6 +108,7 @@ public class MPClient extends Listener{
 
         else if ( o instanceof Packet.Packet8Meta){
             this.mapName = ((Packet.Packet8Meta) o).mapName;
+            this.mapAsString = ((Packet8Meta) o).mapAsString;
             System.out.println("Launching game on map: " + ((Packet.Packet8Meta) o).mapName);
         }
         /*else if( o instanceof FrameworkMessage.KeepAlive){
@@ -166,5 +169,9 @@ public class MPClient extends Listener{
 
     public void close(){
         client.close();
+    }
+
+    public String getMapAsString(){
+        return mapAsString;
     }
 }

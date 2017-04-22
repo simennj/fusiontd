@@ -56,6 +56,7 @@ public class MPServer extends Listener {
 
     private void registerPackets(){
         Kryo kryo = server.getKryo();
+        kryo.register(int[][].class);
         kryo.register(java.util.ArrayList.class);
         kryo.register(Packet0LoginRequest.class);
         kryo.register(Packet1LoginAnswer.class);
@@ -89,9 +90,8 @@ public class MPServer extends Listener {
 
     public void received(Connection c, Object o) {
         if (o instanceof Packet.Packet0LoginRequest){
-            Packet.Packet1LoginAnswer lPacket = new Packet.Packet1LoginAnswer();
-            lPacket.accepted = true;
-            c.sendUDP(lPacket);
+            System.out.println(((Packet0LoginRequest) o).playerName + " connected to the server");
+            c.sendUDP(packetCreator.createLoginAnswer(true));
         }
         else if (o instanceof Packet2Message) {
             String message = ((Packet2Message) o).message;
@@ -160,9 +160,9 @@ public class MPServer extends Listener {
         return ipAddress;
     }
 
-    public void sendMetaData(String mapName){
+    public void sendMetaData(String mapName, String mapAsString){
         System.out.println("Sending metadata: " + mapName);
-        Packet8Meta metaPacket = packetCreator.createMetaPacket(mapName);
+        Packet8Meta metaPacket = packetCreator.createMetaPacket(mapName, mapAsString);
         connection.sendUDP(metaPacket);
     }
     public void sendTower(String towerType, float xpos, float ypos){
