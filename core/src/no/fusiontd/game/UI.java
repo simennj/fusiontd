@@ -104,7 +104,7 @@ public class UI{
 
     public boolean towerSet(float cameraX, float cameraY){
         if(cameraX > towerSettingX + 0.5f && cameraX < towerSettingX + 2.5f && cameraY > towerSettingY + 1.5f && cameraY < towerSettingY + 2.5f){
-            if (localPlayer.getCash() >= 5) {
+            if (localPlayer.getCash() >= engine.getCost("t_basic")) {
                 showTowerSet = false;
                 engine.spawnTower("t_basic", new Geometry(towerSettingX, towerSettingY, 0, .5f));
 
@@ -117,7 +117,7 @@ public class UI{
                 return true;
             } return false;
         } else if(cameraX > towerSettingX + 0.5f && cameraX < towerSettingX + 2.5f && cameraY > towerSettingY + 0.5f && cameraY < towerSettingY + 1.5f){
-            if (localPlayer.getCash() >= 2) {
+            if (localPlayer.getCash() >= engine.getCost("t_emil")) {
                 showTowerSet = false;
                 engine.spawnTower("t_emil", new Geometry(towerSettingX, towerSettingY, 0, .5f));
                 if(multiPlayer) {
@@ -128,7 +128,7 @@ public class UI{
                 return true;
             } return false;
         } else if (cameraX > towerSettingX + 0.5f && cameraX < towerSettingX + 2.5f && cameraY > towerSettingY - 0.5f && cameraY < towerSettingY + 0.5f){
-            if (localPlayer.getCash() >= 20) {
+            if (localPlayer.getCash() >= engine.getCost("t_hybrida")) {
                 showTowerSet = false;
                 engine.spawnTower("t_hybrida", new Geometry(towerSettingX, towerSettingY, 0, .5f));
                 if(multiPlayer) {
@@ -139,7 +139,7 @@ public class UI{
                 return true;
             } return false;
         } else if (cameraX > towerSettingX + 0.5f && cameraX < towerSettingX + 2.5f && cameraY > towerSettingY - 1.5f && cameraY < towerSettingY - 0.5f){
-            if (localPlayer.getCash() >= 20) {
+            if (localPlayer.getCash() >= engine.getCost("t_volvox")) {
                 showTowerSet = false;
                 engine.spawnTower("t_volvox", new Geometry(towerSettingX, towerSettingY, 0, .5f));
                 if(multiPlayer) {
