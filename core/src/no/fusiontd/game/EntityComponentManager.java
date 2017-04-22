@@ -202,6 +202,9 @@ public class EntityComponentManager extends Engine {
     public void upgradeEntity(Entity e) {
         ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
         Upgradeable upgrade = mUpgr.get(e);
+        if(upgrade == null) {
+            return;
+        }
         e.remove(Upgradeable.class);
         for (CloneableComponent component : upgrade.upgrades) {
             e.add(component.cloneComponent());
