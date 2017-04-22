@@ -83,11 +83,7 @@ public class EntityComponentManager extends Engine {
                         new Timer(1),
                         new Attack(.5f, 12),
                         new Durability(12),
-                        new Velocity(new Vector2(10, 0)),
-                        new AddOnRemove(new Vector2(0, .5f),
-                                new Render("explosion"),
-                                new Timer(2)
-                        )
+                        new Velocity(new Vector2(10, 0))
                 ),
                 new Upgradeable(10,
                         new Targeting(5, .5f, true,
@@ -95,11 +91,7 @@ public class EntityComponentManager extends Engine {
                                 new Timer(1),
                                 new Attack(.6f, 20),
                                 new Durability(12),
-                                new Velocity(new Vector2(11, 0)),
-                                new AddOnRemove(new Vector2(0, .5f),
-                                        new Render("explosion"),
-                                        new Timer(2)
-                                )
+                                new Velocity(new Vector2(11, 0))
                         ),
                         new Upgradeable(15, new Targeting(5, .5f, true,
                                 new Render(Graphics.getRegion("missile0")),
@@ -107,10 +99,12 @@ public class EntityComponentManager extends Engine {
                                 new Durability(12),
                                 new Attack(.7f, 5),
                                 new Velocity(new Vector2(12, 0))),
-                                new Upgradeable(20,
+                                new Upgradeable(20, new Targeting(5, .5f, true,
+                                        new Render(Graphics.getRegion("missile0")),
                                         new Timer(1f),
                                         new Attack(.8f, 10),
-                                        new Velocity(new Vector2(15, 0))
+                                        new Durability(12),
+                                        new Velocity(new Vector2(15, 0)))
                                 )
                         )
                 )
@@ -172,7 +166,7 @@ public class EntityComponentManager extends Engine {
                 new Targeting(1, .05f, new Vector2(0, .5f), true,
                         new Render(Graphics.getRegion("flame")),
                         new Timer(1),
-                        new Attack(.1f, 15),
+                        new Attack(.1f, 30),
                         new Durability(30)
                 ),
                 new Upgradeable(10, new Targeting(1.5f, .05f, new Vector2(0, .5f), true,
@@ -181,7 +175,7 @@ public class EntityComponentManager extends Engine {
                         new Durability(40)),
                         new Upgradeable(15, new Targeting(1, .05f, new Vector2(0, .5f), true,
                                 new Render(Graphics.getRegion("flame")),
-                                new Attack(.05f, 30),
+                                new Attack(.05f, 60),
                                 new Durability(60))))
         ));
         blueprints.put("t_emil", Arrays.<CloneableComponent>asList(
@@ -205,12 +199,17 @@ public class EntityComponentManager extends Engine {
 
     }
 
-    public void upgradeEntity(Entity e) {
+    public boolean upgradeEntity(Entity e) {
         ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
         Upgradeable upgrade = mUpgr.get(e);
+        if(upgrade == null) {
+            return false;
+        }
+        e.remove(Upgradeable.class);
         for (CloneableComponent component : upgrade.upgrades) {
             e.add(component.cloneComponent());
         }
+        return true;
     }
 
 

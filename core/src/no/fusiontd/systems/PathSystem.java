@@ -25,7 +25,6 @@ public class PathSystem extends IteratingSystem {
         path.path.valueAt(geometry, path.time);
         Vector2 rotation = new Vector2();
         path.path.derivativeAt(rotation, path.time);
-        geometry.rotation = rotation.angle();
         if (path.time > 1) {
             getEngine().removeEntity(entity);
         }
