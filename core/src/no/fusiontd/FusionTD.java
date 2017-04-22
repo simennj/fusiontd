@@ -18,6 +18,7 @@ public class FusionTD extends Game {
 	private PlayScreen playScreen;
 	private Screen connectScreen;
 	private Screen mapSelectScreen;
+	private Screen mapDeleteScreen;
 	private MPServer mpServer;
 	private MPClient mpc;
 	private boolean multiplayer;
@@ -97,6 +98,11 @@ public class FusionTD extends Game {
 
 	public void openMultiplayer(){
 		setScreen(connectScreen);
+	}
+
+	public void openDeleteScreen(){
+		mapDeleteScreen = new MapDeleteScreen(this);
+		setScreen(mapDeleteScreen);
 	}
 
 	public void initMPServer(MPServer mpServer){

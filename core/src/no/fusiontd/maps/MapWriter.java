@@ -12,9 +12,11 @@ public class MapWriter extends MapReader {
         //Takes a map as input, and saves the map into a file.
         //It will save the map row after row, with newlines separating, with upper-left corner as a start-point.
         String mapString = "";
+        String locRoot = Gdx.files.getLocalStoragePath();
         mapString = mapToString(map);
         String mapSaveString = "maps/" + mapName + ".txt";
         FileHandle file = Gdx.files.local(mapSaveString);
+        //locRoot + mapName + ".txt";
 
         file.writeString(mapString, false); //"False"-value overwrites current content.
     }
