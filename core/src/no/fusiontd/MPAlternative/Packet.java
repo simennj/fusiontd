@@ -13,6 +13,4 @@ class Packet {
     static class Packet8Meta{String mapName; String mapAsString;}
     static class Packet9TowerUpgrade{float xpos; float ypos;}
     static class Packet10Ready{boolean ready;}
-
-    //might not need these
 }

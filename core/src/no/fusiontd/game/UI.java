@@ -60,7 +60,9 @@ public class UI{
         }
 
         batch.draw(Graphics.getRegion("back0"), 15.0f , 0.0f, 1f, 1f); // back button
-        batch.draw(play, 0.0f , 0.0f, 1f, 1f);
+        if(!multiPlayer || mpServer != null) {
+            batch.draw(play, 0.0f, 0.0f, 1f, 1f);
+        }
 
     }
 

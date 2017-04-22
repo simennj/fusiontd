@@ -178,11 +178,14 @@ public class PlayScreen implements Screen, InputProcessor {
         if (getCameraX(screenX) > 15.0f && getCameraX(screenX) < 16.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
             game.returnToMenu();
         } else if (getCameraX(screenX) > 0.0f && getCameraX(screenX) < 1.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
-            creepSpawner.startNextWave();
             if (multiplayer) {
                 if (mpClient == null) {
+                    creepSpawner.startNextWave();
                     mpServer.sendCreepWaveStarted();
                 }
+            }
+            else{
+                creepSpawner.startNextWave();
             }
         } else if (ui.isTowerSetting()) {
             ui.towerSet(getCameraX(screenX), getCameraY(screenY));
