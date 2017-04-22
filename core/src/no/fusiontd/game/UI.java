@@ -8,6 +8,7 @@ import no.fusiontd.Graphics;
 import no.fusiontd.MPAlternative.MPClient;
 import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.components.Geometry;
+import no.fusiontd.components.Upgradeable;
 import no.fusiontd.components.Value;
 
 import java.util.LinkedList;
@@ -99,6 +100,8 @@ public class UI{
     }
 
     public boolean towerSet(float cameraX, float cameraY){
+
+
         if(cameraX > towerSettingX + 0.5f && cameraX < towerSettingX + 2.5f && cameraY > towerSettingY + 1.5f && cameraY < towerSettingY + 2.5f){
             if (localPlayer.getCash() >= engine.getCost("t_basic")) {
                 showTowerSet = false;
@@ -145,6 +148,8 @@ public class UI{
                 localPlayer.addCash(-engine.getCost("t_volvox"));
                 return true;
             } return false;
+        } else if(cameraX < towerSettingX + 0.5f && cameraX > towerSettingX - 0.5f && cameraY < towerSettingY + 1.5f && cameraY > towerSettingY - 1.5f) {
+            closeTowerSet();
         } else {
             closeTowerSet();
             openTowerSet(cameraX,cameraY);
