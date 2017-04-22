@@ -16,6 +16,7 @@ public class CreepSpawner {
     private float timer;
     private Vector2 startPosition = new Vector2();
     private boolean waveActive;
+    public int waveNumber = 0;
 
     public CreepSpawner(Path<Vector2> path, Engine engine) {
         this.path = path;
@@ -37,6 +38,7 @@ public class CreepSpawner {
     public void startNextWave() {
         if (waveReader.hasNextWave()) {
             currentWave = waveReader.popWave();
+            waveNumber++;
             waveActive = true;
         } else {
             System.out.println("You have won!");
