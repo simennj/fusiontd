@@ -201,4 +201,8 @@ public class MPServer extends Listener {
     public void setMulPlayer(Player mulPlayer){
         this.mulPlayer = mulPlayer;
     }
+
+    public void stopServer(){
+        server.stop();
+    }
 }

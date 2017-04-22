@@ -34,6 +34,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
     private MPClient mpClient;
     private MPServer mpServer;
     private boolean pending;
+    private Timer timer;
 
     public ConnectScreen(FusionTD game) {
         serverIP = null;
@@ -60,6 +61,19 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         stage = new MenuStage();
         Gdx.input.setInputProcessor(stage);
         ExitButton exitButton = ExitButton.create(game);
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(mpServer == null){
+                    mpClient.stopClient();
+                }else{
+                    serverIP = null;
+                    mpServer.stopServer();
+                    serverRunning = false;
+                }
+                game.stopMP();
+            }
+        });
 
         /*Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
         stage.setBackground(new Image(backgroundImage));*/
@@ -118,7 +132,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
                     typedIPField.setText("Connected to: " + typedIPString);
                     pending = true;
 
-                    final Timer timer = Timer.instance();
+                    timer = Timer.instance();
                     timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
@@ -131,14 +145,12 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
                     }, 2, 2, 10);
                 }
                     else if(pending){
-                        mpClient.stopClient();
+                        mpClient.close();
                         btnFindGame.setText("Connect");
+                        timer.clear();
                         pending = false;
+                        typedIPField.setText(typedIPString);
                     }
-
-                    else{
-                        Gdx.input.getTextInput(ConnectScreen.this, "Enter Ip to Connect to", "", "");
-                }
                 }
         });
 

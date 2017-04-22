@@ -163,4 +163,8 @@ public class MPClient extends Listener{
     public void setMulPlayer(Player mulPlayer){
         this.mulPlayer = mulPlayer;
     }
+
+    public void close(){
+        client.close();
+    }
 }
