@@ -39,6 +39,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private int[][] map;
     private ExitButton exitButton;
     private TextButton btnCreateMap;
+    private TextureAtlas.AtlasRegion play;
 
     public MapEditorScreen(FusionTD game) {
         this.game = game;
@@ -51,9 +52,6 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
         exitButton = ExitButton.create(game);
         stage.addImageButton(exitButton);
 
-        /*Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
-        stage.setBackground(new Image(backgroundImage));*/
-
         btnCreateMap = stage.createTextButton("Create Map", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -65,6 +63,12 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
         tilesize = Math.min(WIDTH / TILECOLS, HEIGHT / TILEROWS);
         batch = new SpriteBatch();
         map = new int[TILEROWS][TILECOLS];
+        setup();
+    }
+
+    public void setup(){
+        play = new TextureAtlas.AtlasRegion(Graphics.getRegion("play0"));
+        play.flip(true,false);
     }
 
     @Override
@@ -81,6 +85,8 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
                 batch.setProjectionMatrix(camera.combined);
                 batch.begin();
                 drawMap(map, batch);
+                batch.draw(Graphics.getRegion("back0"), 15.0f , 0.0f, 1f, 1f); // back button
+                batch.draw(play, 0.0f , 0.0f, 1f, 1f);
                 batch.end();
                 break;
         }
@@ -179,13 +185,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     }
 
     @Override
-    public boolean keyDown(int keycode) {
-        switch (keycode) {
-            case 62:
-                saveMap();
-        }
-        return false;
-    }
+    public boolean keyDown(int keycode) { return false; }
 
     @Override
     public boolean keyUp(int keycode) {
@@ -203,7 +203,11 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
             case METADATA:
                 break;
             case EDITING:
-                if (map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] <= 3){
+                if (getCameraX(screenX) > 15.0f && getCameraX(screenX) < 16.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
+                    game.returnToMenu();
+                } else if (getCameraX(screenX) > 0.0f && getCameraX(screenX) < 1.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
+                    saveMap();
+                } else if (map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] <= 3){
                     map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))]++;
                 } else {
                     map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] = 0;

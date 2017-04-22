@@ -3,8 +3,10 @@ package no.fusiontd.game;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -32,13 +34,19 @@ public class UI{
     private MPClient mpClient;
     private MPServer mpServer;
     private boolean multiPlayer;
+    private TextureAtlas.AtlasRegion play;
 
     public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine) {
         this.game = game; this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
         this.showTowerSet = false;
         this.engine = engine;
         this.multiPlayer = false;
+        setup();
+    }
 
+    public void setup(){
+        play = new TextureAtlas.AtlasRegion(Graphics.getRegion("play0"));
+        play.flip(true,false);
     }
 
     public void render(SpriteBatch batch) {
@@ -52,7 +60,7 @@ public class UI{
         }
 
         batch.draw(Graphics.getRegion("back0"), 15.0f , 0.0f, 1f, 1f); // back button
-        batch.draw(Graphics.getRegion("back0"), 15.0f , 0.0f, 1f, 1f);
+        batch.draw(play, 0.0f , 0.0f, 1f, 1f);
 
     }
 
@@ -82,6 +90,8 @@ public class UI{
 
     public void towerSetMenu(float cameraX, float cameraY, SpriteBatch batch) {
 
+        batch.draw(Graphics.getRegion("button0"), cameraX - 0.5f, cameraY - 0.5f, 1f, 1f);
+
         batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY + 1.5f, 2f, 1f);
         batch.draw(Graphics.getRegion("t_0"), cameraX + 0.5f, cameraY + 1.5f, 1f, 1f);
 
@@ -93,18 +103,11 @@ public class UI{
 
         batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY - 1.5f, 2f, 1f);
         batch.draw(Graphics.getRegion("t_volvox0"), cameraX + 0.5f, cameraY - 1.5f, 1f, 1f);
-
-        /*
-        batch.draw(Graphics.getRegion("missileTower"), cameraX - 0.5f, cameraY - 1.5f, 1f, 1f);
-        batch.draw(Graphics.getRegion("flameTower"), cameraX - 0.5f , cameraY - 0.75f, 1f, 1f);
-        batch.draw(Graphics.getRegion("sniperTower"), cameraX - 0.5f , cameraY, 1f, 1f);
-        batch.draw(Graphics.getRegion("red_button"), 15.0f , 0.2f, 0.7f, 0.7f);
-        */
     }
 
     public boolean towerSet(float cameraX, float cameraY){
         if(cameraX > towerSettingX + 0.5f && cameraX < towerSettingX + 2.5f && cameraY > towerSettingY + 1.5f && cameraY < towerSettingY + 2.5f){
-            if (localPlayer.getCash() >= 5) {
+            if (localPlayer.getCash() >= engine.getCost("t_basic")) {
                 showTowerSet = false;
                 engine.spawnTower("t_basic", new Geometry(towerSettingX, towerSettingY, 0, .5f));
 
@@ -117,7 +120,7 @@ public class UI{
                 return true;
             } return false;
         } else if(cameraX > towerSettingX + 0.5f && cameraX < towerSettingX + 2.5f && cameraY > towerSettingY + 0.5f && cameraY < towerSettingY + 1.5f){
-            if (localPlayer.getCash() >= 2) {
+            if (localPlayer.getCash() >= engine.getCost("t_emil")) {
                 showTowerSet = false;
                 engine.spawnTower("t_emil", new Geometry(towerSettingX, towerSettingY, 0, .5f));
                 if(multiPlayer) {
@@ -128,7 +131,7 @@ public class UI{
                 return true;
             } return false;
         } else if (cameraX > towerSettingX + 0.5f && cameraX < towerSettingX + 2.5f && cameraY > towerSettingY - 0.5f && cameraY < towerSettingY + 0.5f){
-            if (localPlayer.getCash() >= 20) {
+            if (localPlayer.getCash() >= engine.getCost("t_hybrida")) {
                 showTowerSet = false;
                 engine.spawnTower("t_hybrida", new Geometry(towerSettingX, towerSettingY, 0, .5f));
                 if(multiPlayer) {
@@ -139,7 +142,7 @@ public class UI{
                 return true;
             } return false;
         } else if (cameraX > towerSettingX + 0.5f && cameraX < towerSettingX + 2.5f && cameraY > towerSettingY - 1.5f && cameraY < towerSettingY - 0.5f){
-            if (localPlayer.getCash() >= 20) {
+            if (localPlayer.getCash() >= engine.getCost("t_volvox")) {
                 showTowerSet = false;
                 engine.spawnTower("t_volvox", new Geometry(towerSettingX, towerSettingY, 0, .5f));
                 if(multiPlayer) {
@@ -149,15 +152,13 @@ public class UI{
                 localPlayer.addCash(-engine.getCost("t_volvox"));
                 return true;
             } return false;
-        } else if (cameraX > 15.0f && cameraX < 15.7f && cameraY > 0.2f & cameraY < 0.9f){
-            game.returnToMenu();
-            return false;
         } else {
             closeTowerSet();
             openTowerSet(cameraX,cameraY);
         }
         return false;
     }
+
 
     public void showLives(SpriteBatch batch){
 
@@ -178,25 +179,25 @@ public class UI{
             i += 0.4f;
             switch (stack.pop()){
                 case 0:
-                    batch.draw(Graphics.getRegion("zeros"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("zeros"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 1:
-                    batch.draw(Graphics.getRegion("one"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("one"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 2:
-                    batch.draw(Graphics.getRegion("two"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("two"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 3:
-                    batch.draw(Graphics.getRegion("three"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("three"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 4:
-                    batch.draw(Graphics.getRegion("four"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("four"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 5:
-                    batch.draw(Graphics.getRegion("five"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("five"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 6:
-                    batch.draw(Graphics.getRegion("six"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("six"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 7:
-                    batch.draw(Graphics.getRegion("seven"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("seven"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 8:
-                    batch.draw(Graphics.getRegion("eight"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("eight"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 9:
-                    batch.draw(Graphics.getRegion("nine"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("nine"), 9.0f + i, 0.2f, 1f, 1f); break;
                 default:
                     System.out.println("lives:" + localPlayer.getLives());
             }
