@@ -3,17 +3,13 @@ package no.fusiontd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
 import no.fusiontd.menu.CheckButton;
-import no.fusiontd.menu.ExitButton;
 import no.fusiontd.menu.NormalTextButtonFactory;
 import no.fusiontd.menu.TextButtonFactory;
 
@@ -22,12 +18,10 @@ public class OptionScreen implements Screen {
     private FusionTD game;
     private MenuStage stage;
     private TextButtonFactory textButtonFactory;
-    private ExitButton exitButton;
     private CheckButton checkButton;
 
     public OptionScreen(FusionTD game) {
         this.game = game;
-        exitButton = ExitButton.create(game);
     }
 
     @Override
@@ -61,7 +55,12 @@ public class OptionScreen implements Screen {
             }
         }));
 
-        stage.addImageButton(exitButton);
+        stage.addImageButton("backButton", new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.returnToMenu();
+            }
+        });
 
     }
 
@@ -79,7 +78,6 @@ public class OptionScreen implements Screen {
     public void dispose () {
         stage.dispose();
         textButtonFactory.dispose();
-        exitButton.dispose();
         checkButton.dispose();
     }
 
