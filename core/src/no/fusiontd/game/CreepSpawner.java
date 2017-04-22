@@ -3,9 +3,9 @@ package no.fusiontd.game;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
-import no.fusiontd.Graphics;
 import no.fusiontd.components.*;
 
 public class CreepSpawner {
@@ -16,6 +16,7 @@ public class CreepSpawner {
     private float timer;
     private Vector2 startPosition = new Vector2();
     private boolean waveActive;
+    private TextureAtlas spriteAtlas = new TextureAtlas("sprites.atlas");
 
     public CreepSpawner(Path<Vector2> path, Engine engine) {
         this.path = path;
@@ -45,7 +46,7 @@ public class CreepSpawner {
                 .add(new Attackable(.1f))
                 .add(new Durability(life))
                 .add(new Value(reward))
-                .add(new Render(Graphics.getRegion(region)))
+                .add(new Render(spriteAtlas.findRegions(region)))
                 .add(new PathFollow(path, speed));
         for (Component component : components) {
             creep.add(component);

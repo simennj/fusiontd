@@ -2,19 +2,17 @@ package no.fusiontd.components;
 
 import com.badlogic.gdx.math.Vector2;
 import no.fusiontd.CloneableComponent;
-
-import java.util.Arrays;
-import java.util.List;
+import no.fusiontd.game.CloneableComponentList;
 
 public class AddOnRemove implements CloneableComponent<AddOnRemove> {
-    public List<CloneableComponent> newEntity;
+    public CloneableComponentList newEntity;
     public Vector2 displacement;
 
     public AddOnRemove(Vector2 displacement, CloneableComponent... cloneableComponents) {
-        this(displacement, Arrays.asList(cloneableComponents));
+        this(displacement, new CloneableComponentList(cloneableComponents));
     }
 
-    public AddOnRemove(Vector2 displacement, List<CloneableComponent> newEntity) {
+    public AddOnRemove(Vector2 displacement, CloneableComponentList newEntity) {
         this.newEntity = newEntity;
         this.displacement = displacement;
     }

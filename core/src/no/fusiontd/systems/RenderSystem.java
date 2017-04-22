@@ -23,6 +23,7 @@ public class RenderSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         Geometry pos = mPos.get(entity);
         Render rend = mRend.get(entity);
+        rend.animate(deltaTime);
         rend.setPosition(pos.x, pos.y);
         rend.setRotation(pos.rotation);
         rend.draw(batch);

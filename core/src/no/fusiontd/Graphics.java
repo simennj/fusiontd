@@ -1,6 +1,5 @@
 package no.fusiontd;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ObjectMap;
 
@@ -37,14 +36,14 @@ public class Graphics {
         regions.put("eight", tileAtlas.findRegion("284"));
         regions.put("nine", tileAtlas.findRegion("285"));
         regions.put("red_button", uiAtlas.findRegion("red_button"));
-        regions.put("c_0",spriteAtlas.findRegion("c_0"));
+        regions.put("c_0", spriteAtlas.findRegion("c"));
         regions.put("c_bat0",spriteAtlas.findRegion("c_bat0"));
         regions.put("c_manyeyed0",spriteAtlas.findRegion("c_manyeyed0"));
         regions.put("missile0",spriteAtlas.findRegion("missile0"));
-        regions.put("t_0",spriteAtlas.findRegion("t_0"));
-        regions.put("t_emil0",spriteAtlas.findRegion("t_emil0"));
-        regions.put("t_hybrida0",spriteAtlas.findRegion("t_hybrida0"));
-        regions.put("t_volvox0",spriteAtlas.findRegion("t_volvox0"));
+        regions.put("t_0", spriteAtlas.findRegion("t"));
+        regions.put("t_emil0", spriteAtlas.findRegion("t_emil"));
+        regions.put("t_hybrida0", spriteAtlas.findRegion("t_hybrida"));
+        regions.put("t_volvox0", spriteAtlas.findRegion("t_volvox"));
         regions.put("button0", uiNewAtlas.findRegion("button0"));
         regions.put("back0", uiNewAtlas.findRegion("back0"));
         regions.put("play0", uiNewAtlas.findRegion("play0"));

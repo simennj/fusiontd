@@ -2,31 +2,31 @@ package no.fusiontd.components;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import no.fusiontd.CloneableComponent;
-import no.fusiontd.Graphics;
 
 public class Render extends Sprite implements CloneableComponent<Render> {
 
-    Animation<TextureRegion> animation;
+    private Animation<TextureRegion> animation;
+    private float stateTime;
 
-    public Render(String name) {
-        this(Graphics.getRegion(name));
+    private Render(Render render) {
+        this(render.animation);
     }
 
-    public Render(Render render) {
-        super(render);
-        if (render.animation != null) {
-            this.animation = cloneAnimation(render.animation);
-        }
+    public Render(Array<TextureAtlas.AtlasRegion> textures) {
+        this(.1f, textures);
     }
 
-    public Render(TextureRegion rect) {
-        this(rect, 1, 1);
+    public Render(float frameDuration, Array<TextureAtlas.AtlasRegion> textures) {
+        this(new Animation<TextureRegion>(frameDuration, textures, Animation.PlayMode.LOOP));
     }
 
-    public Render(TextureRegion rect, float w, float h) {
-        super(rect);
+    public Render(Animation<TextureRegion> animation) {
+        super(animation.getKeyFrame(0));
+        this.animation = cloneAnimation(animation);
         setScale(1, 1);
     }
 
@@ -37,6 +37,11 @@ public class Render extends Sprite implements CloneableComponent<Render> {
         );
         clone.setPlayMode(original.getPlayMode());
         return clone;
+    }
+
+    public void animate(float deltaTime) {
+        stateTime += deltaTime;
+        setRegion(animation.getKeyFrame(stateTime));
     }
 
     @Override
