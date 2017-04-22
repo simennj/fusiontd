@@ -8,6 +8,7 @@ public class Graphics {
     private static final ObjectMap<String, TextureAtlas.AtlasRegion> regions;
     private static TextureAtlas tileAtlas = new TextureAtlas("tiles.atlas");
     private static TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
+    private static TextureAtlas uiNewAtlas = new TextureAtlas("ui_new.atlas");
     private static TextureAtlas spriteAtlas = new TextureAtlas("sprites.atlas");
 
     static {
@@ -44,6 +45,9 @@ public class Graphics {
         regions.put("t_emil0",spriteAtlas.findRegion("t_emil0"));
         regions.put("t_hybrida0",spriteAtlas.findRegion("t_hybrida0"));
         regions.put("t_volvox0",spriteAtlas.findRegion("t_volvox0"));
+        regions.put("button0", uiNewAtlas.findRegion("button0"));
+        regions.put("back0", uiNewAtlas.findRegion("back0"));
+        regions.put("play0", uiNewAtlas.findRegion("play0"));
     }
 
     public static TextureAtlas.AtlasRegion getRegion(String name) {
