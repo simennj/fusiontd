@@ -1,5 +1,8 @@
 package no.fusiontd.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
@@ -12,13 +15,11 @@ class WaveReader {
     WaveReader(String wave) {
         waves = new LinkedList<CreepWave>();
         waves.add(new CreepWave());
-        try {
-            Scanner scanner = new Scanner(new FileInputStream("waves/" + wave));
+            FileHandle file = Gdx.files.internal("waves/" + wave);
+            String text = file.readString();
+            Scanner scanner = new Scanner(text);
             scanner.useLocale(Locale.ENGLISH);
             parseWavesFromFile(scanner);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     private void parseWavesFromFile(Scanner scanner) {
