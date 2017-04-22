@@ -3,8 +3,10 @@ package no.fusiontd.game;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -32,13 +34,19 @@ public class UI{
     private MPClient mpClient;
     private MPServer mpServer;
     private boolean multiPlayer;
+    private TextureAtlas.AtlasRegion play;
 
     public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine) {
         this.game = game; this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
         this.showTowerSet = false;
         this.engine = engine;
         this.multiPlayer = false;
+        setup();
+    }
 
+    public void setup(){
+        play = new TextureAtlas.AtlasRegion(Graphics.getRegion("play0"));
+        play.flip(true,false);
     }
 
     public void render(SpriteBatch batch) {
@@ -52,7 +60,7 @@ public class UI{
         }
 
         batch.draw(Graphics.getRegion("back0"), 15.0f , 0.0f, 1f, 1f); // back button
-        batch.draw(Graphics.getRegion("play0"), 13.0f , 0.0f, 1f, 1f);
+        batch.draw(play, 0.0f , 0.0f, 1f, 1f);
 
     }
 
@@ -81,6 +89,8 @@ public class UI{
     }
 
     public void towerSetMenu(float cameraX, float cameraY, SpriteBatch batch) {
+
+        batch.draw(Graphics.getRegion("button0"), cameraX - 0.5f, cameraY - 0.5f, 1f, 1f);
 
         batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY + 1.5f, 2f, 1f);
         batch.draw(Graphics.getRegion("t_0"), cameraX + 0.5f, cameraY + 1.5f, 1f, 1f);
