@@ -25,8 +25,8 @@ public class MenuSkin extends Skin {
 
         add("font", font, BitmapFont.class);
 
-        SpriteDrawable button = new SpriteDrawable(uiAtlas.createSprite("button0"));
-        SpriteDrawable buttonPressed = new SpriteDrawable(uiAtlas.createSprite("button1"));
+        SpriteDrawable button = new SpriteDrawable(uiAtlas.createSprite("button0_long"));
+        SpriteDrawable buttonPressed = new SpriteDrawable(uiAtlas.createSprite("button1_long"));
         add("default", new TextButton.TextButtonStyle(button, buttonPressed, buttonPressed, font));
         add("default", new Window.WindowStyle(font, Color.BLACK, button));
 
@@ -41,7 +41,7 @@ public class MenuSkin extends Skin {
     private static BitmapFont generateBitmapFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/CANDY-SHOP-BLACK.TTF"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 30;
+        parameter.size = 20;
         //parameter.borderWidth = 8;
         parameter.color = Color.BLACK;
         //parameter.borderColor = Color.BLUE;
