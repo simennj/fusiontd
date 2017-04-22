@@ -1,6 +1,5 @@
 package no.fusiontd.MPAlternative;
 
-import java.util.List;
 
 class Packet {
     static class Packet0LoginRequest {String playerName;}
@@ -16,8 +15,4 @@ class Packet {
     static class Packet10Ready{boolean ready;}
 
     //might not need these
-    static class Packet9PlayerList{ List<String> availablePlayers;}
-    static class Packet10RequestPlayerList{}
-    static class Packet11RequestOpponent{int receivingPlayerId; int sendingPlayerId; String sendingPlayer;}
-    static class Packet12OpponentAnswer{boolean accepted; int playerId; String playerName;}
 }

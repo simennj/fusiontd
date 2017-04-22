@@ -35,11 +35,11 @@ public class MapSelectScreen implements Screen {
         textButtonFactory = new NormalTextButtonFactory();
         Gdx.input.setInputProcessor(stage);
 
-        Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
-        stage.setBackground(new Image(backgroundImage));
+        /*Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
+        stage.setBackground(new Image(backgroundImage));*/
 
         //1. Navigate to the map folder, find amount of maps. maps are found in android/maps.
-        FileHandle[] files = Gdx.files.local("maps/").list();
+        FileHandle[] files = Gdx.files.internal("maps/").list();
         int numberOfMaps=files.length;
 
         //2. create and add textButtons to a table.

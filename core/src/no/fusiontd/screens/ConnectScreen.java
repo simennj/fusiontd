@@ -4,11 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -33,7 +31,6 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
     private MenuStage stage;
     private LabelFactory labelFactory;
     private DialogFactory dialogFactory;
-    private ExitButton exitButton;
     private MPClient mpClient;
     private MPServer mpServer;
     private boolean pending;
@@ -62,10 +59,10 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
 
         stage = new MenuStage();
         Gdx.input.setInputProcessor(stage);
-        exitButton = ExitButton.create(game);
+        ExitButton exitButton = ExitButton.create(game);
 
-        Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
-        stage.setBackground(new Image(backgroundImage));
+        /*Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
+        stage.setBackground(new Image(backgroundImage));*/
 
         labelIP = labelFactory.createLabel(serverIP);
         stage.addMenuContent(labelIP);
@@ -108,7 +105,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
         });
         stage.addMenuContent(typedIPField);
 
-        final Dialog popUpConnected = dialogFactory.createDialog("", ":)");
+        //final Dialog popUpConnected = dialogFactory.createDialog("", ":)");
 
         btnFindGame = stage.createTextButton("Find Game", new ChangeListener() {
             @Override

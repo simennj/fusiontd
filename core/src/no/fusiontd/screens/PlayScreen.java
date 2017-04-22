@@ -165,8 +165,10 @@ public class PlayScreen implements Screen, InputProcessor {
         switch (keycode) {
             case 62:
                 creepSpawner.startNextWave();
-                if(mpClient == null){
-                    mpServer.sendCreepWaveStarted();
+                if(multiplayer){
+                    if(mpClient == null){
+                        mpServer.sendCreepWaveStarted();
+                    }
                 }
         }
         return false;

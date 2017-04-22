@@ -101,7 +101,6 @@ public class MPServer extends Listener {
         else if( o instanceof Packet10Ready){
             if(((Packet10Ready) o).ready){
                 System.out.println("Received readyPacket");
-                //game.selectMap();
             }
         }
         else if( o instanceof Packet7TowerPlaced){

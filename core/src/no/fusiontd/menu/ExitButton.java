@@ -17,11 +17,12 @@ import no.fusiontd.FusionTD;
 
 public class ExitButton extends Button implements Disposable{
     private TextureAtlas uiAtlas;
-    private Skin skin;
+    //private Skin skin;
 
-    private ExitButton(final FusionTD game, Skin skin, TextureAtlas uiAtlas) {
-        super(skin, "red");
-        this.skin = skin;
+    private ExitButton(final FusionTD game, ButtonStyle buttonStyle, TextureAtlas uiAtlas) {
+        //super(skin, "red");
+        //this.skin = skin;
+        this.setStyle(buttonStyle);
         this.uiAtlas = uiAtlas;
         this.addListener(new ChangeListener() {
             @Override
@@ -34,19 +35,19 @@ public class ExitButton extends Button implements Disposable{
 
     public static ExitButton create(FusionTD game) {
         TextureAtlas uiAtlas = new TextureAtlas("ui_new.atlas");
-        Skin skin = new Skin();
-
+        //Skin skin = new Skin();
         SpriteDrawable redButton = new SpriteDrawable(uiAtlas.createSprite("back0"));
         SpriteDrawable redButtonPressed = new SpriteDrawable(uiAtlas.createSprite("back1"));
-        skin.add("red", new Button.ButtonStyle(redButton, redButtonPressed, redButtonPressed));
+        ButtonStyle buttonStyle = new Button.ButtonStyle(redButton, redButtonPressed, redButtonPressed);
+        //skin.add("red", new Button.ButtonStyle(redButton, redButtonPressed, redButtonPressed));
         // exitButton.setBounds(getWidth() - 96, 32, 64, 64);
 
-        return new ExitButton(game, skin, uiAtlas);
+        return new ExitButton(game, buttonStyle, uiAtlas);
     }
 
     @Override
     public void dispose() {
         uiAtlas.dispose();
-        skin.dispose();
+        //skin.dispose();
     }
 }
