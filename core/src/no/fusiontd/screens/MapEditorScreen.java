@@ -6,19 +6,16 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import no.fusiontd.FusionTD;
-import no.fusiontd.Graphics;
 import no.fusiontd.MenuStage;
 import no.fusiontd.maps.MapWriter;
 import no.fusiontd.menu.ExitButton;
-import no.fusiontd.menu.NormalTextButtonFactory;
 
 public class MapEditorScreen implements Screen, Input.TextInputListener, InputProcessor {
 
@@ -40,6 +37,8 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private ExitButton exitButton;
     private TextButton btnCreateMap;
     private TextureAtlas.AtlasRegion play;
+    private TextureAtlas tileAtlas = new TextureAtlas("tiles.atlas");
+    private TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
 
     public MapEditorScreen(FusionTD game) {
         this.game = game;
@@ -67,7 +66,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     }
 
     public void setup(){
-        play = new TextureAtlas.AtlasRegion(Graphics.getRegion("play0"));
+        play = new TextureAtlas.AtlasRegion(uiAtlas.findRegion("play0"));
         play.flip(true,false);
     }
 
@@ -85,7 +84,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
                 batch.setProjectionMatrix(camera.combined);
                 batch.begin();
                 drawMap(map, batch);
-                batch.draw(Graphics.getRegion("back0"), 15.0f , 0.0f, 1f, 1f); // back button
+                batch.draw(uiAtlas.findRegion("back0"), 15.0f, 0.0f, 1f, 1f); // back button
                 batch.draw(play, 0.0f , 0.0f, 1f, 1f);
                 batch.end();
                 break;
@@ -129,15 +128,15 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private TextureAtlas.AtlasRegion getSprite(int type) {
         switch (type) {
             case 0:
-                return Graphics.getRegion("groundTex");
+                return tileAtlas.findRegion("groundTex");
             case 1:
-                return Graphics.getRegion("roadTex");
+                return tileAtlas.findRegion("roadTex");
             case 2:
-                return Graphics.getRegion("pathStartTex");
+                return tileAtlas.findRegion("pathStartTex");
             case 3:
-                return Graphics.getRegion("pathEndTex");
+                return tileAtlas.findRegion("pathEndTex");
             default:
-                return Graphics.getRegion("groundTex");
+                return tileAtlas.findRegion("groundTex");
         }
     }
 
