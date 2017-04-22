@@ -2,8 +2,10 @@ package no.fusiontd.MPAlternative;
 
 import no.fusiontd.FusionTD;
 import no.fusiontd.MPAlternative.Packet.*;
+import no.fusiontd.components.Value;
 import no.fusiontd.components.Geometry;
 import no.fusiontd.game.EntityComponentManager;
+import no.fusiontd.game.Player;
 
 import com.badlogic.ashley.core.Entity;
 import com.esotericsoftware.kryo.Kryo;
@@ -30,6 +32,7 @@ public class MPServer extends Listener {
     private FusionTD game;
     private String playerName;
     private EntityComponentManager engine;
+    private Player mulPlayer;
 
     public MPServer(FusionTD game, String playerName){
         this.game = game;
@@ -98,7 +101,6 @@ public class MPServer extends Listener {
         else if( o instanceof Packet10Ready){
             if(((Packet10Ready) o).ready){
                 System.out.println("Received readyPacket");
-                //game.selectMap();
             }
         }
         else if( o instanceof Packet7TowerPlaced){
@@ -107,6 +109,14 @@ public class MPServer extends Listener {
             float towerSettingX = ((Packet7TowerPlaced) o).xpos;
             float towerSettingY = ((Packet7TowerPlaced) o).ypos;
             engine.spawnTower(type , new Geometry(towerSettingX, towerSettingY, 0, .5f));
+            Entity towerEntity = engine.getTowerAt(towerSettingX, towerSettingY);
+            mulPlayer.addCash(-towerEntity.getComponent(Value.class).cost);
+        }
+
+        else if ( o instanceof Packet9TowerUpgrade){
+            Entity towerEntity = engine.getTowerAt(((Packet9TowerUpgrade) o).xpos, ((Packet9TowerUpgrade) o).ypos);
+            engine.upgradeEntity(towerEntity);
+            mulPlayer.addCash(-towerEntity.getComponent(Value.class).cost);
         }
 
         else if( o instanceof Packet.Packet3Creep){
@@ -161,13 +171,18 @@ public class MPServer extends Listener {
         connection.sendUDP(towerPacket);
     }
 
+    public void sendUpgradeTower(float xpos, float ypos){
+        Packet9TowerUpgrade upgrade = packetCreator.createTowerUpgradePacket(xpos, ypos);
+        connection.sendUDP(upgrade);
+    }
+
     public void sendLives(int lives){
         Packet4Lives lPacket = packetCreator.createLivesPacket(lives);
         connection.sendUDP(lPacket);
     }
 
-    public void sendCreeps(int creepnum){
-        Packet3Creep creepPacket = packetCreator.createCreepPacket(creepnum);
+    public void sendCreepWaveStarted(){
+        Packet3Creep creepPacket = packetCreator.createCreepPacket();
         connection.sendUDP(creepPacket);
     }
 
@@ -177,5 +192,17 @@ public class MPServer extends Listener {
 
     public Connection getConnection(){
         return connection;
+    }
+
+    public Player getMulPlayer(){
+        return mulPlayer;
+    }
+
+    public void setMulPlayer(Player mulPlayer){
+        this.mulPlayer = mulPlayer;
+    }
+
+    public void stopServer(){
+        server.stop();
     }
 }

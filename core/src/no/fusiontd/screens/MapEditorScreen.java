@@ -51,8 +51,8 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
         exitButton = ExitButton.create(game);
         stage.addImageButton(exitButton);
 
-        Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
-        stage.setBackground(new Image(backgroundImage));
+        /*Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
+        stage.setBackground(new Image(backgroundImage));*/
 
         btnCreateMap = stage.createTextButton("Create Map", new ChangeListener() {
             @Override

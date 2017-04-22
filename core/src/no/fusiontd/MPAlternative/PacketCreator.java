@@ -26,9 +26,8 @@ class PacketCreator {
         return mPacket;
     }
 
-    Packet.Packet3Creep createCreepPacket(int creepNumber){
+    Packet.Packet3Creep createCreepPacket(){
         Packet.Packet3Creep creepPacket = new Packet.Packet3Creep();
-        creepPacket.creepnumber = creepNumber;
         return creepPacket;
     }
 
@@ -58,6 +57,13 @@ class PacketCreator {
         towerPlaced.xpos = xpos;
         towerPlaced.ypos = ypos;
         return towerPlaced;
+    }
+
+    Packet.Packet9TowerUpgrade createTowerUpgradePacket(float xpos, float ypos){
+        Packet.Packet9TowerUpgrade upgrade = new Packet.Packet9TowerUpgrade();
+        upgrade.xpos = xpos;
+        upgrade.ypos = ypos;
+        return upgrade;
     }
 
     Packet.Packet8Meta createMetaPacket(String metadata){

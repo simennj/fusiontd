@@ -66,7 +66,7 @@ public class EntityComponentManager extends Engine {
             @Override
             public void entityRemoved(Entity entity) {
                 if (durabilityMapper.get(entity).life <= 0) {
-                    localPlayer.addCash(1);
+                    localPlayer.addCash(entity.getComponent(Value.class).cost);
                 } else if (pathFollowMapper.get(entity).time > 1) {
                     localPlayer.loseLives(1);
                 }
@@ -75,9 +75,9 @@ public class EntityComponentManager extends Engine {
         towers = getEntitiesFor(Family.all(Geometry.class, Targeting.class).get());
         creeps = getEntitiesFor(Family.all(Geometry.class, Attackable.class, Durability.class).get());
 
-        blueprints.put("missileTower", Arrays.<CloneableComponent>asList(
-                new Render("t_hybrida0"),
-                new Buyable(1),
+        blueprints.put("t_basic", Arrays.<CloneableComponent>asList(
+                new Render("t_0"),
+                new Value(1),
                 new Targeting(5, .5f, true,
                         new Render(Graphics.getRegion("missile0")),
                         new Timer(1),
@@ -117,9 +117,9 @@ public class EntityComponentManager extends Engine {
 
         ));
 
-        blueprints.put("cannonTower", Arrays.<CloneableComponent>asList(
+        blueprints.put("t_volvox", Arrays.<CloneableComponent>asList(
                 new Render("t_volvox0"),
-                new Buyable(2),
+                new Value(2),
                 new Targeting(3f, 2f, true,
                         new Render(Graphics.getRegion("missile0")),
                         new Timer(1),
@@ -166,9 +166,9 @@ public class EntityComponentManager extends Engine {
                 )));
 
 
-        blueprints.put("flameTower", Arrays.<CloneableComponent>asList(
-                new Render("t_emil0"),
-                new Buyable(5),
+        blueprints.put("t_hybrida", Arrays.<CloneableComponent>asList(
+                new Render("t_hybrida0"),
+                new Value(5),
                 new Targeting(1, .05f, new Vector2(0, .5f), true,
                         new Render(Graphics.getRegion("flame")),
                         new Timer(1),
@@ -184,9 +184,9 @@ public class EntityComponentManager extends Engine {
                                 new Attack(.05f, 30),
                                 new Durability(60))))
         ));
-        blueprints.put("sniperTower", Arrays.<CloneableComponent>asList(
+        blueprints.put("t_emil", Arrays.<CloneableComponent>asList(
                 new Render("t_emil0"),
-                new Buyable(3),
+                new Value(3),
                 new Targeting(5, 1.5f, false,
                         new Render(Graphics.getRegion("missile0")),
                         new Timer(1),
@@ -205,7 +205,7 @@ public class EntityComponentManager extends Engine {
 
     }
 
-    void upgradeEntity(Entity e) {
+    public void upgradeEntity(Entity e) {
         ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
         Upgradeable upgrade = mUpgr.get(e);
         for (CloneableComponent component : upgrade.upgrades) {
@@ -227,7 +227,7 @@ public class EntityComponentManager extends Engine {
         return entity;
     }
 
-public void spawnTower(String name, Geometry geometry) {
+    public void spawnTower(String name, Geometry geometry) {
         for (Entity tower : towers) {
             if (mPos.get(tower).dst(geometry) < geometry.radius) return;
         }
@@ -242,7 +242,7 @@ public void spawnTower(String name, Geometry geometry) {
         return false;
     }
 
-    Entity getTowerAt(float x, float y) {
+    public Entity getTowerAt(float x, float y) {
         Vector2 vec = new Vector2(x,y);
         for (Entity e : towers) {
             if (mPos.get(e).dst(vec) < e.getComponent(Geometry.class).radius) {
@@ -261,7 +261,7 @@ public void spawnTower(String name, Geometry geometry) {
     }
 
     int getCost(String tower) {
-        return spawn(blueprints.get(tower)).getComponent(Buyable.class).cost;
+        return spawn(blueprints.get(tower)).getComponent(Value.class).cost;
     }
 
 }

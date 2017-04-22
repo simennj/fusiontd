@@ -165,6 +165,11 @@ public class PlayScreen implements Screen, InputProcessor {
         switch (keycode) {
             case 62:
                 creepSpawner.startNextWave();
+                if(multiplayer){
+                    if(mpClient == null){
+                        mpServer.sendCreepWaveStarted();
+                    }
+                }
         }
         return false;
     }
@@ -222,7 +227,7 @@ public class PlayScreen implements Screen, InputProcessor {
 
     public void setMpServer(MPServer mpServer){ this.mpServer = mpServer; ui.initMPServer(mpServer);}
 
-    public void setMpClient(MPClient mpClient){ this. mpClient = mpClient; ui.initMPClient(mpClient);}
+    public void setMpClient(MPClient mpClient){ this.mpClient = mpClient; mpClient.initCreepSpawner(creepSpawner); ui.initMPClient(mpClient);}
 
     public enum State {
         PAUSE,

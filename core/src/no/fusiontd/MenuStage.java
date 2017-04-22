@@ -1,5 +1,7 @@
 package no.fusiontd;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -17,6 +19,8 @@ public class MenuStage extends Stage {
 
     public MenuStage() {
         super(new FitViewport(1280, 720));
+        Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
+        setBackground(new Image(backgroundImage));
         createMenuGroup();
         this.textButtonFactory = new NormalTextButtonFactory();
         //addImageButton();
