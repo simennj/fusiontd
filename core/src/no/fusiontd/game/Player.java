@@ -9,7 +9,7 @@ Player {
 
     public Player(int lives, int cash, int score, FusionTD game){
         this.lives = lives;
-        this.cash = cash;
+        this.cash = 1000;
         this.score = score;
         this.game = game;
     }
