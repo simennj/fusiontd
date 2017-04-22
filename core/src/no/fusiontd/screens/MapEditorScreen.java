@@ -39,6 +39,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private int[][] map;
     private ExitButton exitButton;
     private TextButton btnCreateMap;
+    private TextButton btnDeleteMap;
     private TextureAtlas.AtlasRegion play;
 
     public MapEditorScreen(FusionTD game) {
@@ -56,6 +57,12 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.input.getTextInput(MapEditorScreen.this, "Enter Map name", "", "Map Name");
+            }
+        });
+
+        btnDeleteMap = stage.createTextButton("Delete Map", new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
             }
         });
 
