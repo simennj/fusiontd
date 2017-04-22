@@ -89,8 +89,8 @@ public class FusionTD extends Game {
 	}
 
 	// Don't use this for now
-	public void stopMPC(){
-		//mpc.stop();
+	public void stopMP(){
+		mpServer = null;
 		mpc = null;
 	}
 
