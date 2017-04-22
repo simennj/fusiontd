@@ -61,7 +61,7 @@ public class PlayScreen implements Screen, InputProcessor {
 
         switch (state) {
             case RUN:
-                Gdx.gl.glClearColor(0, 0, 1, 1);
+                Gdx.gl.glClearColor(3/255f, 73/255f, 114/255f, 1);
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                 batch.setProjectionMatrix(camera.combined);
                 batch.begin();
