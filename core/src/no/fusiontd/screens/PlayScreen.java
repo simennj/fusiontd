@@ -37,7 +37,6 @@ public class PlayScreen implements Screen, InputProcessor {
     private Player localPlayer, mulPlayer;
     private MPServer mpServer;
     private MPClient mpClient;
-
     public PlayScreen(FusionTD game, boolean multiplayer) {
         this.game = game;
         this.multiplayer = multiplayer;

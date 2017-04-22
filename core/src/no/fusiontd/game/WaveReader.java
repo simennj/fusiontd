@@ -9,7 +9,7 @@ import java.util.Scanner;
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 
 class WaveReader {
-    private LinkedList<CreepWave> waves;
+    public LinkedList<CreepWave> waves;
 
     WaveReader(String wave) {
         waves = new LinkedList<CreepWave>();
@@ -28,8 +28,11 @@ class WaveReader {
             String[] line = scanner.nextLine().split(" ");
             if (line.length == 6) {
                 waves.getLast().addPart(parsePart(line));
-            } else {
+            } else if(line.length == 1){
                 waves.add(new CreepWave());
+
+            } else {
+                System.out.println("Wave is not correctly implemented");
             }
         }
     }

@@ -66,11 +66,14 @@ public class UI{
 
     public void selectTower(float cameraX, float cameraY) {
         Entity e = engine.getTowerAt(cameraX, cameraY);
-        engine.upgradeEntity(e);
-        if(multiPlayer){
-            sendTowerUpgrade(cameraX, cameraY);
+        if(engine.upgradeEntity(e)) {
+            if (multiPlayer) {
+                sendTowerUpgrade(cameraX, cameraY);
+            }
+            localPlayer.addCash(-e.getComponent(Value.class).cost);
+        } else {
+            System.out.println("You dont have enough money or your tower is at maximum rank");
         }
-        localPlayer.addCash(-e.getComponent(Value.class).cost);
     }
 
     public void selectCreep(float cameraX, float cameraY) {

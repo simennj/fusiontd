@@ -166,7 +166,7 @@ public class EntityComponentManager extends Engine {
                 new Targeting(1, .05f, new Vector2(0, .5f), true,
                         new Render(Graphics.getRegion("flame")),
                         new Timer(1),
-                        new Attack(.1f, 15),
+                        new Attack(.1f, 30),
                         new Durability(30)
                 ),
                 new Upgradeable(10, new Targeting(1.5f, .05f, new Vector2(0, .5f), true,
@@ -175,7 +175,7 @@ public class EntityComponentManager extends Engine {
                         new Durability(40)),
                         new Upgradeable(15, new Targeting(1, .05f, new Vector2(0, .5f), true,
                                 new Render(Graphics.getRegion("flame")),
-                                new Attack(.05f, 30),
+                                new Attack(.05f, 60),
                                 new Durability(60))))
         ));
         blueprints.put("t_emil", Arrays.<CloneableComponent>asList(
@@ -199,16 +199,17 @@ public class EntityComponentManager extends Engine {
 
     }
 
-    public void upgradeEntity(Entity e) {
+    public boolean upgradeEntity(Entity e) {
         ComponentMapper<Upgradeable> mUpgr = ComponentMapper.getFor(Upgradeable.class);
         Upgradeable upgrade = mUpgr.get(e);
         if(upgrade == null) {
-            return;
+            return false;
         }
         e.remove(Upgradeable.class);
         for (CloneableComponent component : upgrade.upgrades) {
             e.add(component.cloneComponent());
         }
+        return true;
     }
 
 
