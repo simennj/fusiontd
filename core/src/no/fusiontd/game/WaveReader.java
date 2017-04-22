@@ -9,7 +9,7 @@ import java.util.Scanner;
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 
 class WaveReader {
-    public LinkedList<CreepWave> waves;
+    LinkedList<CreepWave> waves;
 
     WaveReader(String wave) {
         waves = new LinkedList<CreepWave>();
