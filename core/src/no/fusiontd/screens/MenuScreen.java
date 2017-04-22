@@ -31,21 +31,21 @@ public class MenuScreen implements Screen {
         /*Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
         stage.setBackground(new Image(backgroundImage));*/
 
-        stage.addMenuContent(textButtonFactory.createTextButton("Singleplayer", new ChangeListener() {
+        stage.addMenuContent(textButtonFactory.createTextButton("SINGLEPLAYER", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.selectMap();
             }
         }));
 
-        stage.addMenuContent(textButtonFactory.createTextButton("Multiplayer", new ChangeListener() {
+        stage.addMenuContent(textButtonFactory.createTextButton("MULTIPLAYER", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.openMultiplayer();
             }
         }));
 
-        stage.addMenuContent(textButtonFactory.createTextButton("Map Editor", new ChangeListener() {
+        stage.addMenuContent(textButtonFactory.createTextButton("MAP EDITOR", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.openMapEditor();
