@@ -54,7 +54,6 @@ public class MPClient extends Listener{
 
     private void registerPackets(){
         Kryo kryo = client.getKryo();
-        kryo.register(int[][].class);
         kryo.register(java.util.ArrayList.class);
         kryo.register(Packet0LoginRequest.class);
         kryo.register(Packet1LoginAnswer.class);
