@@ -161,16 +161,6 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        System.out.println(keycode);
-        switch (keycode) {
-            case 62:
-                creepSpawner.startNextWave();
-                if(multiplayer){
-                    if(mpClient == null){
-                        mpServer.sendCreepWaveStarted();
-                    }
-                }
-        }
         return false;
     }
 
@@ -195,9 +185,18 @@ public class PlayScreen implements Screen, InputProcessor {
         } else if (engine.checkCreep(new Geometry(getCameraX(screenX), getCameraY(screenY), 0, .5f))) {
             // selected Creep
             ui.selectCreep(getCameraX(screenX), getCameraY(screenY));
-        } else if (map.getTile(getCameraX(screenX), getCameraY(screenY)) == 1 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 2 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 3){
+        } else if (map.getTile(getCameraX(screenX), getCameraY(screenY)) == 1 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 2 || map.getTile(getCameraX(screenX), getCameraY(screenY)) == 3) {
             // is on road (or end or start), do nothing
             return false;
+        } else if (getCameraX(screenX) > 15.0f && getCameraX(screenX) < 16.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
+            game.returnToMenu();
+        } else if (getCameraX(screenX) > 13.0f && getCameraX(screenX) < 14.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
+            creepSpawner.startNextWave();
+            if(multiplayer){
+                if(mpClient == null){
+                    mpServer.sendCreepWaveStarted();
+                }
+            }
         } else if (!ui.isTowerSetting()){
             // open tower setting menu
             ui.openTowerSet(getCameraX(screenX), getCameraY(screenY));

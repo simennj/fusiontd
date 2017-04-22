@@ -52,7 +52,7 @@ public class UI{
         }
 
         batch.draw(Graphics.getRegion("back0"), 15.0f , 0.0f, 1f, 1f); // back button
-        batch.draw(Graphics.getRegion("back0"), 15.0f , 0.0f, 1f, 1f);
+        batch.draw(Graphics.getRegion("play0"), 13.0f , 0.0f, 1f, 1f);
 
     }
 
@@ -93,13 +93,6 @@ public class UI{
 
         batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY - 1.5f, 2f, 1f);
         batch.draw(Graphics.getRegion("t_volvox0"), cameraX + 0.5f, cameraY - 1.5f, 1f, 1f);
-
-        /*
-        batch.draw(Graphics.getRegion("missileTower"), cameraX - 0.5f, cameraY - 1.5f, 1f, 1f);
-        batch.draw(Graphics.getRegion("flameTower"), cameraX - 0.5f , cameraY - 0.75f, 1f, 1f);
-        batch.draw(Graphics.getRegion("sniperTower"), cameraX - 0.5f , cameraY, 1f, 1f);
-        batch.draw(Graphics.getRegion("red_button"), 15.0f , 0.2f, 0.7f, 0.7f);
-        */
     }
 
     public boolean towerSet(float cameraX, float cameraY){
@@ -149,15 +142,13 @@ public class UI{
                 localPlayer.addCash(-engine.getCost("t_volvox"));
                 return true;
             } return false;
-        } else if (cameraX > 15.0f && cameraX < 15.7f && cameraY > 0.2f & cameraY < 0.9f){
-            game.returnToMenu();
-            return false;
         } else {
             closeTowerSet();
             openTowerSet(cameraX,cameraY);
         }
         return false;
     }
+
 
     public void showLives(SpriteBatch batch){
 
@@ -178,25 +169,25 @@ public class UI{
             i += 0.4f;
             switch (stack.pop()){
                 case 0:
-                    batch.draw(Graphics.getRegion("zeros"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("zeros"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 1:
-                    batch.draw(Graphics.getRegion("one"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("one"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 2:
-                    batch.draw(Graphics.getRegion("two"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("two"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 3:
-                    batch.draw(Graphics.getRegion("three"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("three"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 4:
-                    batch.draw(Graphics.getRegion("four"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("four"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 5:
-                    batch.draw(Graphics.getRegion("five"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("five"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 6:
-                    batch.draw(Graphics.getRegion("six"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("six"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 7:
-                    batch.draw(Graphics.getRegion("seven"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("seven"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 8:
-                    batch.draw(Graphics.getRegion("eight"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("eight"), 9.0f + i, 0.2f, 1f, 1f); break;
                 case 9:
-                    batch.draw(Graphics.getRegion("nine"), 13.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(Graphics.getRegion("nine"), 9.0f + i, 0.2f, 1f, 1f); break;
                 default:
                     System.out.println("lives:" + localPlayer.getLives());
             }
