@@ -44,20 +44,7 @@ public class MapSelectScreen implements Screen {
         stage.setBackground(new Image(backgroundImage));*/
 
         //1. Navigate to the map folder, find amount of maps. maps are found in android/maps.
-        String locRoot = Gdx.files.getLocalStoragePath();
-        FileHandle[] assetMaps = Gdx.files.internal("maps/").list();
-        FileHandle[] createdMaps = Gdx.files.absolute(locRoot + "maps/").list();
-
-        FileHandle[] files = new FileHandle[createdMaps.length + assetMaps.length];
-        int count = 0;
-        for(int i = 0; i<assetMaps.length; i++) {
-            files[i] = assetMaps[i];
-            count++;
-        }
-        for(int j = 0;j<createdMaps.length;j++) {
-            files[count++] = createdMaps[j];
-        }
-
+        FileHandle[] files = createFilehandle();
         int numberOfMaps = files.length;
 
         //2. create and add textButtons to a table.
@@ -117,5 +104,41 @@ public class MapSelectScreen implements Screen {
     @Override
     public void hide() {
 
+    }
+
+    private FileHandle[] createFilehandle(){
+        String locRoot = Gdx.files.getLocalStoragePath();
+        FileHandle[] assetMaps = Gdx.files.internal("maps/").list();
+        FileHandle[] createdMaps = Gdx.files.absolute(locRoot + "maps/").list();
+
+        boolean equalArrays = true;
+        if(assetMaps.length != createdMaps.length){
+            equalArrays = false;
+        } else{
+            for (int i = 0; i < assetMaps.length; i++) {
+                if(!assetMaps[i].nameWithoutExtension().equals(createdMaps[i].nameWithoutExtension())){
+                    equalArrays = false;
+                    break;
+                }
+
+            }
+        }
+        FileHandle[] files;
+        if(equalArrays){
+            files = assetMaps;
+        }
+        else{
+            files = new FileHandle[createdMaps.length + assetMaps.length];
+            int count = 0;
+            for(int i = 0; i<assetMaps.length; i++) {
+                files[i] = assetMaps[i];
+                count++;
+            }
+            for(int j = 0;j<createdMaps.length;j++) {
+                files[count++] = createdMaps[j];
+            }
+        }
+
+        return files;
     }
 }
