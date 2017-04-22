@@ -43,25 +43,10 @@ public class MapCamera extends OrthographicCamera {
         return HEIGHT - (screenY - heightOffset) * viewportHeight / screenHeight;
     }
 
-    private TextureAtlas.AtlasRegion getSprite(int type) {
-        switch (type) {
-            case 0:
-                return tileAtlas.findRegion("groundTex");
-            case 1:
-                return tileAtlas.findRegion("roadTex");
-            case 2:
-                return tileAtlas.findRegion("pathStartTex");
-            case 3:
-                return tileAtlas.findRegion("pathEndTex");
-            default:
-                return tileAtlas.findRegion("groundTex");
-        }
-    }
-
     public void drawMap(Map map, SpriteBatch batch) {
-        for (int y = 0; y < map.TILEROWS; y++) {
-            for (int x = 0; x < map.TILECOLS; x++) {
-                batch.draw(getSprite(map.getTile(x, y)), x * tilesize, y * tilesize, tilesize, tilesize);
+        for (int y = 1; y < map.TILEROWS + 1; y++) {
+            for (int x = 1; x < map.TILECOLS + 1; x++) {
+                batch.draw(map.getTileGraphic(x,y), (x-1) * tilesize, (y-1) * tilesize, tilesize, tilesize);
             }
         }
     }
