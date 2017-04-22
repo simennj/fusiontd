@@ -35,8 +35,12 @@ public class CreepSpawner {
     }
 
     public void startNextWave() {
-        currentWave = waveReader.popWave();
-        waveActive = true;
+        if (waveReader.hasNextWave()) {
+            currentWave = waveReader.popWave();
+            waveActive = true;
+        } else {
+            System.out.println("You have won!");
+        }
     }
 
     private void spawnCreep(String region, int life, float speed, int reward, Component... components) {

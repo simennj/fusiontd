@@ -48,6 +48,10 @@ class WaveReader {
         );
     }
 
+    public boolean hasNextWave() {
+        return (waves.size() > 0);
+    }
+
     CreepWave popWave() {
         return waves.pop();
     }
