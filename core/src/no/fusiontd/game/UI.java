@@ -1,8 +1,12 @@
 package no.fusiontd.game;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.*;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
 import no.fusiontd.MPAlternative.MPClient;
@@ -24,17 +28,21 @@ public class UI{
     private MPServer mpServer;
     private boolean multiPlayer;
     private TextureAtlas.AtlasRegion play;
+    private TextureAtlas uiAtlas, spriteAtlas;
+    private Map map;
 
-    public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine) {
+    public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine, Map map) {
         this.game = game; this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
         this.showTowerSet = false;
         this.engine = engine;
         this.multiPlayer = false;
+        uiAtlas = new TextureAtlas("ui.atlas"); spriteAtlas = new TextureAtlas("sprites.atlas");
         setup();
+        this.map = map;
     }
 
     public void setup(){
-        play = new TextureAtlas.AtlasRegion(Graphics.getRegion("play0"));
+        play = uiAtlas.findRegion("play0");
         play.flip(true,false);
     }
 
@@ -48,7 +56,7 @@ public class UI{
             towerSetMenu(towerSettingX, towerSettingY, batch);
         }
 
-        batch.draw(Graphics.getRegion("back0"), 15.0f , 0.0f, 1f, 1f); // back button
+        batch.draw(uiAtlas.findRegion("back0"), 15.0f , 0.0f, 1f, 1f); // back button
         if (!multiPlayer || mpServer != null) {
             batch.draw(play, 0.0f, 0.0f, 1f, 1f);
         }
@@ -82,21 +90,26 @@ public class UI{
         showTowerSet = false;
     }
 
+    //NinePatch patch = new NinePatch(uiAtlas.findRegion("button0.9"));
+    //NinePatchDrawable draw = new NinePatchDrawable(patch);
+
     public void towerSetMenu(float cameraX, float cameraY, SpriteBatch batch) {
 
-        batch.draw(Graphics.getRegion("button0"), cameraX - 0.5f, cameraY - 0.5f, 1f, 1f);
+        //draw.draw(batch, cameraX + 0.5f , cameraY - 1.5f, 2f, 4f);
+        batch.draw(uiAtlas.findRegion("button0"), cameraX - 0.5f, cameraY - 0.5f, 1f, 1f);
 
-        batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY + 1.5f, 2f, 1f);
-        batch.draw(Graphics.getRegion("t_0"), cameraX + 0.5f, cameraY + 1.5f, 1f, 1f);
+        //batch.draw(uiAtlas.findRegion("button0"), cameraX + 0.5f , cameraY - 1.5f, 2f, 4f);
+        batch.draw(uiAtlas.findRegion("button0"), cameraX + 0.5f , cameraY + 1.5f, 2f, 1f);
+        batch.draw(spriteAtlas.findRegion("t"), cameraX + 0.5f, cameraY + 1.5f, 1f, 1f);
 
-        batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY + 0.5f, 2f, 1f);
-        batch.draw(Graphics.getRegion("t_emil0"), cameraX + 0.5f, cameraY + 0.5f, 1f, 1f);
+        batch.draw(uiAtlas.findRegion("button0"), cameraX + 0.5f , cameraY + 0.5f, 2f, 1f);
+        batch.draw(spriteAtlas.findRegion("t_emil"), cameraX + 0.5f, cameraY + 0.5f, 1f, 1f);
 
-        batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY - 0.5f, 2f, 1f);
-        batch.draw(Graphics.getRegion("t_hybrida0"), cameraX + 0.5f, cameraY - 0.5f, 1f, 1f);
+        batch.draw(uiAtlas.findRegion("button0"), cameraX + 0.5f , cameraY - 0.5f, 2f, 1f);
+        batch.draw(spriteAtlas.findRegion("t_hybrida"), cameraX + 0.5f, cameraY - 0.5f, 1f, 1f);
 
-        batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY - 1.5f, 2f, 1f);
-        batch.draw(Graphics.getRegion("t_volvox0"), cameraX + 0.5f, cameraY - 1.5f, 1f, 1f);
+        batch.draw(uiAtlas.findRegion("button0"), cameraX + 0.5f , cameraY - 1.5f, 2f, 1f);
+        batch.draw(spriteAtlas.findRegion("t_volvox"), cameraX + 0.5f, cameraY - 1.5f, 1f, 1f);
     }
 
     public boolean towerSet(float cameraX, float cameraY){
@@ -151,146 +164,78 @@ public class UI{
         } else if(cameraX < towerSettingX + 0.5f && cameraX > towerSettingX - 0.5f && cameraY < towerSettingY + 1.5f && cameraY > towerSettingY - 1.5f) {
             closeTowerSet();
         } else {
-            closeTowerSet();
-            openTowerSet(cameraX,cameraY);
+            if (map.getTile(cameraX, cameraY) == 1 || map.getTile(cameraX, cameraY) == 2 || map.getTile(cameraX, cameraY) == 3) {
+                closeTowerSet();
+            } else {
+                closeTowerSet();
+                openTowerSet(cameraX, cameraY);
+            }
         }
         return false;
     }
 
+    public void representNumber(int number, float x, float y, SpriteBatch batch){
 
-    public void showLives(SpriteBatch batch){
+        float distanceBetweenNumbers = 0.5f;
+        float width = 0.55f, height = 0.55f;
 
-        int lives = localPlayer.getLives();
-
-        if (lives == 0){
-            batch.draw(Graphics.getRegion("zeros"), 13.0f , 0.2f, 1f, 1f);
+        if (number == 0){
+            batch.draw(uiAtlas.findRegion("0"), x , y, width, height);
         }
 
         LinkedList<Integer> stack = new LinkedList<Integer>();
-        while (lives > 0) {
-            stack.push( lives % 10 );
-            lives = lives / 10;
+        while (number > 0) {
+            stack.push( number % 10 );
+            number = number / 10;
         }
 
-        float i = -0.4f;
+        float i = - distanceBetweenNumbers;
         while (!stack.isEmpty()) {
-            i += 0.4f;
+            i += distanceBetweenNumbers;
             switch (stack.pop()){
                 case 0:
-                    batch.draw(Graphics.getRegion("zeros"), 9.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(uiAtlas.findRegion("0"), x + i, y, width, height); break;
                 case 1:
-                    batch.draw(Graphics.getRegion("one"), 9.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(uiAtlas.findRegion("1"), x + i, y, width, height); break;
                 case 2:
-                    batch.draw(Graphics.getRegion("two"), 9.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(uiAtlas.findRegion("2"), x + i, y, width, height); break;
                 case 3:
-                    batch.draw(Graphics.getRegion("three"), 9.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(uiAtlas.findRegion("3"), x + i, y, width, height); break;
                 case 4:
-                    batch.draw(Graphics.getRegion("four"), 9.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(uiAtlas.findRegion("4"), x + i, y, width, height); break;
                 case 5:
-                    batch.draw(Graphics.getRegion("five"), 9.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(uiAtlas.findRegion("5"), x + i, y, width, height); break;
                 case 6:
-                    batch.draw(Graphics.getRegion("six"), 9.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(uiAtlas.findRegion("6"), x + i, y, width, height); break;
                 case 7:
-                    batch.draw(Graphics.getRegion("seven"), 9.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(uiAtlas.findRegion("7"), x + i, y, width, height); break;
                 case 8:
-                    batch.draw(Graphics.getRegion("eight"), 9.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(uiAtlas.findRegion("8"), x + i, y, width, height); break;
                 case 9:
-                    batch.draw(Graphics.getRegion("nine"), 9.0f + i, 0.2f, 1f, 1f); break;
+                    batch.draw(uiAtlas.findRegion("9"), x + i, y, width, height); break;
                 default:
-                    System.out.println("lives:" + localPlayer.getLives());
+                    System.out.println("Chaos ensues");
             }
         }
+    }
+
+    public void showLives(SpriteBatch batch){
+        int lives = localPlayer.getLives();
+        representNumber(lives,12.0f,0.0f,batch);
     }
 
 
 
     public void showCash(SpriteBatch batch) {
-
         int cash = localPlayer.getCash();
-
-        if (cash == 0){
-            batch.draw(Graphics.getRegion("zeros"), 11.0f, 0.2f, 1f, 1f);
-        }
-
-        LinkedList<Integer> stack = new LinkedList<Integer>();
-        while (cash > 0) {
-            stack.push( cash % 10 );
-            cash = cash / 10;
-        }
-
-        float i = -0.4f;
-        while (!stack.isEmpty()) {
-            i += 0.4f;
-            switch (stack.pop()){
-                case 0:
-                    batch.draw(Graphics.getRegion("zeros"), 11.0f + i, 0.2f, 1f, 1f); break;
-                case 1:
-                    batch.draw(Graphics.getRegion("one"), 11.0f + i, 0.2f, 1f, 1f); break;
-                case 2:
-                    batch.draw(Graphics.getRegion("two"), 11.0f + i, 0.2f, 1f, 1f); break;
-                case 3:
-                    batch.draw(Graphics.getRegion("three"), 11.0f + i, 0.2f, 1f, 1f); break;
-                case 4:
-                    batch.draw(Graphics.getRegion("four"), 11.0f + i, 0.2f, 1f, 1f); break;
-                case 5:
-                    batch.draw(Graphics.getRegion("five"), 11.0f + i, 0.2f, 1f, 1f); break;
-                case 6:
-                    batch.draw(Graphics.getRegion("six"), 11.0f + i, 0.2f, 1f, 1f); break;
-                case 7:
-                    batch.draw(Graphics.getRegion("seven"), 11.0f + i, 0.2f, 1f, 1f); break;
-                case 8:
-                    batch.draw(Graphics.getRegion("eight"), 11.0f + i, 0.2f, 1f, 1f); break;
-                case 9:
-                    batch.draw(Graphics.getRegion("nine"), 11.0f + i, 0.2f, 1f, 1f); break;
-                default:
-                    System.out.println("cash:" + localPlayer.getCash());
-            }
-        }
+        representNumber(cash,9.0f,0.0f,batch);
     }
 
     public void showCashMultiPlayer(SpriteBatch batch) {
 
         mulPlayer = getMulPlayerFromNetwork();
         int cash = mulPlayer.getCash();
-
-        if (cash == 0){
-            batch.draw(Graphics.getRegion("zeros"), 1.0f, 0.2f, 1f, 1f);
-        }
-
-        LinkedList<Integer> stack = new LinkedList<Integer>();
-        while (cash > 0) {
-            stack.push( cash % 10 );
-            cash = cash / 10;
-        }
-
-        float i = -0.4f;
-        while (!stack.isEmpty()) {
-            i += 0.4f;
-            switch (stack.pop()){
-                case 0:
-                    batch.draw(Graphics.getRegion("zeros"), 1.0f + i, 0.2f, 1f, 1f); break;
-                case 1:
-                    batch.draw(Graphics.getRegion("one"), 1.0f + i, 0.2f, 1f, 1f); break;
-                case 2:
-                    batch.draw(Graphics.getRegion("two"), 1.0f + i, 0.2f, 1f, 1f); break;
-                case 3:
-                    batch.draw(Graphics.getRegion("three"), 1.0f + i, 0.2f, 1f, 1f); break;
-                case 4:
-                    batch.draw(Graphics.getRegion("four"), 1.0f + i, 0.2f, 1f, 1f); break;
-                case 5:
-                    batch.draw(Graphics.getRegion("five"), 1.0f + i, 0.2f, 1f, 1f); break;
-                case 6:
-                    batch.draw(Graphics.getRegion("six"), 1.0f + i, 0.2f, 1f, 1f); break;
-                case 7:
-                    batch.draw(Graphics.getRegion("seven"), 1.0f + i, 0.2f, 1f, 1f); break;
-                case 8:
-                    batch.draw(Graphics.getRegion("eight"), 1.0f + i, 0.2f, 1f, 1f); break;
-                case 9:
-                    batch.draw(Graphics.getRegion("nine"), 1.0f + i, 0.2f, 1f, 1f); break;
-                default:
-                    System.out.println("cash:" + mulPlayer.getCash());
-            }
-        }
+        representNumber(cash, 6.0f,0.0f,batch);
     }
 
     public void initMPClient(MPClient mpClient){

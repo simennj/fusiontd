@@ -49,7 +49,7 @@ public class PlayScreen implements Screen, InputProcessor {
         batch = new SpriteBatch();
         engine = new EntityComponentManager(this, localPlayer, mulPlayer);
         creepSpawner = new CreepSpawner(map.path, engine);
-        ui = new UI(game,localPlayer,mulPlayer, engine);
+        ui = new UI(game,localPlayer,mulPlayer, engine,map);
     }
 
     public void setMap(String mapName) {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 import no.fusiontd.Graphics;
 import no.fusiontd.maps.MapReader;
@@ -12,6 +13,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
 
@@ -38,7 +40,6 @@ public class Map {
 
     public int[][] padMap(int[][] map) {
         int[][] paddedMap = new int[TILEROWS+2][TILECOLS+2];
-        String str = "";
         int y_max = TILEROWS + 1;
         for (int i = 0; i < TILEROWS + 2; i++) {
             for (int j = 0; j < TILECOLS + 2; j++) {
@@ -46,10 +47,9 @@ public class Map {
                     paddedMap[y_max - i][j] = 0;
                 } else {
                     paddedMap[y_max - i][j] = Math.min(map[y_max - i - 1][j-1], 1);
-                } str = str + paddedMap[y_max - i][j];
-            } str = str + "\n";
+                }
+            }
         }
-        System.out.println(str);
         return paddedMap;
     }
 
@@ -108,6 +108,7 @@ public class Map {
             cornerSouthEast1 = {1,1,1,1,1,0,0,0}, cornerSouthEast2 = {0,1,1,1,1,0,0,0}, cornerSouthEast3 = {1,1,1,1,0,0,0,0}, cornerSouthEast4 = {0,1,1,1,0,0,0,0},
             cornerSouthWest1  = {0,0,1,1,1,1,1,0}, cornerSouthWest2  = {0,0,1,1,1,1,0,0}, cornerSouthWest3 = {0,0,0,1,1,1,1,0}, cornerSouthWest4 = {0,0,0,1,1,1,0,0},
             neighbours = {0,0,0,0,0,0,0,0};
+
 
     public TextureAtlas.AtlasRegion getTileGraphic(int x, int y) {
         if (padMap[y][x] == 1 || padMap[y][x] == 2 || padMap[y][x] == 3){
