@@ -16,7 +16,6 @@ import no.fusiontd.Graphics;
 import no.fusiontd.MPAlternative.MPClient;
 import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.MenuStage;
-import no.fusiontd.components.Buyable;
 import no.fusiontd.components.Value;
 import no.fusiontd.components.Geometry;
 import no.fusiontd.menu.ExitButton;
