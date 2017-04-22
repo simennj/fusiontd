@@ -10,12 +10,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
 import no.fusiontd.maps.MapWriter;
-import no.fusiontd.menu.ExitButton;
 
 public class MapEditorScreen implements Screen, Input.TextInputListener, InputProcessor {
 
@@ -34,8 +32,6 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private MapEditorScreen.State state = MapEditorScreen.State.METADATA;
     private String mapName;
     private int[][] map;
-    private ExitButton exitButton;
-    private TextButton btnCreateMap;
     private TextureAtlas.AtlasRegion play;
     private TextureAtlas tileAtlas = new TextureAtlas("tiles.atlas");
     private TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
@@ -45,13 +41,18 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     }
 
     @Override
-    public void show(){
+    public void show() {
         stage = new MenuStage();
         Gdx.input.setInputProcessor(stage);
-        exitButton = ExitButton.create(game);
-        stage.addImageButton(exitButton);
+        stage.addImageButton("backButton", new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        game.returnToMenu();
+                    }
+                }
+        );
 
-        btnCreateMap = stage.createTextButton("Create Map", new ChangeListener() {
+        stage.createTextButton("Create Map", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.input.getTextInput(MapEditorScreen.this, "Enter Map name", "", "Map Name");
@@ -65,9 +66,9 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
         setup();
     }
 
-    public void setup(){
+    public void setup() {
         play = new TextureAtlas.AtlasRegion(uiAtlas.findRegion("play0"));
-        play.flip(true,false);
+        play.flip(true, false);
     }
 
     @Override
@@ -85,7 +86,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
                 batch.begin();
                 drawMap(map, batch);
                 batch.draw(uiAtlas.findRegion("back0"), 15.0f, 0.0f, 1f, 1f); // back button
-                batch.draw(play, 0.0f , 0.0f, 1f, 1f);
+                batch.draw(play, 0.0f, 0.0f, 1f, 1f);
                 batch.end();
                 break;
         }
@@ -150,7 +151,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
 
     @Override
     public void resize(int width, int height) {
-        switch (state){
+        switch (state) {
             case METADATA:
                 stage.getViewport().update(width, height, true);
                 break;
@@ -184,7 +185,9 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     }
 
     @Override
-    public boolean keyDown(int keycode) { return false; }
+    public boolean keyDown(int keycode) {
+        return false;
+    }
 
     @Override
     public boolean keyUp(int keycode) {
@@ -206,7 +209,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
                     game.returnToMenu();
                 } else if (getCameraX(screenX) > 0.0f && getCameraX(screenX) < 1.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
                     saveMap();
-                } else if (map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] <= 3){
+                } else if (map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] <= 3) {
                     map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))]++;
                 } else {
                     map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] = 0;
@@ -236,9 +239,9 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
         return false;
     }
 
-    public boolean saveMap(){
+    public boolean saveMap() {
         MapWriter mapWriter = new MapWriter();
-        mapWriter.saveMap(map,mapName);
+        mapWriter.saveMap(map, mapName);
         return false;
     }
 

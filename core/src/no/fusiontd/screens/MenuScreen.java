@@ -3,32 +3,25 @@ package no.fusiontd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
-import no.fusiontd.menu.ExitButton;
 import no.fusiontd.menu.NormalTextButtonFactory;
-import no.fusiontd.menu.OptionsButton;
 
-public class MenuScreen implements Screen{
+public class MenuScreen implements Screen {
 
-    private FusionTD game;
+    private final FusionTD game;
     private MenuStage stage;
     private NormalTextButtonFactory textButtonFactory;
-    private OptionsButton optionsButton;
 
-    public MenuScreen(FusionTD game) {
+    public MenuScreen(final FusionTD game) {
         this.game = game;
-        optionsButton = OptionsButton.create(game);
+
     }
 
     @Override
-    public void show(){
+    public void show() {
         stage = new MenuStage();
         textButtonFactory = new NormalTextButtonFactory();
         Gdx.input.setInputProcessor(stage);
@@ -78,7 +71,12 @@ public class MenuScreen implements Screen{
         }));*/
 
 
-        stage.addImageButton(optionsButton);
+        stage.addImageButton("gearButton", new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.openOptions();
+            }
+        });
 
     }
 
@@ -89,14 +87,13 @@ public class MenuScreen implements Screen{
         stage.draw();
     }
 
-    public void resize (int width, int height) {
+    public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
-    public void dispose () {
+    public void dispose() {
         stage.dispose();
         textButtonFactory.dispose();
-        optionsButton.dispose();
     }
 
     @Override
