@@ -44,7 +44,6 @@ public class MapDeleteScreen implements Screen{
                 textButton = textButtonFactory.createTextButton(mapName, new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        table.removeActor(textButton);
                         deleteMap(mapName);
                     }
                 });

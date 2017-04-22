@@ -1,5 +1,7 @@
 package no.fusiontd.game;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.List;
@@ -90,7 +92,7 @@ public class MapEditorLogic {
         int endCounter = 0;
         int startCounter = 0;
 
-        List<Point2D> path = map.findPath(adj);
+        List<Vector2> path = map.findPath(adj);
 
         for (int i = 0; i < map.TILEROWS; i++) {
             for (int j = 0; j < map.TILECOLS; j++) {
@@ -115,14 +117,14 @@ public class MapEditorLogic {
         return true;
     }
 
-    public boolean checkIfPointIsInPath(List<Point2D> path, int i, int j){
+    public boolean checkIfPointIsInPath(List<Vector2> path, int i, int j){
         //Takes a path, and coordinates (i and j) of another point, and sees if the given (i,j) point is in the path.
         //Returns true if the point is in the path, and false if it's not in the path.
         //Companion to the checkIfMapIsValid function.
 
         for (int k=0; k<path.size(); k++){
-            Point2D point = path.get(k);
-            if (point.getX() == i && point.getY() == j){
+            Vector2 point = path.get(k);
+            if (point.x == i && point.y == j){
                 return true;
             }
         }

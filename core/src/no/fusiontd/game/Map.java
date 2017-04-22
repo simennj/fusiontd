@@ -140,14 +140,14 @@ public class Map {
         // return null;
     }
 
-    public List<Point2D> findPath(int[][] adj) {
+    public List<Vector2> findPath(int[][] adj) {
         //Function that takes a map as input, and returns a list (with Point2D-objects) of path as a return value.
         // Remembers which cells have been checked
         boolean[][] checked = new boolean[TILEROWS][TILECOLS]; // default value is false
 
-        List<Point2D> points = new ArrayList<Point2D>();
-        Point2D startPoint = null;
-        Point2D endPoint = null;
+        List<Vector2> points = new ArrayList<Vector2>();
+        Vector2 startPoint = null;
+        Vector2 endPoint = null;
 
         //Iterate over matrix to find start and end point
         for (int i = 0; i < TILEROWS; i++) {
@@ -155,53 +155,53 @@ public class Map {
 
                 if (adj[i][j] == 2) {
 
-                    startPoint = new Point2D.Double(i, j);
+                    startPoint = new Vector2(i, j);
                     points.add(startPoint);
                     checked[i][j] = true;
 
                 }
 
                 if (adj[i][j] == 3) {
-                    endPoint = new Point2D.Double(i, j);
+                    endPoint = new Vector2(i, j);
                     checked[i][j] = true;
                 }
             }
         }
 
         //Start search
-        Queue<Point2D> queue = new ArrayDeque<Point2D>();
+        Queue<Vector2> queue = new ArrayDeque<Vector2>();
         queue.add(startPoint);
 
         while (!queue.isEmpty()) {
 
-            Point2D current = queue.remove();
-            int x = (int) current.getX();
-            int y = (int) current.getY();
+            Vector2 current = queue.remove();
+            int x = (int) current.x;
+            int y = (int) current.y;
 
             if (x - 1 >= 0 && adj[x - 1][y] == 1 && !checked[x - 1][y]) {
 
-                Point2D point = new Point2D.Double(x - 1, y);
+                Vector2 point = new Vector2(x - 1, y);
                 queue.add(point);
                 points.add(point);
                 checked[x - 1][y] = true;
             }
             if (x + 1 < TILEROWS && adj[x + 1][y] == 1 && !checked[x + 1][y]) {
 
-                Point2D point = new Point2D.Double(x + 1, y);
+                Vector2 point = new Vector2(x + 1, y);
                 queue.add(point);
                 points.add(point);
                 checked[x + 1][y] = true;
             }
             if (y - 1 >= 0 && adj[x][y - 1] == 1 && !checked[x][y - 1]) {
 
-                Point2D point = new Point2D.Double(x, y - 1);
+                Vector2 point = new Vector2(x, y - 1);
                 queue.add(point);
                 points.add(point);
                 checked[x][y - 1] = true;
             }
             if (y + 1 < TILECOLS && adj[x][y + 1] == 1 && !checked[x][y + 1]) {
 
-                Point2D point = new Point2D.Double(x, y + 1);
+                Vector2 point = new Vector2(x, y + 1);
                 queue.add(point);
                 points.add(point);
                 checked[x][y + 1] = true;
@@ -213,7 +213,7 @@ public class Map {
     }
 
     private CatmullRomSpline<Vector2> getPath() {
-        List<Point2D> points = findPath(map);
+        List<Vector2> points = findPath(map);
         ArrayList<Vector2> vectors = new ArrayList<Vector2>();
         vectors.add(getVectorFromPoint(points.get(0)));
         for (int i = 0; i < points.size(); i++) {
@@ -225,8 +225,8 @@ public class Map {
         return new CatmullRomSpline<Vector2>(vectorArray, false);
     }
 
-    private Vector2 getVectorFromPoint(Point2D point) {
-        return new Vector2((float) point.getY() + .5f, (float) point.getX() + .5f);
+    private Vector2 getVectorFromPoint(Vector2 point) {
+        return new Vector2(point.y + .5f, point.x + .5f);
     }
 
     public int[][] copyMap() {
