@@ -68,7 +68,7 @@ public class PlayScreen implements Screen, InputProcessor {
 
         switch (state) {
             case RUN:
-                Gdx.gl.glClearColor(0, 1, 0, 1);
+                Gdx.gl.glClearColor(0, 0, 1, 1);
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                 batch.setProjectionMatrix(camera.combined);
                 batch.begin();
@@ -89,21 +89,6 @@ public class PlayScreen implements Screen, InputProcessor {
             for (int x = 1; x < map.TILECOLS + 1; x++) {
                 batch.draw(map.getTileGraphic(x, y), (x-1) * tilesize, (y-1) * tilesize, tilesize, tilesize);
             }
-        }
-    }
-
-    private TextureAtlas.AtlasRegion getSprite(int type) {
-        switch (type) {
-            case 0:
-                return Graphics.getRegion("groundTex");
-            case 1:
-                return Graphics.getRegion("roadTex");
-            case 2:
-                return Graphics.getRegion("pathStartTex");
-            case 3:
-                return Graphics.getRegion("pathEndTex");
-            default:
-                return Graphics.getRegion("groundTex");
         }
     }
 
@@ -172,8 +157,7 @@ public class PlayScreen implements Screen, InputProcessor {
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println(getCameraX(screenX) + ";" + getCameraY(screenY));
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {;
         if (getCameraX(screenX) > 15.0f && getCameraX(screenX) < 16.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
             game.returnToMenu();
         } else if (getCameraX(screenX) > 0.0f && getCameraX(screenX) < 1.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
