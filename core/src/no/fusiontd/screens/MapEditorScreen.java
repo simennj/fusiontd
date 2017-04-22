@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
@@ -18,7 +17,6 @@ import no.fusiontd.Graphics;
 import no.fusiontd.MenuStage;
 import no.fusiontd.maps.MapWriter;
 import no.fusiontd.menu.ExitButton;
-import no.fusiontd.menu.NormalTextButtonFactory;
 
 public class MapEditorScreen implements Screen, Input.TextInputListener, InputProcessor {
 
@@ -39,6 +37,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private int[][] map;
     private ExitButton exitButton;
     private TextButton btnCreateMap;
+    private TextButton btnDeleteMap;
     private TextureAtlas.AtlasRegion play;
 
     public MapEditorScreen(FusionTD game) {
@@ -56,6 +55,13 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.input.getTextInput(MapEditorScreen.this, "Enter Map name", "", "Map Name");
+            }
+        });
+
+        btnDeleteMap = stage.createTextButton("Delete Maps", new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.openDeleteScreen();
             }
         });
 
@@ -205,6 +211,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
             case EDITING:
                 if (getCameraX(screenX) > 15.0f && getCameraX(screenX) < 16.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
                     game.returnToMenu();
+                    state = State.METADATA;
                 } else if (getCameraX(screenX) > 0.0f && getCameraX(screenX) < 1.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
                     saveMap();
                 } else if (map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] <= 3){
@@ -224,6 +231,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        map[MathUtils.floorPositive(MathUtils.clamp(getCameraY(screenY), 0, TILEROWS - 1))][MathUtils.floorPositive(MathUtils.clamp(getCameraX(screenX), 0, TILECOLS - 1))] = 1;
         return false;
     }
 

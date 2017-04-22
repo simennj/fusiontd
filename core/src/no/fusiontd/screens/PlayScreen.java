@@ -154,7 +154,6 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-
     }
 
     @Override
