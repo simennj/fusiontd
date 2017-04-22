@@ -85,9 +85,9 @@ public class PlayScreen implements Screen, InputProcessor {
     }
 
     private void drawMap(Map map, SpriteBatch batch) {
-        for (int y = 0; y < map.TILEROWS; y++) {
-            for (int x = 0; x < map.TILECOLS; x++) {
-                batch.draw(getSprite(map.getTile(x, y)), x * tilesize, y * tilesize, tilesize, tilesize);
+        for (int y = 1; y < map.TILEROWS + 1; y++) {
+            for (int x = 1; x < map.TILECOLS + 1; x++) {
+                batch.draw(map.getTileGraphic(x, y), (x-1) * tilesize, (y-1) * tilesize, tilesize, tilesize);
             }
         }
     }
@@ -174,6 +174,7 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        System.out.println(getCameraX(screenX) + ";" + getCameraY(screenY));
         if (getCameraX(screenX) > 15.0f && getCameraX(screenX) < 16.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
             game.returnToMenu();
         } else if (getCameraX(screenX) > 0.0f && getCameraX(screenX) < 1.0f && getCameraY(screenY) > 0.0f && getCameraY(screenY) < 1.0f) {
