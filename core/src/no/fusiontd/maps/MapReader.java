@@ -2,8 +2,6 @@ package no.fusiontd.maps;
 
 import com.badlogic.gdx.Gdx;
 
-import no.fusiontd.menu.ExitButton;
-
 public class MapReader {
 
     public int[][] loadMap(String mapName, int rows, int cols) {

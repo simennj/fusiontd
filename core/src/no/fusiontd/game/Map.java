@@ -239,18 +239,18 @@ public class Map {
     private CatmullRomSpline<Vector2> getPath() {
         List<Vector2> points = findPath(map);
         ArrayList<Vector2> vectors = new ArrayList<Vector2>();
-        vectors.add(points.get(0));
+        vectors.add(getVectorFromPoint(points.get(0)));
         for (int i = 0; i < points.size(); i++) {
-            vectors.add(points.get(i));
+            vectors.add(getVectorFromPoint(points.get(i)));
         }
-        vectors.add(points.get(points.size() - 1));
+        vectors.add(getVectorFromPoint(points.get(points.size() - 1)));
         Vector2[] vectorArray = new Vector2[vectors.size()];
         vectors.toArray(vectorArray);
         return new CatmullRomSpline<Vector2>(vectorArray, false);
     }
 
     private Vector2 getVectorFromPoint(Vector2 point) {
-        return new Vector2((float) point.y + .5f, (float) point.x + .5f);
+        return new Vector2(point.y + .5f, point.x + .5f);
     }
 
 }

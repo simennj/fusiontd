@@ -43,9 +43,9 @@ public class FusionTD extends Game {
 		boolean mapExists = false;
 		FileHandle[] maps =  createFilehandle();
 		for (int i = 0; i < maps.length; i++) {
-			System.out.println(maps[i].toString());
+			//System.out.println(maps[i].toString());
 			String[] map = maps[i].toString().split("[./]");
-			System.out.println(map[map.length-2]);
+			//System.out.println(map[map.length-2]);
 			if(map[map.length-2].equals(mapName)){
 				mapExists = true;
 			}
