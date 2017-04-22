@@ -84,7 +84,7 @@ public class UI{
 
     public void towerSetMenu(float cameraX, float cameraY, SpriteBatch batch) {
 
-        batch.draw(Graphics.getRegion("button0"), cameraX - 0.5f, cameraY - 0.5f, 1f, 1f);
+        batch.draw(Graphics.getRegion("placeholder"), cameraX - 0.5f, cameraY - 0.5f, 0.9f, 0.8f);
 
         batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY + 1.5f, 2f, 1f);
         batch.draw(Graphics.getRegion("t_0"), cameraX + 0.5f, cameraY + 1.5f, 1f, 1f);

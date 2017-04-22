@@ -47,6 +47,7 @@ public class Graphics {
         regions.put("button0", uiNewAtlas.findRegion("button0"));
         regions.put("back0", uiNewAtlas.findRegion("back0"));
         regions.put("play0", uiNewAtlas.findRegion("play0"));
+        regions.put("placeholder", uiNewAtlas.findRegion("placeholder"));
     }
 
     public static TextureAtlas.AtlasRegion getRegion(String name) {
