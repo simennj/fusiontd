@@ -27,7 +27,6 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
     private MapEditorScreen.State state = MapEditorScreen.State.METADATA;
     private String mapName;
     private Map map;
-    private TextureAtlas.AtlasRegion play;
     private TextureAtlas uiAtlas = new TextureAtlas("ui.atlas");
 
     public MapEditorScreen(FusionTD game) {
@@ -63,11 +62,6 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
         camera = new MapCamera(TILECOLS, TILEROWS);
         batch = new SpriteBatch();
         map = new Map(TILEROWS, TILECOLS);
-        setup();
-    }
-
-    private void setup() {
-        play = new TextureAtlas.AtlasRegion(uiAtlas.findRegion("play0"));
     }
 
     @Override
@@ -84,7 +78,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
                 batch.begin();
                 camera.drawMap(map, batch);
                 batch.draw(uiAtlas.findRegion("back0"), 15.0f, 0.0f, 1f, 1f); // back button
-                batch.draw(play, 0.0f, 0.0f, 1f, 1f);
+                batch.draw(uiAtlas.findRegion("save"), 0.0f, 0.0f, 1f, 1f);
                 batch.end();
                 break;
         }

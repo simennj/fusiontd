@@ -4,65 +4,65 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-0
-  rotate: false
-  xy: 912, 132
-  size: 92, 117
-  orig: 92, 117
-  offset: 0, 0
-  index: -1
 2
   rotate: false
-  xy: 908, 837
+  xy: 908, 774
   size: 97, 120
   orig: 97, 120
   offset: 0, 0
   index: -1
 3
   rotate: false
-  xy: 908, 716
+  xy: 908, 531
   size: 98, 119
   orig: 98, 119
   offset: 0, 0
   index: -1
+4
+  rotate: false
+  xy: 929, 67
+  size: 85, 119
+  orig: 85, 119
+  offset: 0, 0
+  index: -1
 5
   rotate: false
-  xy: 892, 474
+  xy: 835, 67
   size: 92, 119
   orig: 92, 119
   offset: 0, 0
   index: -1
-6
-  rotate: false
-  xy: 858, 15
-  size: 88, 115
-  orig: 88, 115
-  offset: 0, 0
-  index: -1
 7
   rotate: false
-  xy: 706, 303
+  xy: 908, 652
   size: 101, 120
   orig: 101, 120
   offset: 0, 0
   index: -1
 8
   rotate: false
-  xy: 908, 595
+  xy: 892, 410
   size: 97, 119
   orig: 97, 119
   offset: 0, 0
   index: -1
+Victory
+  rotate: false
+  xy: 431, 19
+  size: 402, 120
+  orig: 402, 120
+  offset: 0, 0
+  index: -1
 back0
   rotate: false
-  xy: 706, 781
+  xy: 706, 718
   size: 200, 176
   orig: 200, 176
   offset: 0, 0
   index: -1
 back1
   rotate: false
-  xy: 706, 605
+  xy: 706, 542
   size: 200, 174
   orig: 200, 174
   offset: 0, 0
@@ -99,25 +99,18 @@ button0shadow
   index: -1
 button1
   rotate: false
-  xy: 431, 3
+  xy: 704, 896
   size: 300, 61
   orig: 300, 61
   offset: 0, 0
   index: -1
 button1
   rotate: false
-  xy: 431, 3
+  xy: 704, 896
   size: 300, 61
   split: 12, 11, 13, 11
   pad: 15, 11, 13, 8
   orig: 300, 61
-  offset: 0, 0
-  index: -1
-button1_long
-  rotate: false
-  xy: 431, 66
-  size: 425, 73
-  orig: 425, 73
   offset: 0, 0
   index: -1
 button1shadow
@@ -164,77 +157,133 @@ logogrey
   index: -1
 pause0
   rotate: false
-  xy: 706, 425
+  xy: 706, 362
   size: 184, 178
   orig: 184, 178
   offset: 0, 0
   index: -1
 pause1
   rotate: false
-  xy: 809, 251
+  xy: 806, 188
   size: 178, 172
   orig: 178, 172
   offset: 0, 0
   index: -1
-placeholder
-  rotate: false
-  xy: 806, 155
-  size: 104, 94
-  orig: 104, 94
-  offset: 0, 0
-  index: -1
 
 ui2.png
-size: 512,128
+size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+0
+  rotate: false
+  xy: 641, 108
+  size: 92, 117
+  orig: 92, 117
+  offset: 0, 0
+  index: -1
 1
   rotate: false
-  xy: 174, 3
+  xy: 910, 107
   size: 77, 118
   orig: 77, 118
   offset: 0, 0
   index: -1
-4
+6
   rotate: false
-  xy: 2, 2
-  size: 85, 119
-  orig: 85, 119
+  xy: 735, 110
+  size: 88, 115
+  orig: 88, 115
   offset: 0, 0
   index: -1
 9
   rotate: false
-  xy: 89, 5
+  xy: 825, 109
   size: 83, 116
   orig: 83, 116
   offset: 0, 0
   index: -1
+button1_long
+  rotate: false
+  xy: 2, 152
+  size: 425, 73
+  orig: 425, 73
+  offset: 0, 0
+  index: -1
+defeat
+  rotate: false
+  xy: 2, 47
+  size: 384, 103
+  orig: 384, 103
+  offset: 0, 0
+  index: -1
+life
+  rotate: false
+  xy: 388, 50
+  size: 87, 79
+  orig: 87, 79
+  offset: 0, 0
+  index: -1
+money
+  rotate: false
+  xy: 717, 2
+  size: 60, 104
+  orig: 60, 104
+  offset: 0, 0
+  index: -1
+p
+  rotate: false
+  xy: 779, 12
+  size: 62, 95
+  orig: 62, 95
+  offset: 0, 0
+  index: -1
+placeholder
+  rotate: false
+  xy: 429, 131
+  size: 104, 94
+  orig: 104, 94
+  offset: 0, 0
+  index: -1
+placeholder1
+  rotate: false
+  xy: 535, 131
+  size: 104, 94
+  orig: 104, 94
+  offset: 0, 0
+  index: -1
 play0
   rotate: false
-  xy: 253, 26
+  xy: 477, 34
   size: 81, 95
   orig: 81, 95
   offset: 0, 0
   index: -1
 play0_new
   rotate: false
-  xy: 253, 26
+  xy: 477, 34
   size: 81, 95
   orig: 81, 95
   offset: 0, 0
   index: -1
 play1
   rotate: false
-  xy: 336, 30
+  xy: 560, 38
   size: 77, 91
   orig: 77, 91
   offset: 0, 0
   index: -1
 play1_new
   rotate: false
-  xy: 336, 30
+  xy: 560, 38
   size: 77, 91
   orig: 77, 91
+  offset: 0, 0
+  index: -1
+save
+  rotate: false
+  xy: 639, 24
+  size: 76, 82
+  orig: 76, 82
   offset: 0, 0
   index: -1

@@ -28,6 +28,7 @@ public class MPClient extends Listener{
     private EntityComponentManager engine;
     private CreepSpawner creepSpawner;
     private Player mulPlayer;
+    private int creepWaveNumber;
 
     public MPClient(String serverIP, FusionTD game, String playerName) {
         this.serverIP = serverIP;
@@ -96,6 +97,7 @@ public class MPClient extends Listener{
         }
 
         else if( o instanceof Packet.Packet3Creep){
+            creepWaveNumber++;
             creepSpawner.startNextWave();
         }
 
@@ -170,5 +172,9 @@ public class MPClient extends Listener{
 
     public String getMapAsString(){
         return mapAsString;
+    }
+
+    public int getCreepWaveNumber(){
+        return creepWaveNumber;
     }
 }

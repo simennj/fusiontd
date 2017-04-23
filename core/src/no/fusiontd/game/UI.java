@@ -38,11 +38,16 @@ public class UI{
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(uiAtlas.findRegion("0"), 8.0f, 0.0f, 0.55f, 0.55f);
-        batch.draw(uiAtlas.findRegion("9"), 11.0f, 0.0f, 0.55f, 0.55f);
+        batch.draw(uiAtlas.findRegion("money"), 8.0f, 0.0f, 0.55f, 0.55f);
+        batch.draw(uiAtlas.findRegion("life"), 11.0f, 0.0f, 0.55f, 0.55f);
         showLives(batch);
         showCash(batch);
-        showCreepWave(creepWaveNumber, batch);
+        if(mpClient == null){
+            showCreepWave(creepWaveNumber, batch);
+        }
+        if(mpClient != null){
+            showCreepWave(mpClient.getCreepWaveNumber(), batch);
+        }
         if(multiPlayer){
             showCashMultiPlayer(batch);
         }
@@ -237,6 +242,9 @@ public class UI{
 
         mulPlayer = getMulPlayerFromNetwork();
         int cash = mulPlayer.getCash();
+        batch.draw(uiAtlas.findRegion("p"), 4.0f, 0.0f, 0.55f, 0.55f);
+        batch.draw(uiAtlas.findRegion("2"), 4.5f, 0.0f, 0.55f, 0.55f);
+        batch.draw(uiAtlas.findRegion("money"), 5.0f, 0.0f, 0.55f, 0.55f);
         representNumber(cash, 6.0f,0.0f,batch);
     }
 
