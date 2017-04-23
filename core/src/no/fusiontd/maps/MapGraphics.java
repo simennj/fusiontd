@@ -8,7 +8,7 @@ import java.util.Random;
 
 class MapGraphics {
     private final int TILEROWS, TILECOLS;
-    private final TextureAtlas tilesAtlas = new TextureAtlas("tiles_new.atlas");
+    private final TextureAtlas tilesAtlas = new TextureAtlas("tiles.atlas");
     private int[][] padMap;
     private TextureAtlas.AtlasRegion[][] tileTextures;
     private ObjectMap<String, Array<TextureAtlas.AtlasRegion>> textures = new ObjectMap<String, Array<TextureAtlas.AtlasRegion>>();
