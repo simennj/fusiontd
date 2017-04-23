@@ -25,6 +25,7 @@ public class UI{
     private TextureAtlas.AtlasRegion play;
     private TextureAtlas uiAtlas, spriteAtlas;
     private no.fusiontd.maps.Map map;
+    public int creepWaveNumber;
 
     public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine, no.fusiontd.maps.Map map) {
         this.game = game; this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
@@ -33,11 +34,13 @@ public class UI{
         this.multiPlayer = false;
         uiAtlas = new TextureAtlas("ui.atlas"); spriteAtlas = new TextureAtlas("sprites.atlas");
         this.map = map;
+        creepWaveNumber = 0;
     }
 
     public void render(SpriteBatch batch) {
         showLives(batch);
         showCash(batch);
+        showCreepWave(creepWaveNumber, batch);
         if(multiPlayer){
             showCashMultiPlayer(batch);
         }
@@ -222,6 +225,10 @@ public class UI{
     public void showCash(SpriteBatch batch) {
         int cash = localPlayer.getCash();
         representNumber(cash,9.0f,0.0f,batch);
+    }
+
+    public void showCreepWave(int waveNumber, SpriteBatch batch){
+        representNumber(waveNumber, 0.2f, 8.4f,batch);
     }
 
     public void showCashMultiPlayer(SpriteBatch batch) {
