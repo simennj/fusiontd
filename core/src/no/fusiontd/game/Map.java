@@ -4,10 +4,19 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+import no.fusiontd.Graphics;
 import no.fusiontd.maps.MapReader;
 
 import java.awt.geom.Point2D;
 import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Queue;
 
 public class Map {
 
@@ -19,6 +28,7 @@ public class Map {
     private int[][] padMap;
     private MapReader mapReader = new MapReader();
     private TextureAtlas tilesAtlas = new TextureAtlas("tiles_new.atlas");
+    // (0,0) is in upper right corner (northeast) and going clockwise around the point
     private int[] grass = {0, 0, 0, 0, 0, 0, 0, 0},
             roadNorth1 = {1, 0, 0, 0, 0, 0, 1, 1}, roadNorth2 = {1, 0, 0, 0, 0, 0, 0, 1}, roadNorth3 = {0, 0, 0, 0, 0, 0, 1, 1},
             roadWest1 = {0, 0, 0, 0, 1, 1, 1, 0}, roadWest2 = {0, 0, 0, 0, 0, 1, 1, 0}, roadWest3 = {0, 0, 0, 0, 1, 1, 0, 0},
@@ -48,7 +58,6 @@ public class Map {
 
     public int[][] padMap(int[][] map) {
         int[][] paddedMap = new int[TILEROWS + 2][TILECOLS + 2];
-        String str = "";
         int y_max = TILEROWS + 1;
         for (int i = 0; i < TILEROWS + 2; i++) {
             for (int j = 0; j < TILECOLS + 2; j++) {
@@ -57,16 +66,19 @@ public class Map {
                 } else {
                     paddedMap[y_max - i][j] = Math.min(map[y_max - i - 1][j - 1], 1);
                 }
-                str = str + paddedMap[y_max - i][j];
             }
-            str = str + "\n";
         }
-        System.out.println(str);
         return paddedMap;
     }
 
     public void toggleTile(float x, float y) {
         int tile = (map[getMapRow(y)][getMapCol(x)] + 1) % 4;
+        map[getMapRow(y)][getMapCol(x)] = tile;
+        padMap = padMap(map);
+    }
+
+    public void setTile(float x, float y){
+        int tile = 1 % 4;
         map[getMapRow(y)][getMapCol(x)] = tile;
         padMap = padMap(map);
     }

@@ -5,14 +5,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Timer;
+
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
 import no.fusiontd.menu.NormalTextButtonFactory;
 import no.fusiontd.menu.TextButtonFactory;
+import sun.text.resources.cldr.ia.FormatData_ia;
 
 public class MapDeleteScreen implements Screen{
         private FusionTD game;
@@ -107,7 +111,15 @@ public class MapDeleteScreen implements Screen{
             FileHandle file = Gdx.files.absolute(mapSaveString);
 
             file.delete();
-            System.out.println("deleted " + mapName);//"False"-value overwrites current content.
+            final Dialog popUpDialog = stage.createDialog("", "Deleted " + mapName);
+            popUpDialog.show(stage);
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    popUpDialog.hide();
+                }
+            }, 2);
         }
 
         private FileHandle[] createFilehandle(){

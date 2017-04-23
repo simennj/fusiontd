@@ -45,6 +45,7 @@ public class Graphics {
         regions.put("t_hybrida0", spriteAtlas.findRegion("t_hybrida"));
         regions.put("t_volvox0", spriteAtlas.findRegion("t_volvox"));
         regions.put("button0", uiNewAtlas.findRegion("button0"));
+        regions.put("button0.9", uiNewAtlas.findRegion("button0.9"));
         regions.put("back0", uiNewAtlas.findRegion("back0"));
         regions.put("play0", uiNewAtlas.findRegion("play0"));
         regions.put("placeholder", uiNewAtlas.findRegion("placeholder"));
