@@ -8,10 +8,11 @@ import java.util.Random;
 
 class MapGraphics {
     private final int TILEROWS, TILECOLS;
-    private final TextureAtlas tilesAtlas = new TextureAtlas("tiles_new.atlas");
+    private final TextureAtlas tilesAtlas = new TextureAtlas("tiles.atlas");
     private int[][] padMap;
     private TextureAtlas.AtlasRegion[][] tileTextures;
     private ObjectMap<String, Array<TextureAtlas.AtlasRegion>> textures = new ObjectMap<String, Array<TextureAtlas.AtlasRegion>>();
+    private Random random = new Random();
 
     MapGraphics(int[][] map) {
         TILEROWS = map.length;
@@ -99,7 +100,15 @@ class MapGraphics {
                 variations = textures.get("00000000");
             }
         }
-        tileTextures[y - 1][x - 1] = variations.get(new Random().nextInt(variations.size));
+        tileTextures[y - 1][x - 1] = variations.get(getRandomIndex(variations.size));
+    }
+
+    private int getRandomIndex(int size) {
+        int candidate = random.nextInt(size + 1);
+        if (candidate >= size) {
+            candidate = 0;
+        }
+        return candidate;
     }
 
     TextureAtlas.AtlasRegion getTileGraphic(int x, int y) {
