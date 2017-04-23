@@ -8,10 +8,11 @@ import java.util.Random;
 
 class MapGraphics {
     private final int TILEROWS, TILECOLS;
-    private final TextureAtlas tilesAtlas = new TextureAtlas("tiles_new.atlas");
+    private final TextureAtlas tilesAtlas = new TextureAtlas("tiles.atlas");
     private int[][] padMap;
     private TextureAtlas.AtlasRegion[][] tileTextures;
     private ObjectMap<String, Array<TextureAtlas.AtlasRegion>> textures = new ObjectMap<String, Array<TextureAtlas.AtlasRegion>>();
+    private Random random = new Random();
 
     MapGraphics(int[][] map) {
         TILEROWS = map.length;
@@ -39,7 +40,7 @@ class MapGraphics {
                 if (i == 0 || j == 0 || i == TILEROWS + 1 || j == TILECOLS + 1) { //  || map[y_max - i - 1][j-1] == 2 || map[y_max - i- 1][j-1] == 3
                     paddedMap[y_max - i][j] = 0;
                 } else {
-                    paddedMap[y_max - i][j] = Math.min(map[y_max - i - 1][j - 1], 1);
+                    paddedMap[y_max - i][j] = map[y_max - i - 1][j - 1];
                 }
             }
         }
@@ -52,21 +53,26 @@ class MapGraphics {
         // The corners are seriously messed up. BEWARE!!!
 
         textures.put("road", tilesAtlas.findRegions("t_p"));
-        textures.put("tree", tilesAtlas.findRegions("tree"));
+        textures.put("endTile", tilesAtlas.findRegions("endTile"));
+        textures.put("startTile", tilesAtlas.findRegions("startTile"));
 
         textures.put("00000000", tilesAtlas.findRegions("t_g"));
         textures.put("10000011", tilesAtlas.findRegions("t_g_N"));
         textures.put("10000001", tilesAtlas.findRegions("t_g_N"));
         textures.put("00000011", tilesAtlas.findRegions("t_g_N"));
+        textures.put("00000001", tilesAtlas.findRegions("t_g_N"));
         textures.put("00001110", tilesAtlas.findRegions("t_g_W"));
         textures.put("00000110", tilesAtlas.findRegions("t_g_W"));
         textures.put("00001100", tilesAtlas.findRegions("t_g_W"));
+        textures.put("00000100", tilesAtlas.findRegions("t_g_W"));
         textures.put("00111000", tilesAtlas.findRegions("t_g_S"));
         textures.put("00011000", tilesAtlas.findRegions("t_g_S"));
         textures.put("00110000", tilesAtlas.findRegions("t_g_S"));
+        textures.put("00010000", tilesAtlas.findRegions("t_g_S"));
         textures.put("11100000", tilesAtlas.findRegions("t_g_E"));
         textures.put("01100000", tilesAtlas.findRegions("t_g_E"));
         textures.put("11000000", tilesAtlas.findRegions("t_g_E"));
+        textures.put("01000000", tilesAtlas.findRegions("t_g_E"));
         textures.put("10000000", tilesAtlas.findRegions("t_g_NE"));
         textures.put("00000010", tilesAtlas.findRegions("t_g_NW"));
         textures.put("00100000", tilesAtlas.findRegions("t_g_SE"));
@@ -87,19 +93,34 @@ class MapGraphics {
         textures.put("00111100", tilesAtlas.findRegions("t_p_NE"));
         textures.put("00011110", tilesAtlas.findRegions("t_p_NE"));
         textures.put("00011100", tilesAtlas.findRegions("t_p_NE"));
+        textures.put("10001000", tilesAtlas.findRegions("t_g_NESW"));
+        textures.put("00100010", tilesAtlas.findRegions("t_g_NWSE"));
     }
 
     private void setTileGraphic(int x, int y) {
         Array<TextureAtlas.AtlasRegion> variations;
-        if (padMap[y][x] == 1 || padMap[y][x] == 2 || padMap[y][x] == 3) {
+        if (padMap[y][x] == 1) {
             variations = textures.get("road");
+        } else if (padMap[y][x] == 2) {
+            variations = textures.get("startTile");
+        } else if (padMap[y][x] == 3) {
+            variations = textures.get("endTile");
         } else {
             variations = textures.get(checkNeighbours(padMap, x, y));
             if (variations == null) {
                 variations = textures.get("00000000");
+                System.out.println(checkNeighbours(padMap, x, y));
             }
         }
-        tileTextures[y - 1][x - 1] = variations.get(new Random().nextInt(variations.size));
+        tileTextures[y - 1][x - 1] = variations.get(getRandomIndex(variations.size));
+    }
+
+    private int getRandomIndex(int size) {
+        int candidate = random.nextInt(size + 1);
+        if (candidate >= size) {
+            candidate = 0;
+        }
+        return candidate;
     }
 
     TextureAtlas.AtlasRegion getTileGraphic(int x, int y) {
@@ -112,14 +133,14 @@ class MapGraphics {
 
         String neighbours = "";
 
-        neighbours += isGrass(x - 1, y - 1);
-        neighbours += isGrass(x - 1, y);
-        neighbours += isGrass(x - 1, y + 1);
-        neighbours += isGrass(x, y + 1);
-        neighbours += isGrass(x + 1, y + 1);
-        neighbours += isGrass(x + 1, y);
-        neighbours += isGrass(x + 1, y - 1);
-        neighbours += isGrass(x, y - 1);
+        neighbours += isGrass(x - 1, y - 1); // North East
+        neighbours += isGrass(x - 1, y); // East
+        neighbours += isGrass(x - 1, y + 1); // South East
+        neighbours += isGrass(x, y + 1); // South
+        neighbours += isGrass(x + 1, y + 1); // South West
+        neighbours += isGrass(x + 1, y); // West
+        neighbours += isGrass(x + 1, y - 1); // North West
+        neighbours += isGrass(x, y - 1); // North
 
         return neighbours;
     }
