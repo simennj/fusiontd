@@ -28,6 +28,7 @@ public class Map {
     private int[][] padMap;
     private MapReader mapReader = new MapReader();
     private TextureAtlas tilesAtlas = new TextureAtlas("tiles_new.atlas");
+    // (0,0) is in upper right corner (northeast) and going clockwise around the point
     private int[] grass = {0, 0, 0, 0, 0, 0, 0, 0},
             roadNorth1 = {1, 0, 0, 0, 0, 0, 1, 1}, roadNorth2 = {1, 0, 0, 0, 0, 0, 0, 1}, roadNorth3 = {0, 0, 0, 0, 0, 0, 1, 1},
             roadWest1 = {0, 0, 0, 0, 1, 1, 1, 0}, roadWest2 = {0, 0, 0, 0, 0, 1, 1, 0}, roadWest3 = {0, 0, 0, 0, 1, 1, 0, 0},
@@ -57,8 +58,6 @@ public class Map {
 
     public int[][] padMap(int[][] map) {
         int[][] paddedMap = new int[TILEROWS + 2][TILECOLS + 2];
-        String str = "";
-        int[][] paddedMap = new int[TILEROWS+2][TILECOLS+2];
         int y_max = TILEROWS + 1;
         for (int i = 0; i < TILEROWS + 2; i++) {
             for (int j = 0; j < TILECOLS + 2; j++) {
@@ -66,11 +65,6 @@ public class Map {
                     paddedMap[y_max - i][j] = 0;
                 } else {
                     paddedMap[y_max - i][j] = Math.min(map[y_max - i - 1][j - 1], 1);
-                }
-                str = str + paddedMap[y_max - i][j];
-            }
-            str = str + "\n";
-                    paddedMap[y_max - i][j] = Math.min(map[y_max - i - 1][j-1], 1);
                 }
             }
         }
@@ -102,19 +96,6 @@ public class Map {
     }
 
     // (0,0) is in upper right corner (northeast) and going clockwise around the point
-
-    private int[] grass = {0,0,0,0,0,0,0,0},
-            roadNorth1 = {1,0,0,0,0,0,1,1}, roadNorth2 = {1,0,0,0,0,0,0,1}, roadNorth3 = {0,0,0,0,0,0,1,1},
-            roadWest1 = {0,0,0,0,1,1,1,0}, roadWest2 = {0,0,0,0,0,1,1,0}, roadWest3 = {0,0,0,0,1,1,0,0},
-            roadSouth1 = {0,0,1,1,1,0,0,0}, roadSouth2 = {0,0,0,1,1,0,0,0}, roadSouth3 = {0,0,1,1,0,0,0,0},
-            roadEast1 = {1,1,1,0,0,0,0,0}, roadEast2 = {0,1,1,0,0,0,0,0}, roadEast3 = {1,1,0,0,0,0,0,0},
-            roadNorthEast  = {1,0,0,0,0,0,0,0}, roadNorthWest  = {0,0,0,0,0,0,1,0}, roadSouthEast = {0,0,1,0,0,0,0,0}, roadSouthWest = {0,0,0,0,1,0,0,0},
-            cornerNorthEast1 = {1,1,1,0,0,0,1,1}, cornerNorthEast2 = {1,1,0,0,0,0,1,1}, cornerNorthEast3 = {1,1,1,0,0,0,0,1}, cornerNorthEast4 = {1,1,0,0,0,0,0,1},
-            cornerNorthWest1  = {1,0,0,0,1,1,1,1}, cornerNorthWest2 = {0,0,0,0,1,1,1,1}, cornerNorthWest3 = {1,0,0,0,0,1,1,1}, cornerNorthWest4 = {0,0,0,0,0,1,1,1},
-            cornerSouthEast1 = {1,1,1,1,1,0,0,0}, cornerSouthEast2 = {0,1,1,1,1,0,0,0}, cornerSouthEast3 = {1,1,1,1,0,0,0,0}, cornerSouthEast4 = {0,1,1,1,0,0,0,0},
-            cornerSouthWest1  = {0,0,1,1,1,1,1,0}, cornerSouthWest2  = {0,0,1,1,1,1,0,0}, cornerSouthWest3 = {0,0,0,1,1,1,1,0}, cornerSouthWest4 = {0,0,0,1,1,1,0,0},
-            neighbours = {0,0,0,0,0,0,0,0};
-
 
     public TextureAtlas.AtlasRegion getTileGraphic(int x, int y) {
         if (padMap[y][x] == 1 || padMap[y][x] == 2 || padMap[y][x] == 3) {

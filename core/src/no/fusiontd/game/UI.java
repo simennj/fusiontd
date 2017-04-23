@@ -37,13 +37,7 @@ public class UI{
         this.engine = engine;
         this.multiPlayer = false;
         uiAtlas = new TextureAtlas("ui.atlas"); spriteAtlas = new TextureAtlas("sprites.atlas");
-        setup();
         this.map = map;
-    }
-
-    public void setup(){
-        play = uiAtlas.findRegion("play0");
-        play.flip(true,false);
     }
 
     public void render(SpriteBatch batch) {
@@ -58,7 +52,7 @@ public class UI{
 
         batch.draw(uiAtlas.findRegion("back0"), 15.0f , 0.0f, 1f, 1f); // back button
         if (!multiPlayer || mpServer != null) {
-            batch.draw(play, 0.0f, 0.0f, 1f, 1f);
+            batch.draw(uiAtlas.findRegion("play0"), 0.0f, 0.0f, 1f, 1f);
         }
 
     }
@@ -98,26 +92,18 @@ public class UI{
         batch.draw(Graphics.getRegion("placeholder"), cameraX - 0.45f, cameraY - 0.35f, 0.79f, 0.76f);
         //draw.draw(batch, cameraX + 0.5f , cameraY - 1.5f, 2f, 4f);
 
-        batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY + 1.5f, 2f, 1f);
-        batch.draw(Graphics.getRegion("t_0"), cameraX + 0.5f, cameraY + 1.6f, 0.9f, 0.8f);
         //batch.draw(uiAtlas.findRegion("button0"), cameraX + 0.5f , cameraY - 1.5f, 2f, 4f);
         batch.draw(uiAtlas.findRegion("button0"), cameraX + 0.5f , cameraY + 1.5f, 2f, 1f);
-        batch.draw(spriteAtlas.findRegion("t"), cameraX + 0.5f, cameraY + 1.5f, 1f, 1f);
+        batch.draw(spriteAtlas.findRegion("t"), cameraX + 0.5f, cameraY + 1.6f, 0.9f, 0.8f);
 
-        batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY + 0.5f, 2f, 1f);
-        batch.draw(Graphics.getRegion("t_emil0"), cameraX + 0.5f, cameraY + 0.5f, 0.9f, 1f);
         batch.draw(uiAtlas.findRegion("button0"), cameraX + 0.5f , cameraY + 0.5f, 2f, 1f);
-        batch.draw(spriteAtlas.findRegion("t_emil"), cameraX + 0.5f, cameraY + 0.5f, 1f, 1f);
+        batch.draw(spriteAtlas.findRegion("t_emil"), cameraX + 0.5f, cameraY + 0.5f, 0.9f, 1f);
 
-        batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY - 0.5f, 2f, 1f);
-        batch.draw(Graphics.getRegion("t_hybrida0"), cameraX + 0.5f, cameraY - 0.4f, 1f, 0.783f);
         batch.draw(uiAtlas.findRegion("button0"), cameraX + 0.5f , cameraY - 0.5f, 2f, 1f);
-        batch.draw(spriteAtlas.findRegion("t_hybrida"), cameraX + 0.5f, cameraY - 0.5f, 1f, 1f);
+        batch.draw(spriteAtlas.findRegion("t_hybrida"), cameraX + 0.5f, cameraY - 0.4f, 1f, 0.783f);
 
-        batch.draw(Graphics.getRegion("button0"), cameraX + 0.5f , cameraY - 1.5f, 2f, 1f);
-        batch.draw(Graphics.getRegion("t_volvox0"), cameraX + 0.5f, cameraY - 1.4f, 1f, 0.78f);
         batch.draw(uiAtlas.findRegion("button0"), cameraX + 0.5f , cameraY - 1.5f, 2f, 1f);
-        batch.draw(spriteAtlas.findRegion("t_volvox"), cameraX + 0.5f, cameraY - 1.5f, 1f, 1f);
+        batch.draw(spriteAtlas.findRegion("t_volvox"), cameraX + 0.5f, cameraY - 1.4f, 1f, 0.78f);
     }
 
     public boolean towerSet(float cameraX, float cameraY){

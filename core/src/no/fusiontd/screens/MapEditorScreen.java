@@ -68,7 +68,6 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
 
     private void setup() {
         play = new TextureAtlas.AtlasRegion(uiAtlas.findRegion("play0"));
-        play.flip(true, false);
     }
 
     @Override
