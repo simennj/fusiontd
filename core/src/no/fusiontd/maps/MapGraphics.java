@@ -59,15 +59,19 @@ class MapGraphics {
         textures.put("10000011", tilesAtlas.findRegions("t_g_N"));
         textures.put("10000001", tilesAtlas.findRegions("t_g_N"));
         textures.put("00000011", tilesAtlas.findRegions("t_g_N"));
+        textures.put("00000001", tilesAtlas.findRegions("t_g_N"));
         textures.put("00001110", tilesAtlas.findRegions("t_g_W"));
         textures.put("00000110", tilesAtlas.findRegions("t_g_W"));
         textures.put("00001100", tilesAtlas.findRegions("t_g_W"));
+        textures.put("00000100", tilesAtlas.findRegions("t_g_W"));
         textures.put("00111000", tilesAtlas.findRegions("t_g_S"));
         textures.put("00011000", tilesAtlas.findRegions("t_g_S"));
         textures.put("00110000", tilesAtlas.findRegions("t_g_S"));
+        textures.put("00010000", tilesAtlas.findRegions("t_g_S"));
         textures.put("11100000", tilesAtlas.findRegions("t_g_E"));
         textures.put("01100000", tilesAtlas.findRegions("t_g_E"));
         textures.put("11000000", tilesAtlas.findRegions("t_g_E"));
+        textures.put("01000000", tilesAtlas.findRegions("t_g_E"));
         textures.put("10000000", tilesAtlas.findRegions("t_g_NE"));
         textures.put("00000010", tilesAtlas.findRegions("t_g_NW"));
         textures.put("00100000", tilesAtlas.findRegions("t_g_SE"));
@@ -88,6 +92,8 @@ class MapGraphics {
         textures.put("00111100", tilesAtlas.findRegions("t_p_NE"));
         textures.put("00011110", tilesAtlas.findRegions("t_p_NE"));
         textures.put("00011100", tilesAtlas.findRegions("t_p_NE"));
+        textures.put("10001000", tilesAtlas.findRegions("t_g_NESW"));
+        textures.put("00100010", tilesAtlas.findRegions("t_g_NWSE"));
     }
 
     private void setTileGraphic(int x, int y) {
@@ -98,6 +104,7 @@ class MapGraphics {
             variations = textures.get(checkNeighbours(padMap, x, y));
             if (variations == null) {
                 variations = textures.get("00000000");
+                System.out.println(checkNeighbours(padMap, x, y));
             }
         }
         tileTextures[y - 1][x - 1] = variations.get(getRandomIndex(variations.size));
@@ -121,14 +128,14 @@ class MapGraphics {
 
         String neighbours = "";
 
-        neighbours += isGrass(x - 1, y - 1);
-        neighbours += isGrass(x - 1, y);
-        neighbours += isGrass(x - 1, y + 1);
-        neighbours += isGrass(x, y + 1);
-        neighbours += isGrass(x + 1, y + 1);
-        neighbours += isGrass(x + 1, y);
-        neighbours += isGrass(x + 1, y - 1);
-        neighbours += isGrass(x, y - 1);
+        neighbours += isGrass(x - 1, y - 1); // North East
+        neighbours += isGrass(x - 1, y); // East
+        neighbours += isGrass(x - 1, y + 1); // South East
+        neighbours += isGrass(x, y + 1); // South
+        neighbours += isGrass(x + 1, y + 1); // South West
+        neighbours += isGrass(x + 1, y); // West
+        neighbours += isGrass(x + 1, y - 1); // North West
+        neighbours += isGrass(x, y - 1); // North
 
         return neighbours;
     }
