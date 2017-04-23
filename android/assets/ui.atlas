@@ -217,7 +217,21 @@ play0
   orig: 81, 95
   offset: 0, 0
   index: -1
+play0_new
+  rotate: false
+  xy: 253, 26
+  size: 81, 95
+  orig: 81, 95
+  offset: 0, 0
+  index: -1
 play1
+  rotate: false
+  xy: 336, 30
+  size: 77, 91
+  orig: 77, 91
+  offset: 0, 0
+  index: -1
+play1_new
   rotate: false
   xy: 336, 30
   size: 77, 91
