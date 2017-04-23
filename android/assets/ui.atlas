@@ -231,6 +231,13 @@ money
   orig: 60, 104
   offset: 0, 0
   index: -1
+p
+  rotate: false
+  xy: 779, 12
+  size: 62, 95
+  orig: 62, 95
+  offset: 0, 0
+  index: -1
 placeholder
   rotate: false
   xy: 429, 131
