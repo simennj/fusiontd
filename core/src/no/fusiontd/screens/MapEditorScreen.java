@@ -158,7 +158,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
                 break;
             case EDITING:
                 if (camera.transformedX(screenX) > 15.0f && camera.transformedX(screenX) < 16.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
-                    game.returnToMenu();
+                    game.openMapEditor();
                     state = State.METADATA;
                 } else if (camera.transformedX(screenX) > 0.0f && camera.transformedX(screenX) < 1.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
                     saveMap();

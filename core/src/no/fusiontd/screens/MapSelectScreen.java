@@ -8,11 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
 import no.fusiontd.menu.NormalTextButtonFactory;
@@ -76,6 +71,7 @@ public class MapSelectScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(3 / 255f, 73 / 255f, 114 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();

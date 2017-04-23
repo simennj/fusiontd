@@ -112,12 +112,17 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
                 Gdx.input.getTextInput(ConnectScreen.this, "Enter Ip to Connect to", "", "");
             }
         });
+
         stage.addMenuContent(typedIPField);
 
         btnFindGame = stage.createTextButton("Find Game", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(typedIPString != null && !pending) {
+                System.out.println(typedIPField.getText().toString());
+                if(typedIPField.getText().toString().equals("Click to enter IP")){
+                    Gdx.input.getTextInput(ConnectScreen.this, "Enter Ip to Connect to", "", "");
+                }
+                else if(typedIPString != null && !pending) {
                     mpClient = new MPClient(typedIPString, game, "Saltminer");
                     mpClient.login();
                     game.initMPClient(mpClient);

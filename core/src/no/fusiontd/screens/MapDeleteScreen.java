@@ -11,12 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
-
 import no.fusiontd.FusionTD;
 import no.fusiontd.MenuStage;
 import no.fusiontd.menu.NormalTextButtonFactory;
 import no.fusiontd.menu.TextButtonFactory;
-import sun.text.resources.cldr.ia.FormatData_ia;
 
 public class MapDeleteScreen implements Screen{
         private FusionTD game;
@@ -76,6 +74,7 @@ public class MapDeleteScreen implements Screen{
 
         @Override
         public void render(float delta) {
+            Gdx.gl.glClearColor(3 / 255f, 73 / 255f, 114 / 255f, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             stage.act(Gdx.graphics.getDeltaTime());
             stage.draw();

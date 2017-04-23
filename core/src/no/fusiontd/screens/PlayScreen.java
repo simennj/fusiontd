@@ -129,10 +129,12 @@ public class PlayScreen implements Screen, InputProcessor {
                 } else if (camera.transformedX(screenX) > 0.0f && camera.transformedX(screenX) < 1.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
                     if (multiplayer) {
                         if (mpClient == null) {
+                            ui.creepWaveNumber++;
                             creepSpawner.startNextWave();
                             mpServer.sendCreepWaveStarted();
                         }
                     } else {
+                        ui.creepWaveNumber++;
                         creepSpawner.startNextWave();
                     }
                 } else if (camera.transformedX(screenX) > 1.0f && camera.transformedX(screenX) < 2.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
