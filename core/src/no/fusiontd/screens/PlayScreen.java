@@ -68,11 +68,13 @@ public class PlayScreen implements Screen, InputProcessor {
                 camera.drawMap(map, batch);
                 engine.update(delta);
                 creepSpawner.update(delta);
-                ui.render(batch,state);
+                ui.render(batch);
                 batch.end();
                 break;
             case PAUSE:
-                //Do nothing
+                batch.begin();
+                ui.renderPause(batch);
+                batch.end();
                 break;
         }
     }
@@ -120,36 +122,46 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (camera.transformedX(screenX) > 15.0f && camera.transformedX(screenX) < 16.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
-            game.returnToMenu();
-        } else if (camera.transformedX(screenX) > 0.0f && camera.transformedX(screenX) < 1.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
-            if (multiplayer) {
-                if (mpClient == null) {
-                    creepSpawner.startNextWave();
-                    mpServer.sendCreepWaveStarted();
+        switch (state) {
+            case RUN:
+                if (camera.transformedX(screenX) > 15.0f && camera.transformedX(screenX) < 16.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
+                    game.returnToMenu();
+                } else if (camera.transformedX(screenX) > 0.0f && camera.transformedX(screenX) < 1.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
+                    if (multiplayer) {
+                        if (mpClient == null) {
+                            creepSpawner.startNextWave();
+                            mpServer.sendCreepWaveStarted();
+                        }
+                    } else {
+                        creepSpawner.startNextWave();
+                    }
+                } else if (camera.transformedX(screenX) > 1.0f && camera.transformedX(screenX) < 2.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
+                    switchState();
+                } else if (ui.isTowerSetting()) {
+                    ui.towerSet(camera.transformedX(screenX), camera.transformedY(screenY));
+                } else if (engine.checkTower(new Geometry(camera.transformedX(screenX), camera.transformedY(screenY), 0, .5f))) {
+                    // selected Tower and upgrade
+                    ui.selectTower(camera.transformedX(screenX), camera.transformedY(screenY));
+                } else if (engine.checkCreep(new Geometry(camera.transformedX(screenX), camera.transformedY(screenY), 0, .5f))) {
+                    // selected Creep
+                    ui.selectCreep(camera.transformedX(screenX), camera.transformedY(screenY));
+                } else if (map.getTile(camera.transformedX(screenX), camera.transformedY(screenY)) == 1 || map.getTile(camera.transformedX(screenX), camera.transformedY(screenY)) == 2 || map.getTile(camera.transformedX(screenX), camera.transformedY(screenY)) == 3) {
+                    // is on road (or end or start), do nothing
+                    return false;
+                } else if (!ui.isTowerSetting()) {
+                    // open tower setting menu
+                    ui.openTowerSet(camera.transformedX(screenX), camera.transformedY(screenY));
                 }
-            } else {
-                creepSpawner.startNextWave();
-            }
-        } else if (camera.transformedX(screenX) > 1.0f && camera.transformedX(screenX) < 2.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
-            switchState();
-        } else if (ui.isTowerSetting()) {
-            ui.towerSet(camera.transformedX(screenX), camera.transformedY(screenY));
-        } else if (engine.checkTower(new Geometry(camera.transformedX(screenX), camera.transformedY(screenY), 0, .5f))) {
-            // selected Tower and upgrade
-            ui.selectTower(camera.transformedX(screenX), camera.transformedY(screenY));
-        } else if (engine.checkCreep(new Geometry(camera.transformedX(screenX), camera.transformedY(screenY), 0, .5f))) {
-            // selected Creep
-            ui.selectCreep(camera.transformedX(screenX), camera.transformedY(screenY));
-        } else if (map.getTile(camera.transformedX(screenX), camera.transformedY(screenY)) == 1 || map.getTile(camera.transformedX(screenX), camera.transformedY(screenY)) == 2 || map.getTile(camera.transformedX(screenX), camera.transformedY(screenY)) == 3) {
-            // is on road (or end or start), do nothing
-            return false;
-        } else if (!ui.isTowerSetting()) {
-            // open tower setting menu
-            ui.openTowerSet(camera.transformedX(screenX), camera.transformedY(screenY));
+                return false;
+            case PAUSE:
+                if (camera.transformedX(screenX) > 1.0f && camera.transformedX(screenX) < 2.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
+                    switchState();
+                }
+                return false;
         }
         return false;
     }
+
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
