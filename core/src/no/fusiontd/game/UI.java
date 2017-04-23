@@ -14,6 +14,7 @@ import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.components.Geometry;
 import no.fusiontd.components.Upgradeable;
 import no.fusiontd.components.Value;
+import no.fusiontd.screens.PlayScreen;
 
 import java.util.LinkedList;
 
@@ -40,7 +41,7 @@ public class UI{
         this.map = map;
     }
 
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, PlayScreen.State state) {
         showLives(batch);
         showCash(batch);
         if(multiPlayer){
@@ -49,7 +50,14 @@ public class UI{
         if (showTowerSet){
             towerSetMenu(towerSettingX, towerSettingY, batch);
         }
-
+        switch (state){
+            case PAUSE:
+                batch.draw(uiAtlas.findRegion("pause1"), 1.0f , 0.0f, 1f, 1f);
+                break;
+            case RUN:
+                batch.draw(uiAtlas.findRegion("pause0"), 1.0f , 0.0f, 1f, 1f);
+                break;
+        }
         batch.draw(uiAtlas.findRegion("back0"), 15.0f , 0.0f, 1f, 1f); // back button
         if (!multiPlayer || mpServer != null) {
             batch.draw(uiAtlas.findRegion("play0"), 0.0f, 0.0f, 1f, 1f);
