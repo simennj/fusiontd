@@ -25,7 +25,7 @@ public class MenuScreen implements Screen {
         stage = new MenuStage();
         textButtonFactory = new NormalTextButtonFactory();
         Gdx.input.setInputProcessor(stage);
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(3 / 255f, 73 / 255f, 114 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         /*Texture backgroundImage = new Texture(Gdx.files.internal("backgrounds/main_menu_with_creeps.png"));
