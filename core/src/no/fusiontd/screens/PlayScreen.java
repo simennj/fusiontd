@@ -33,7 +33,7 @@ public class PlayScreen implements Screen, InputProcessor {
     public PlayScreen(FusionTD game, boolean multiplayer) {
         this.game = game;
         this.multiplayer = multiplayer;
-        int lives = 10; int cash = 10; //should be set by difficulty
+        int lives = 20; int cash = 20; //should be set by difficulty
         localPlayer = new Player(lives, cash, 0, game);
 
         // should be for multiplayer only, but to avoid crashes before multiplayer is properly implemented we'll always have a mulPlayer

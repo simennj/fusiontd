@@ -42,7 +42,12 @@ public class UI{
         batch.draw(uiAtlas.findRegion("life"), 11.0f, 0.0f, 0.55f, 0.55f);
         showLives(batch);
         showCash(batch);
-        showCreepWave(creepWaveNumber, batch);
+        if(mpClient == null){
+            showCreepWave(creepWaveNumber, batch);
+        }
+        if(mpClient != null){
+            showCreepWave(mpClient.getCreepWaveNumber(), batch);
+        }
         if(multiPlayer){
             showCashMultiPlayer(batch);
         }

@@ -3,31 +3,29 @@ package no.fusiontd.components;
 
 import com.badlogic.gdx.math.Vector2;
 import no.fusiontd.CloneableComponent;
-
-import java.util.Arrays;
-import java.util.List;
+import no.fusiontd.game.CloneableComponentList;
 
 public class Targeting implements CloneableComponent<Targeting> {
     public float range;
     public float attackspeed;
     public float timeSinceLastAttack;
     public boolean aim;
-    public List<CloneableComponent> attack;
+    public CloneableComponentList attack;
     public Vector2 projectileDisplacement;
 
     public Targeting(float range, float attackspeed, boolean aim, CloneableComponent... attack) {
-        this(range, attackspeed, aim, Arrays.asList(attack));
+        this(range, attackspeed, aim, new CloneableComponentList(attack));
     }
 
     public Targeting(float range, float attackspeed, Vector2 projectileDisplacement, boolean aim, CloneableComponent... attack) {
-        this(range, attackspeed, projectileDisplacement, aim, Arrays.asList(attack));
+        this(range, attackspeed, projectileDisplacement, aim, new CloneableComponentList(attack));
     }
 
-    public Targeting(float range, float attackspeed, boolean aim, List<CloneableComponent> attack) {
+    private Targeting(float range, float attackspeed, boolean aim, CloneableComponentList attack) {
         this(range, attackspeed, new Vector2(), aim, attack);
     }
 
-    public Targeting(float range, float attackspeed, Vector2 projectileDisplacement, boolean aim, List<CloneableComponent> attack) {
+    private Targeting(float range, float attackspeed, Vector2 projectileDisplacement, boolean aim, CloneableComponentList attack) {
         this.range = range;
         this.attackspeed = attackspeed;
         this.attack = attack;
