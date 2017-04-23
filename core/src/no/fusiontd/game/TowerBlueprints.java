@@ -98,13 +98,13 @@ public class TowerBlueprints extends ObjectMap<String, CloneableComponentList> {
         put("t_emil", new CloneableComponentList(
                 new Render(spriteAtlas.findRegions("t_emil")),
                 new Value(8),
-                new Targeting(1, .05f, new Vector2(0, .5f), true,
+                new Targeting(1, .1f, new Vector2(0, .5f), true,
                         new Render(spriteAtlas.findRegions("flame")),
                         new Timer(.05f),
-                        new Attack(.1f, 8),
-                        new Durability(10)
+                        new Attack(.1f, 12),
+                        new Durability(12)
                 ),
-                new Upgradeable(12, new Targeting(1.5f, .05f, new Vector2(0, .5f), true,
+                new Upgradeable(12, new Targeting(1.5f, .8f, new Vector2(0, .5f), true,
                         new Render(spriteAtlas.findRegions("flame")),
                         new Timer(.05f),
                         new Attack(.05f, 15),
