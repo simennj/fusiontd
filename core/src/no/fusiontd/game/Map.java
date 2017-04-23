@@ -83,6 +83,12 @@ public class Map {
         padMap = padMap(map);
     }
 
+    public void setTile(float x, float y){
+        int tile = 1 % 4;
+        map[getMapRow(y)][getMapCol(x)] = tile;
+        padMap = padMap(map);
+    }
+
     public int getTile(float x, float y) {
         return map[getMapRow(y)][getMapCol(x)];
     }

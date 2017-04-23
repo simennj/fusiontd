@@ -179,6 +179,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        map.setTile(camera.transformedX(screenX), camera.transformedY(screenY));
         return false;
     }
 
