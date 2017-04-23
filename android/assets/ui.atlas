@@ -217,9 +217,16 @@ defeat
   orig: 384, 103
   offset: 0, 0
   index: -1
+life
+  rotate: false
+  xy: 388, 50
+  size: 87, 79
+  orig: 87, 79
+  offset: 0, 0
+  index: -1
 money
   rotate: false
-  xy: 628, 2
+  xy: 717, 2
   size: 60, 104
   orig: 60, 104
   offset: 0, 0
@@ -240,35 +247,35 @@ placeholder1
   index: -1
 play0
   rotate: false
-  xy: 388, 34
+  xy: 477, 34
   size: 81, 95
   orig: 81, 95
   offset: 0, 0
   index: -1
 play0_new
   rotate: false
-  xy: 388, 34
+  xy: 477, 34
   size: 81, 95
   orig: 81, 95
   offset: 0, 0
   index: -1
 play1
   rotate: false
-  xy: 471, 38
+  xy: 560, 38
   size: 77, 91
   orig: 77, 91
   offset: 0, 0
   index: -1
 play1_new
   rotate: false
-  xy: 471, 38
+  xy: 560, 38
   size: 77, 91
   orig: 77, 91
   offset: 0, 0
   index: -1
 save
   rotate: false
-  xy: 550, 47
+  xy: 639, 24
   size: 76, 82
   orig: 76, 82
   offset: 0, 0
