@@ -66,5 +66,6 @@ public class Map {
         int row = getMapRow(y);
         int col = getMapCol(x);
         map.setType(row, col, type);
+        mapGraphics.setType(row, col, type);
     }
 }
