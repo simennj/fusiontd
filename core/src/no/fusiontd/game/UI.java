@@ -1,20 +1,14 @@
 package no.fusiontd.game;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.*;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-
 import no.fusiontd.FusionTD;
 import no.fusiontd.Graphics;
 import no.fusiontd.MPAlternative.MPClient;
 import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.components.Geometry;
-import no.fusiontd.components.Upgradeable;
 import no.fusiontd.components.Value;
-import no.fusiontd.screens.PlayScreen;
 
 import java.util.LinkedList;
 
@@ -30,9 +24,9 @@ public class UI{
     private boolean multiPlayer;
     private TextureAtlas.AtlasRegion play;
     private TextureAtlas uiAtlas, spriteAtlas;
-    private Map map;
+    private no.fusiontd.maps.Map map;
 
-    public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine, Map map) {
+    public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine, no.fusiontd.maps.Map map) {
         this.game = game; this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
         this.showTowerSet = false;
         this.engine = engine;
@@ -163,7 +157,7 @@ public class UI{
         } else if(cameraX < towerSettingX + 0.5f && cameraX > towerSettingX - 0.5f && cameraY < towerSettingY + 1.5f && cameraY > towerSettingY - 1.5f) {
             closeTowerSet();
         } else {
-            if (map.getTile(cameraX, cameraY) == 1 || map.getTile(cameraX, cameraY) == 2 || map.getTile(cameraX, cameraY) == 3) {
+            if (map.getTileType(cameraX, cameraY) == 1 || map.getTileType(cameraX, cameraY) == 2 || map.getTileType(cameraX, cameraY) == 3) {
                 closeTowerSet();
             } else {
                 closeTowerSet();

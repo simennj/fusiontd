@@ -12,15 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import no.fusiontd.FusionTD;
 import no.fusiontd.MapCamera;
 import no.fusiontd.MenuStage;
-import no.fusiontd.game.Map;
+import no.fusiontd.maps.Map;
 import no.fusiontd.maps.MapWriter;
 
 public class MapEditorScreen implements Screen, Input.TextInputListener, InputProcessor {
 
 
     private static final float WIDTH = 16, HEIGHT = 9;
-    public final int TILEROWS = 9, TILECOLS = 16;
-    public SpriteBatch batch;
+    private final int TILEROWS = 9, TILECOLS = 16;
+    private SpriteBatch batch;
     private FusionTD game;
     private MenuStage stage;
     private MapCamera camera;
@@ -72,15 +72,14 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(3 / 255f, 73 / 255f, 114 / 255f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         switch (state) {
             case METADATA:
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                 stage.act(Gdx.graphics.getDeltaTime());
                 stage.draw();
                 break;
             case EDITING:
-                Gdx.gl.glClearColor(0, 1, 0, 1);
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                 batch.setProjectionMatrix(camera.combined);
                 batch.begin();
                 camera.drawMap(map, batch);
@@ -164,7 +163,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
                 } else if (camera.transformedX(screenX) > 0.0f && camera.transformedX(screenX) < 1.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
                     saveMap();
                 } else {
-                    map.toggleTile(camera.transformedX(screenX), camera.transformedY(screenY));
+                    map.toggleTileType(camera.transformedX(screenX), camera.transformedY(screenY));
                 }
                 break;
         }
@@ -178,7 +177,7 @@ public class MapEditorScreen implements Screen, Input.TextInputListener, InputPr
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        map.setTile(camera.transformedX(screenX), camera.transformedY(screenY));
+        map.setTileType(camera.transformedX(screenX), camera.transformedY(screenY), 1);
         return false;
     }
 

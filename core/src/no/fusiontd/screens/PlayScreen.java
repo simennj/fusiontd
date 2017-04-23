@@ -18,7 +18,7 @@ public class PlayScreen implements Screen, InputProcessor {
     private float w, h;
     private EntityComponentManager engine;
     private FusionTD game;
-    private Map map;
+    private no.fusiontd.maps.Map map;
     private GameController controller;
     private CreepSpawner creepSpawner;
     private MapCamera camera;
@@ -35,20 +35,20 @@ public class PlayScreen implements Screen, InputProcessor {
         this.multiplayer = multiplayer;
         int lives = 10; int cash = 10; //should be set by difficulty
         localPlayer = new Player(lives, cash, 0, game);
-        if (true){ // should be for multiplayer only, but to avoid crashes before multiplayer is properly implemented we'll always have a mulPlayer
-            mulPlayer = new Player(lives, cash, 0, game);
-        }
+
+        // should be for multiplayer only, but to avoid crashes before multiplayer is properly implemented we'll always have a mulPlayer
+        mulPlayer = new Player(lives, cash, 0, game);
     }
 
     @Override
     public void show() {
-        map = new Map(mapName);
+        map = new no.fusiontd.maps.Map(mapName);
         camera = new MapCamera(map.TILECOLS, map.TILEROWS);
         controller = new GameController(map, this);
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         engine = new EntityComponentManager(this, localPlayer, mulPlayer);
-        creepSpawner = new CreepSpawner(map.path, engine);
+        creepSpawner = new CreepSpawner(map.getPath(), engine);
         ui = new UI(game,localPlayer,mulPlayer, engine,map);
     }
 
@@ -145,7 +145,7 @@ public class PlayScreen implements Screen, InputProcessor {
                 } else if (engine.checkCreep(new Geometry(camera.transformedX(screenX), camera.transformedY(screenY), 0, .5f))) {
                     // selected Creep
                     ui.selectCreep(camera.transformedX(screenX), camera.transformedY(screenY));
-                } else if (map.getTile(camera.transformedX(screenX), camera.transformedY(screenY)) == 1 || map.getTile(camera.transformedX(screenX), camera.transformedY(screenY)) == 2 || map.getTile(camera.transformedX(screenX), camera.transformedY(screenY)) == 3) {
+                } else if (map.getTileType(camera.transformedX(screenX), camera.transformedY(screenY)) == 1 || map.getTileType(camera.transformedX(screenX), camera.transformedY(screenY)) == 2 || map.getTileType(camera.transformedX(screenX), camera.transformedY(screenY)) == 3) {
                     // is on road (or end or start), do nothing
                     return false;
                 } else if (!ui.isTowerSetting()) {

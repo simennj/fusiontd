@@ -3,11 +3,11 @@ package no.fusiontd;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import no.fusiontd.game.Map;
+import no.fusiontd.maps.Map;
 
 public class MapCamera extends OrthographicCamera {
-    static final float WIDTH = 16, HEIGHT = 9;
-    final float tilesize;
+    private static final float WIDTH = 16, HEIGHT = 9;
+    private final float tilesize;
     private float screenHeight, screenWidth, widthOffset, heightOffset;
     private TextureAtlas tileAtlas = new TextureAtlas("tiles.atlas");
 
@@ -44,9 +44,9 @@ public class MapCamera extends OrthographicCamera {
     }
 
     public void drawMap(Map map, SpriteBatch batch) {
-        for (int y = 1; y < map.TILEROWS + 1; y++) {
-            for (int x = 1; x < map.TILECOLS + 1; x++) {
-                batch.draw(map.getTileGraphic(x,y), (x-1) * tilesize, (y-1) * tilesize, tilesize, tilesize);
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                batch.draw(map.getTileGraphic(x, y), x * tilesize, y * tilesize, tilesize, tilesize);
             }
         }
     }
