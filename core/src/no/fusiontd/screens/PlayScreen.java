@@ -49,7 +49,7 @@ public class PlayScreen implements Screen, InputProcessor {
         batch = new SpriteBatch();
         engine = new EntityComponentManager(this, localPlayer, mulPlayer);
         creepSpawner = new CreepSpawner(map.getPath(), engine);
-        ui = new UI(game,localPlayer,mulPlayer, engine);
+        ui = new UI(game,localPlayer,mulPlayer, engine,map);
     }
 
     public void setMap(String mapName) {
@@ -72,7 +72,9 @@ public class PlayScreen implements Screen, InputProcessor {
                 batch.end();
                 break;
             case PAUSE:
-                //Do nothing
+                batch.begin();
+                ui.renderPause(batch);
+                batch.end();
                 break;
         }
     }
@@ -120,34 +122,46 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (camera.transformedX(screenX) > 15.0f && camera.transformedX(screenX) < 16.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
-            game.returnToMenu();
-        } else if (camera.transformedX(screenX) > 0.0f && camera.transformedX(screenX) < 1.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
-            if (multiplayer) {
-                if (mpClient == null) {
-                    creepSpawner.startNextWave();
-                    mpServer.sendCreepWaveStarted();
+        switch (state) {
+            case RUN:
+                if (camera.transformedX(screenX) > 15.0f && camera.transformedX(screenX) < 16.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
+                    game.returnToMenu();
+                } else if (camera.transformedX(screenX) > 0.0f && camera.transformedX(screenX) < 1.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
+                    if (multiplayer) {
+                        if (mpClient == null) {
+                            creepSpawner.startNextWave();
+                            mpServer.sendCreepWaveStarted();
+                        }
+                    } else {
+                        creepSpawner.startNextWave();
+                    }
+                } else if (camera.transformedX(screenX) > 1.0f && camera.transformedX(screenX) < 2.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
+                    switchState();
+                } else if (ui.isTowerSetting()) {
+                    ui.towerSet(camera.transformedX(screenX), camera.transformedY(screenY));
+                } else if (engine.checkTower(new Geometry(camera.transformedX(screenX), camera.transformedY(screenY), 0, .5f))) {
+                    // selected Tower and upgrade
+                    ui.selectTower(camera.transformedX(screenX), camera.transformedY(screenY));
+                } else if (engine.checkCreep(new Geometry(camera.transformedX(screenX), camera.transformedY(screenY), 0, .5f))) {
+                    // selected Creep
+                    ui.selectCreep(camera.transformedX(screenX), camera.transformedY(screenY));
+                } else if (map.getTileType(camera.transformedX(screenX), camera.transformedY(screenY)) == 1 || map.getTileType(camera.transformedX(screenX), camera.transformedY(screenY)) == 2 || map.getTileType(camera.transformedX(screenX), camera.transformedY(screenY)) == 3) {
+                    // is on road (or end or start), do nothing
+                    return false;
+                } else if (!ui.isTowerSetting()) {
+                    // open tower setting menu
+                    ui.openTowerSet(camera.transformedX(screenX), camera.transformedY(screenY));
                 }
-            } else {
-                creepSpawner.startNextWave();
-            }
-        } else if (ui.isTowerSetting()) {
-            ui.towerSet(camera.transformedX(screenX), camera.transformedY(screenY));
-        } else if (engine.checkTower(new Geometry(camera.transformedX(screenX), camera.transformedY(screenY), 0, .5f))) {
-            // selected Tower and upgrade
-            ui.selectTower(camera.transformedX(screenX), camera.transformedY(screenY));
-        } else if (engine.checkCreep(new Geometry(camera.transformedX(screenX), camera.transformedY(screenY), 0, .5f))) {
-            // selected Creep
-            ui.selectCreep(camera.transformedX(screenX), camera.transformedY(screenY));
-        } else if (map.getTileType(camera.transformedX(screenX), camera.transformedY(screenY)) == 1 || map.getTileType(camera.transformedX(screenX), camera.transformedY(screenY)) == 2 || map.getTileType(camera.transformedX(screenX), camera.transformedY(screenY)) == 3) {
-            // is on road (or end or start), do nothing
-            return false;
-        } else if (!ui.isTowerSetting()) {
-            // open tower setting menu
-            ui.openTowerSet(camera.transformedX(screenX), camera.transformedY(screenY));
+                return false;
+            case PAUSE:
+                if (camera.transformedX(screenX) > 1.0f && camera.transformedX(screenX) < 2.0f && camera.transformedY(screenY) > 0.0f && camera.transformedY(screenY) < 1.0f) {
+                    switchState();
+                }
+                return false;
         }
         return false;
     }
+
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
@@ -172,6 +186,19 @@ public class PlayScreen implements Screen, InputProcessor {
     public void setMpServer(MPServer mpServer){ this.mpServer = mpServer; ui.initMPServer(mpServer);}
 
     public void setMpClient(MPClient mpClient){ this.mpClient = mpClient; mpClient.initCreepSpawner(creepSpawner); ui.initMPClient(mpClient);}
+
+    public void switchState(){
+        switch (state){
+            case PAUSE:
+                state = State.RUN;
+                break;
+            case RUN:
+                state = State.PAUSE;
+                break;
+            default:
+                state = State.RUN;
+        }
+    }
 
     public enum State {
         PAUSE,
