@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="1667.5625" y="264.0">no.fusiontd.systems.TimerSystem</node>
+    <node x="1661.5625" y="122.0">no.fusiontd.components.Timer</node>
+    <node x="1374.5625" y="264.0">no.fusiontd.systems.CollisionSystem</node>
+    <node x="190.0" y="122.0">no.fusiontd.components.Velocity</node>
+    <node x="22.0" y="122.0">no.fusiontd.components.Upgradeable</node>
+    <node x="5.323841222879651" y="430.98027613412233">no.fusiontd.game.EntityComponentManager</node>
+    <node x="492.32215909090894" y="264.0">no.fusiontd.systems.TargetingSystem</node>
+    <node x="918.5625" y="122.0">no.fusiontd.components.AddOnRemove</node>
+    <node x="809.4255681818179" y="0.0">no.fusiontd.CloneableComponent</node>
+    <node x="1066.5625" y="264.0">no.fusiontd.systems.RenderSystem</node>
+    <node x="768.5625" y="122.0">no.fusiontd.components.Geometry</node>
+    <node x="475.0" y="122.0">no.fusiontd.components.Value</node>
+    <node x="203.25" y="264.0">no.fusiontd.systems.VelocitySystem</node>
+    <node x="1232.5625" y="122.0">no.fusiontd.components.Durability</node>
+    <node x="327.0" y="122.0">no.fusiontd.components.Targeting</node>
+    <node x="1508.5625" y="122.0">no.fusiontd.components.Attackable</node>
+    <node x="702.3630681818179" y="264.0">no.fusiontd.systems.PathSystem</node>
+    <node x="1380.5625" y="122.0">no.fusiontd.components.Attack</node>
+    <node x="1099.5625" y="122.0">no.fusiontd.components.Render</node>
+    <node x="598.0" y="122.0">no.fusiontd.components.PathFollow</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="no.fusiontd.components.Value" target="no.fusiontd.CloneableComponent">
+      <point x="0.0" y="-16.0" />
+      <point x="516.5" y="82.0" />
+      <point x="862.2172348484845" y="82.0" />
+      <point x="-37.70833333333337" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.CollisionSystem" target="no.fusiontd.components.Attackable">
+      <point x="28.799999999999955" y="-16.0" />
+      <point x="1475.3624999999997" y="234.0" />
+      <point x="1593.3125" y="234.0" />
+      <point x="28.25" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Targeting" target="no.fusiontd.CloneableComponent">
+      <point x="0.0" y="-16.0" />
+      <point x="381.0" y="72.0" />
+      <point x="847.1339015151513" y="72.0" />
+      <point x="-52.79166666666663" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.game.EntityComponentManager" target="no.fusiontd.systems.VelocitySystem">
+      <point x="-65.9375" y="-16.0" />
+      <point x="756.125" y="336.0" />
+      <point x="273.75" y="336.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.PathSystem" target="no.fusiontd.components.PathFollow">
+      <point x="-30.5" y="-16.0" />
+      <point x="732.8630681818179" y="204.0" />
+      <point x="695.5" y="204.0" />
+      <point x="39.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.game.EntityComponentManager" target="no.fusiontd.systems.CollisionSystem">
+      <point x="65.9375" y="-16.0" />
+      <point x="888.0" y="336.0" />
+      <point x="1446.5625" y="336.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Upgradeable" target="no.fusiontd.components.Upgradeable">
+      <point x="-32.0" y="16.0" />
+      <point x="54.0" y="174.0" />
+      <point x="2.0" y="174.0" />
+      <point x="2.0" y="138.0" />
+      <point x="-64.0" y="-0.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Durability" target="no.fusiontd.components.Durability">
+      <point x="-27.0" y="16.0" />
+      <point x="1259.5625" y="174.0" />
+      <point x="1212.5625" y="174.0" />
+      <point x="1212.5625" y="138.0" />
+      <point x="-54.0" y="-0.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Geometry" target="no.fusiontd.CloneableComponent">
+      <point x="0.0" y="-16.0" />
+      <point x="823.5625" y="102.0" />
+      <point x="892.3839015151513" y="102.0" />
+      <point x="-7.541666666666629" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Targeting" target="no.fusiontd.components.Targeting">
+      <point x="-27.0" y="16.0" />
+      <point x="354.0" y="174.0" />
+      <point x="307.0" y="174.0" />
+      <point x="307.0" y="138.0" />
+      <point x="-54.0" y="-0.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Durability" target="no.fusiontd.CloneableComponent">
+      <point x="0.0" y="-16.0" />
+      <point x="1286.5625" y="82.0" />
+      <point x="937.6339015151513" y="82.0" />
+      <point x="37.70833333333337" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Attack" target="no.fusiontd.components.Attack">
+      <point x="-22.0" y="16.0" />
+      <point x="1402.5625" y="174.0" />
+      <point x="1360.5625" y="174.0" />
+      <point x="1360.5625" y="138.0" />
+      <point x="-44.0" y="-0.0" />
+    </edge>
+    <edge source="no.fusiontd.components.PathFollow" target="no.fusiontd.components.PathFollow">
+      <point x="-39.0" y="16.0" />
+      <point x="617.5" y="174.0" />
+      <point x="578.0" y="174.0" />
+      <point x="578.0" y="138.0" />
+      <point x="-58.5" y="-0.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.TimerSystem" target="no.fusiontd.components.Timer">
+      <point x="0.0" y="-16.0" />
+      <point x="28.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.TargetingSystem" target="no.fusiontd.components.Velocity">
+      <point x="-60.80000000000001" y="-16.0" />
+      <point x="507.52215909090893" y="204.0" />
+      <point x="270.83333333333337" y="204.0" />
+      <point x="32.33333333333337" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Velocity" target="no.fusiontd.components.Velocity">
+      <point x="-32.33333333333337" y="16.0" />
+      <point x="206.16666666666663" y="174.0" />
+      <point x="170.0" y="174.0" />
+      <point x="170.0" y="138.0" />
+      <point x="-48.5" y="-0.0" />
+    </edge>
+    <edge source="no.fusiontd.game.EntityComponentManager" target="no.fusiontd.components.Upgradeable">
+      <point x="-92.3125" y="-16.0" />
+      <point x="729.75" y="346.0" />
+      <point x="118.0" y="346.0" />
+      <point x="32.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.TargetingSystem" target="no.fusiontd.components.Geometry">
+      <point x="30.399999999999977" y="-16.0" />
+      <point x="598.7221590909089" y="224.0" />
+      <point x="802.9375" y="224.0" />
+      <point x="-20.625" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Velocity" target="no.fusiontd.CloneableComponent">
+      <point x="0.0" y="-16.0" />
+      <point x="238.5" y="62.0" />
+      <point x="832.0505681818179" y="62.0" />
+      <point x="-67.875" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Upgradeable" target="no.fusiontd.CloneableComponent">
+      <point x="0.0" y="-16.0" />
+      <point x="86.0" y="52.0" />
+      <point x="816.9672348484845" y="52.0" />
+      <point x="-82.95833333333337" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.CollisionSystem" target="no.fusiontd.components.Attack">
+      <point x="0.0" y="-16.0" />
+      <point x="22.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Render" target="no.fusiontd.CloneableComponent">
+      <point x="0.0" y="-16.0" />
+      <point x="1146.0625" y="92.0" />
+      <point x="922.5505681818179" y="92.0" />
+      <point x="22.625" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.AddOnRemove" target="no.fusiontd.CloneableComponent">
+      <point x="0.0" y="-16.0" />
+      <point x="989.0625" y="102.0" />
+      <point x="907.4672348484846" y="102.0" />
+      <point x="7.5416666666667425" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.game.EntityComponentManager" target="no.fusiontd.systems.TimerSystem">
+      <point x="92.3125" y="-16.0" />
+      <point x="914.375" y="346.0" />
+      <point x="1731.5625" y="346.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.CollisionSystem" target="no.fusiontd.components.Timer">
+      <point x="57.59999999999991" y="-16.0" />
+      <point x="1504.1625" y="244.0" />
+      <point x="1703.5625" y="244.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.VelocitySystem" target="no.fusiontd.components.Velocity">
+      <point x="-35.25" y="-16.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Attackable" target="no.fusiontd.CloneableComponent">
+      <point x="0.0" y="-16.0" />
+      <point x="1565.0625" y="62.0" />
+      <point x="967.8005681818179" y="62.0" />
+      <point x="67.875" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Geometry" target="no.fusiontd.components.Geometry">
+      <point x="-48.125" y="16.0" />
+      <point x="775.4375" y="174.0" />
+      <point x="748.5625" y="174.0" />
+      <point x="748.5625" y="138.0" />
+      <point x="-55.0" y="-0.0" />
+    </edge>
+    <edge source="no.fusiontd.components.AddOnRemove" target="no.fusiontd.components.AddOnRemove">
+      <point x="0.0" y="16.0" />
+      <point x="989.0625" y="174.0" />
+      <point x="898.5625" y="174.0" />
+      <point x="898.5625" y="138.0" />
+      <point x="-70.5" y="-0.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Attack" target="no.fusiontd.CloneableComponent">
+      <point x="0.0" y="-16.0" />
+      <point x="1424.5625" y="72.0" />
+      <point x="952.7172348484846" y="72.0" />
+      <point x="52.79166666666674" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.TargetingSystem" target="no.fusiontd.components.Targeting">
+      <point x="-30.400000000000034" y="-16.0" />
+      <point x="537.922159090909" y="194.0" />
+      <point x="408.0" y="194.0" />
+      <point x="27.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.TargetingSystem" target="no.fusiontd.components.PathFollow">
+      <point x="0.0" y="-16.0" />
+      <point x="568.3221590909089" y="204.0" />
+      <point x="656.5" y="204.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.CollisionSystem" target="no.fusiontd.components.Geometry">
+      <point x="-57.59999999999991" y="-16.0" />
+      <point x="1388.9625" y="224.0" />
+      <point x="871.6875" y="224.0" />
+      <point x="48.125" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.game.EntityComponentManager" target="no.fusiontd.systems.RenderSystem">
+      <point x="39.5625" y="-16.0" />
+      <point x="861.625" y="326.0" />
+      <point x="1135.0625" y="326.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Timer" target="no.fusiontd.components.Timer">
+      <point x="-28.0" y="16.0" />
+      <point x="1675.5625" y="174.0" />
+      <point x="1641.5625" y="174.0" />
+      <point x="1641.5625" y="138.0" />
+      <point x="-42.0" y="-0.0" />
+    </edge>
+    <edge source="no.fusiontd.game.EntityComponentManager" target="no.fusiontd.components.Geometry">
+      <point x="13.1875" y="-16.0" />
+      <point x="835.25" y="316.0" />
+      <point x="879.290909090909" y="316.0" />
+      <point x="879.290909090909" y="244.0" />
+      <point x="844.1875" y="244.0" />
+      <point x="20.625" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.game.EntityComponentManager" target="no.fusiontd.systems.PathSystem">
+      <point x="-13.1875" y="-16.0" />
+      <point x="808.875" y="316.0" />
+      <point x="763.3630681818179" y="316.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.RenderSystem" target="no.fusiontd.components.Render">
+      <point x="34.25" y="-16.0" />
+      <point x="23.25" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.game.EntityComponentManager" target="no.fusiontd.systems.TargetingSystem">
+      <point x="-39.5625" y="-16.0" />
+      <point x="782.5" y="326.0" />
+      <point x="568.3221590909089" y="326.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Attackable" target="no.fusiontd.components.Attackable">
+      <point x="-28.25" y="16.0" />
+      <point x="1536.8125" y="174.0" />
+      <point x="1488.5625" y="174.0" />
+      <point x="1488.5625" y="138.0" />
+      <point x="-56.5" y="-0.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.RenderSystem" target="no.fusiontd.components.Geometry">
+      <point x="-34.25" y="-16.0" />
+      <point x="1100.8125" y="234.0" />
+      <point x="857.9375" y="234.0" />
+      <point x="34.375" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Timer" target="no.fusiontd.CloneableComponent">
+      <point x="0.0" y="-16.0" />
+      <point x="1703.5625" y="52.0" />
+      <point x="982.8839015151513" y="52.0" />
+      <point x="82.95833333333337" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.CollisionSystem" target="no.fusiontd.components.Durability">
+      <point x="-28.799999999999955" y="-16.0" />
+      <point x="1417.7624999999998" y="214.0" />
+      <point x="1313.5625" y="214.0" />
+      <point x="27.0" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Value" target="no.fusiontd.components.Value">
+      <point x="0.0" y="16.0" />
+      <point x="516.5" y="174.0" />
+      <point x="455.0" y="174.0" />
+      <point x="455.0" y="138.0" />
+      <point x="-41.5" y="-0.0" />
+    </edge>
+    <edge source="no.fusiontd.components.PathFollow" target="no.fusiontd.CloneableComponent">
+      <point x="0.0" y="-16.0" />
+      <point x="656.5" y="92.0" />
+      <point x="877.3005681818179" y="92.0" />
+      <point x="-22.625" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.VelocitySystem" target="no.fusiontd.components.Geometry">
+      <point x="35.25" y="-16.0" />
+      <point x="309.0" y="214.0" />
+      <point x="789.1875" y="214.0" />
+      <point x="-34.375" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.systems.PathSystem" target="no.fusiontd.components.Geometry">
+      <point x="30.5" y="-16.0" />
+      <point x="793.8630681818179" y="244.0" />
+      <point x="830.4375" y="244.0" />
+      <point x="6.875" y="16.0" />
+    </edge>
+    <edge source="no.fusiontd.components.Render" target="no.fusiontd.components.Render">
+      <point x="-23.25" y="16.0" />
+      <point x="1122.8125" y="174.0" />
+      <point x="1079.5625" y="174.0" />
+      <point x="1079.5625" y="138.0" />
+      <point x="-46.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.8464106844741235" x="878.5" y="314.7426035502959" />
+  <SelectedNodes>
+    <node>no.fusiontd.game.EntityComponentManager</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

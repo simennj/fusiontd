@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import no.fusiontd.FusionTD;
-import no.fusiontd.Graphics;
 import no.fusiontd.MPAlternative.MPClient;
 import no.fusiontd.MPAlternative.MPServer;
 import no.fusiontd.components.Geometry;
@@ -14,6 +13,7 @@ import java.util.LinkedList;
 
 public class UI{
 
+    public int creepWaveNumber;
     private FusionTD game;
     private Player localPlayer, mulPlayer;
     private boolean showTowerSet = false;
@@ -25,7 +25,6 @@ public class UI{
     private TextureAtlas.AtlasRegion play;
     private TextureAtlas uiAtlas, spriteAtlas;
     private no.fusiontd.maps.Map map;
-    public int creepWaveNumber;
 
     public UI(FusionTD game, Player localPlayer, Player mulPlayer, EntityComponentManager engine, no.fusiontd.maps.Map map) {
         this.game = game; this.localPlayer = localPlayer; this.mulPlayer = mulPlayer;
@@ -98,7 +97,7 @@ public class UI{
 
     public void towerSetMenu(float cameraX, float cameraY, SpriteBatch batch) {
 
-        batch.draw(Graphics.getRegion("placeholder"), cameraX - 0.45f, cameraY - 0.35f, 0.79f, 0.76f);
+        batch.draw(uiAtlas.findRegion("placeholder"), cameraX - 0.45f, cameraY - 0.35f, 0.79f, 0.76f);
         //draw.draw(batch, cameraX + 0.5f , cameraY - 1.5f, 2f, 4f);
 
         //batch.draw(uiAtlas.findRegion("button0"), cameraX + 0.5f , cameraY - 1.5f, 2f, 4f);

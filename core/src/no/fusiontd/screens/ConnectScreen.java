@@ -95,7 +95,7 @@ public class ConnectScreen implements Screen, Input.TextInputListener {
                         game.selectMap();
                     }
                 } else {
-                    mpServer = new MPServer(game, "Haxor1337");
+                    mpServer = new MPServer();
                     serverIP = mpServer.getIp();
                     labelIP.setText("Server running on: " + serverIP);
                     serverRunning = true;
