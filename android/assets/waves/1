@@ -10,42 +10,41 @@ AMOUNT - NAME - LIFE - SPEED - DELAY - REWARD
 
 20 c 22 2 300 1
 10 c_bat 50 5 200 2
-10 c_manyeyed 160 1 1000 3
+5 c_manyeyed 160 1 1000 3
 
 25 c_bat 60 4 150 2
-10 c_manyeyed 180 1 1000 3
+5 c_manyeyed 180 1 1000 3
 
-100 c 30 2 300 1
+35 c 45 2 300 1
 
-60 c_bat 100 4 200 2
-30 c_manyeyed 200 1 1000 3
+25 c_bat 100 4 200 2
+10 c_manyeyed 200 1 1000 3
 
-25 c 38 2 300 1
-60 c_bat 125 4 200 2
+5 c 45 2 300 1
+40 c_bat 125 4 200 2
 
-20 c 55 2 300 1
-40 c_bat 150 4 200 2
-6 c_manyeyed 400 3 1000 3
+20 c 60 2 300 1
+20 c_bat 150 4 200 2
+5 c_manyeyed 400 3 1000 3
 
 30 c 75 2 300 1
-30 c_bat 175 4 200 2
-8 c_manyeyed 500 3 1000 3
+20 c_bat 175 4 200 2
+5 c_manyeyed 500 3 1000 3
 
-40 c 100 2 300 1
+30 c 100 2 300 1
 20 c_bat 200 4 200 2
-8 c_manyeyed 600 1 1000 3
+5 c_manyeyed 600 1 1000 3
 
-30 c 125 2 300 1
+10 c 125 2 300 1
 40 c_bat 225 4 200 2
-8 c_manyeyed 700 1 1000 3
+5 c_manyeyed 700 1 1000 3
 
-25 c 150 2 300 1
-30 c_bat 250 4 200 3
-8 c_manyeyed 800 1 1000 4
+40 c 150 2 300 1
+10 c_bat 250 4 200 3
 
-10 c_bat 250 5 200 3
-40 c 85 2 300 1
-12 c_manyeyed 900 1 1000 4
+40 c_bat 250 5 200 3
+10 c 85 2 300 1
+5 c_manyeyed 900 1 1000 4
 
 60 c_bat 250 5 200 3
 
@@ -53,9 +52,9 @@ AMOUNT - NAME - LIFE - SPEED - DELAY - REWARD
 
 30 c 120 3 300 1
 30 c_bat 250 5 200 3
-5 c_manyeyed 1100 2 1000 4
+15 c_manyeyed 1100 2 1000 4
 
-8 c_manyeyed 1250 3 1000 4
+10 c_manyeyed 1250 3 1000 4
 30 c_bat 275 5 200 3
 20 c 130 3 300 1
 
