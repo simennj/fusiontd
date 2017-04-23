@@ -40,7 +40,7 @@ class MapGraphics {
                 if (i == 0 || j == 0 || i == TILEROWS + 1 || j == TILECOLS + 1) { //  || map[y_max - i - 1][j-1] == 2 || map[y_max - i- 1][j-1] == 3
                     paddedMap[y_max - i][j] = 0;
                 } else {
-                    paddedMap[y_max - i][j] = Math.min(map[y_max - i - 1][j - 1], 1);
+                    paddedMap[y_max - i][j] = map[y_max - i - 1][j - 1];
                 }
             }
         }
@@ -53,7 +53,8 @@ class MapGraphics {
         // The corners are seriously messed up. BEWARE!!!
 
         textures.put("road", tilesAtlas.findRegions("t_p"));
-        textures.put("tree", tilesAtlas.findRegions("tree"));
+        textures.put("endTile", tilesAtlas.findRegions("endTile"));
+        textures.put("startTile", tilesAtlas.findRegions("startTile"));
 
         textures.put("00000000", tilesAtlas.findRegions("t_g"));
         textures.put("10000011", tilesAtlas.findRegions("t_g_N"));
@@ -98,8 +99,12 @@ class MapGraphics {
 
     private void setTileGraphic(int x, int y) {
         Array<TextureAtlas.AtlasRegion> variations;
-        if (padMap[y][x] == 1 || padMap[y][x] == 2 || padMap[y][x] == 3) {
+        if (padMap[y][x] == 1) {
             variations = textures.get("road");
+        } else if (padMap[y][x] == 2) {
+            variations = textures.get("startTile");
+        } else if (padMap[y][x] == 3) {
+            variations = textures.get("endTile");
         } else {
             variations = textures.get(checkNeighbours(padMap, x, y));
             if (variations == null) {
