@@ -48,7 +48,7 @@ public class TargetingSystem extends IteratingSystem {
             entityGeometry.rotation = rotation - 90;
         }
         Entity missile = new Entity().add(getPlacement(targeting, entityGeometry, rotation));
-        for (CloneableComponent component : targeting.attack) {
+        for (CloneableComponent component : targeting.attack.values()) {
             missile.add(component.cloneComponent());
         }
         Velocity velocity = mVel.get(missile);
