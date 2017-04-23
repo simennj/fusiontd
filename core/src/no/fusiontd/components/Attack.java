@@ -4,7 +4,6 @@ import no.fusiontd.CloneableComponent;
 
 public class Attack implements CloneableComponent<Attack> {
     public float projradius;
-    public float expradius;
     public float damage;
 
     public Attack(float projradius, float damage) {
