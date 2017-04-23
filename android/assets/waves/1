@@ -35,7 +35,7 @@ AMOUNT - NAME - LIFE - SPEED - DELAY - REWARD
 20 c_bat 200 4 200 1
 5 c_manyeyed 650 1 1000 1
 
-1 c_boss 5000 1 1 100000
+1 c_boss 5000 1 1 100
 
 10 c 450 2 300 1
 40 c_bat 300 4 200 1
