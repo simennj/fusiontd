@@ -58,7 +58,7 @@ public class UI{
 
     public void selectTower(float cameraX, float cameraY) {
         Entity e = engine.getTowerAt(cameraX, cameraY);
-        if(engine.upgradeEntity(e)) {
+        if(engine.upgradeEntity(e) && e.getComponent(Value.class).cost < localPlayer.getCash()) {
             if (multiPlayer) {
                 sendTowerUpgrade(cameraX, cameraY);
             }
