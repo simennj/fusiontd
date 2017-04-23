@@ -38,6 +38,8 @@ public class UI{
     }
 
     public void render(SpriteBatch batch) {
+        batch.draw(uiAtlas.findRegion("0"), 8.0f, 0.0f, 0.55f, 0.55f);
+        batch.draw(uiAtlas.findRegion("9"), 11.0f, 0.0f, 0.55f, 0.55f);
         showLives(batch);
         showCash(batch);
         showCreepWave(creepWaveNumber, batch);
@@ -61,7 +63,7 @@ public class UI{
 
     public void selectTower(float cameraX, float cameraY) {
         Entity e = engine.getTowerAt(cameraX, cameraY);
-        if(engine.upgradeEntity(e)) {
+        if(engine.upgradeEntity(e) && e.getComponent(Value.class).cost < localPlayer.getCash()) {
             if (multiPlayer) {
                 sendTowerUpgrade(cameraX, cameraY);
             }

@@ -2,7 +2,6 @@ package no.fusiontd.components;
 
 import no.fusiontd.CloneableComponent;
 
-
 public class Attackable implements CloneableComponent<Attackable> {
     public float creepradius;
 
