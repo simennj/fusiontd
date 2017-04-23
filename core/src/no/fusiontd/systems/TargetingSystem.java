@@ -33,7 +33,7 @@ public class TargetingSystem extends IteratingSystem {
         Targeting targeting = mTar.get(entity);
         Geometry entityGeometry = mPos.get(entity);
         targeting.timeSinceLastAttack += deltaTime;
-        if (reloading(deltaTime, targeting)) return;
+        if (reloading(targeting)) return;
         Entity firstInRange = getFirstInRange(targeting, entityGeometry);
         if (firstInRange != null) {
             getEngine().addEntity(getMissile(targeting, entityGeometry, firstInRange));
@@ -79,7 +79,7 @@ public class TargetingSystem extends IteratingSystem {
         return projectileGeometry;
     }
 
-    private boolean reloading(float deltaTime, Targeting targeting) {
+    private boolean reloading(Targeting targeting) {
         if (targeting.timeSinceLastAttack < targeting.attackspeed) {
             return true;
         }
