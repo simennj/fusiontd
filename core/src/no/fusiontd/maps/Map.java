@@ -62,4 +62,9 @@ public class Map {
         return pathFinder.getPath();
     }
 
+    public void setTileType(float x, float y, int type) {
+        int row = getMapRow(y);
+        int col = getMapCol(x);
+        map.setType(row, col, type);
+    }
 }

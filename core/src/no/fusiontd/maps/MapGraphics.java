@@ -121,9 +121,6 @@ class MapGraphics {
         neighbours += isGrass(x + 1, y - 1);
         neighbours += isGrass(x, y - 1);
 
-
-        System.out.println(neighbours);
-
         return neighbours;
     }
 
