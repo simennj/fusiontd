@@ -17,33 +17,33 @@ public class TowerBlueprints extends ObjectMap<String, CloneableComponentList> {
 
         put("t_basic", new CloneableComponentList(
                 new Render(spriteAtlas.findRegions("t")),
-                new Value(1),
+                new Value(3),
                 new Targeting(5, .5f, true,
                         new Render(spriteAtlas.findRegions("missile0")),
                         new Timer(1),
                         new Attack(.5f, 5),
-                        new Durability(10),
+                        new Durability(5),
                         new Velocity(new Vector2(10, 0))
                 ),
-                new Upgradeable(3,
+                new Upgradeable(5,
                         new Targeting(5, .5f, true,
                                 new Render(spriteAtlas.findRegions("missile0")),
                                 new Timer(1),
                                 new Attack(.5f, 10),
-                                new Durability(20),
+                                new Durability(10),
                                 new Velocity(new Vector2(10, 0))
                         ),
-                        new Upgradeable(6, new Targeting(5, .5f, true,
+                        new Upgradeable(10, new Targeting(5, .5f, true,
                                 new Render(spriteAtlas.findRegions("missile0")),
                                 new Timer(1),
-                                new Durability(40),
+                                new Durability(20),
                                 new Attack(.5f, 20),
                                 new Velocity(new Vector2(12, 0))),
                                 new Upgradeable(10, new Targeting(5, .5f, true,
                                         new Render(spriteAtlas.findRegions("missile0")),
                                         new Timer(1f),
                                         new Attack(.8f, 30),
-                                        new Durability(60),
+                                        new Durability(30),
                                         new Velocity(new Vector2(15, 0)))
                                 )
                         )
@@ -51,7 +51,7 @@ public class TowerBlueprints extends ObjectMap<String, CloneableComponentList> {
         ));
         put("t_volvox", new CloneableComponentList(
                 new Render(spriteAtlas.findRegions("t_volvox")),
-                new Value(3),
+                new Value(5),
                 new Targeting(3f, 2f, true,
                         new Render(spriteAtlas.findRegions("missile0")),
                         new Timer(1),
@@ -64,7 +64,7 @@ public class TowerBlueprints extends ObjectMap<String, CloneableComponentList> {
                                 new Attack(.5f, 10),
                                 new Durability(10000000)
                         )),
-                new Upgradeable(6, new Targeting(3.5f, 1f, true,
+                new Upgradeable(8, new Targeting(3.5f, 1f, true,
                         new Render(spriteAtlas.findRegions("missile0")),
                         new Timer(1),
                         new Attack(.5f, 1),
@@ -97,25 +97,25 @@ public class TowerBlueprints extends ObjectMap<String, CloneableComponentList> {
                 )));
         put("t_emil", new CloneableComponentList(
                 new Render(spriteAtlas.findRegions("t_emil")),
-                new Value(5),
+                new Value(8),
                 new Targeting(1, .05f, new Vector2(0, .5f), true,
                         new Render(spriteAtlas.findRegions("flame")),
                         new Timer(.05f),
                         new Attack(.1f, 5),
                         new Durability(10)
                 ),
-                new Upgradeable(10, new Targeting(1.5f, .05f, new Vector2(0, .5f), true,
+                new Upgradeable(12, new Targeting(1.5f, .05f, new Vector2(0, .5f), true,
                         new Render(spriteAtlas.findRegions("flame")),
                         new Timer(.05f),
                         new Attack(.05f, 15),
                         new Durability(30)),
-                        new Upgradeable(15, new Targeting(1, .05f, new Vector2(0, .5f), true,
+                        new Upgradeable(20, new Targeting(1, .05f, new Vector2(0, .5f), true,
                                 new Render(spriteAtlas.findRegions("flame")),
                                 new Timer(.05f),
                                 new Attack(.05f, 30),
                                 new Durability(30)
                         ),
-                                new Upgradeable(20, new Targeting(1.5f, .05f, new Vector2(0, .5f), true,
+                                new Upgradeable(25, new Targeting(1.5f, .05f, new Vector2(0, .5f), true,
                                         new Render(spriteAtlas.findRegions("flame")),
                                         new Timer(.05f),
                                         new Attack(.05f, 45),
@@ -123,7 +123,7 @@ public class TowerBlueprints extends ObjectMap<String, CloneableComponentList> {
         ));
         put("t_hybrida", new CloneableComponentList(
                 new Render(spriteAtlas.findRegions("t_hybrida")),
-                new Value(3),
+                new Value(6),
                 new Targeting(5, 1.5f, false,
                         new Render(spriteAtlas.findRegions("missile0")),
                         new Timer(1),
