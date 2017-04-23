@@ -7,10 +7,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import no.fusiontd.CloneableComponent;
 
+import java.util.Random;
+
 public class Render extends Sprite implements CloneableComponent<Render> {
 
     private Animation<TextureRegion> animation;
     private float stateTime;
+    private float animationDuration;
+    private float nextAnimation;
 
     private Render(Render render) {
         this(render.animation);
@@ -20,13 +24,14 @@ public class Render extends Sprite implements CloneableComponent<Render> {
         this(.1f, textures);
     }
 
-    public Render(float frameDuration, Array<TextureAtlas.AtlasRegion> textures) {
-        this(new Animation<TextureRegion>(frameDuration, textures, Animation.PlayMode.LOOP));
+    private Render(float frameDuration, Array<TextureAtlas.AtlasRegion> textures) {
+        this(new Animation<TextureRegion>(frameDuration, textures, Animation.PlayMode.REVERSED));
     }
 
-    public Render(Animation<TextureRegion> animation) {
+    private Render(Animation<TextureRegion> animation) {
         super(animation.getKeyFrame(0));
         this.animation = cloneAnimation(animation);
+        this.animationDuration = animation.getAnimationDuration();
         setScale(1, 1);
     }
 
@@ -41,7 +46,12 @@ public class Render extends Sprite implements CloneableComponent<Render> {
 
     public void animate(float deltaTime) {
         stateTime += deltaTime;
-        setRegion(animation.getKeyFrame(stateTime));
+        if (stateTime <= animationDuration) {
+            setRegion(animation.getKeyFrame(stateTime));
+        } else if (stateTime > nextAnimation) {
+            nextAnimation = new Random().nextInt(10) * animationDuration;
+            stateTime = 0;
+        }
     }
 
     @Override
