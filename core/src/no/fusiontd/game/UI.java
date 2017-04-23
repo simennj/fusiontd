@@ -237,6 +237,9 @@ public class UI{
 
         mulPlayer = getMulPlayerFromNetwork();
         int cash = mulPlayer.getCash();
+        batch.draw(uiAtlas.findRegion("p"), 4.0f, 0.0f, 0.55f, 0.55f);
+        batch.draw(uiAtlas.findRegion("2"), 4.5f, 0.0f, 0.55f, 0.55f);
+        batch.draw(uiAtlas.findRegion("money"), 5.0f, 0.0f, 0.55f, 0.55f);
         representNumber(cash, 6.0f,0.0f,batch);
     }
 
