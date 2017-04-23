@@ -8,7 +8,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
 import no.fusiontd.components.*;
-import no.fusiontd.game.Player;
 
 public class CollisionSystem extends IteratingSystem {
 

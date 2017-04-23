@@ -47,7 +47,7 @@ public class PlayScreen implements Screen, InputProcessor {
         controller = new GameController(map, this);
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
-        engine = new EntityComponentManager(this, localPlayer, mulPlayer);
+        engine = new EntityComponentManager(this, localPlayer);
         creepSpawner = new CreepSpawner(map.getPath(), engine);
         ui = new UI(game,localPlayer,mulPlayer, engine,map);
     }

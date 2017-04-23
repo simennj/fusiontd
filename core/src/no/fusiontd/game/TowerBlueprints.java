@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectMap;
 import no.fusiontd.components.*;
 
-public class TowerBlueprints extends ObjectMap<String, CloneableComponentList> {
+public class TowerBlueprints extends ObjectMap<String, TowerBlueprint> {
     private TextureAtlas spriteAtlas = new TextureAtlas("sprites.atlas");
 
     TowerBlueprints() {

@@ -1,7 +1,5 @@
 package no.fusiontd.game;
 
-import com.badlogic.gdx.Gdx;
-
 import java.util.LinkedList;
 import java.util.List;
 

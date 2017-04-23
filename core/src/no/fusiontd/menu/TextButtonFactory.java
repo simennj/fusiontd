@@ -6,6 +6,6 @@ import com.badlogic.gdx.utils.Disposable;
 
 public interface TextButtonFactory extends Disposable{
 
-    public TextButton createTextButton(String text, ChangeListener listener);
+    TextButton createTextButton(String text, ChangeListener listener);
 
 }

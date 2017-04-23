@@ -3,8 +3,6 @@ package no.fusiontd.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;

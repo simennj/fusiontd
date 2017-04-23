@@ -1,7 +1,6 @@
 package no.fusiontd;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import no.fusiontd.MPAlternative.MPClient;
@@ -13,7 +12,6 @@ import no.fusiontd.screens.*;
 public class FusionTD extends Game {
     private Screen menuScreen;
 	private Screen optionScreen;
-	private Screen highscoreScreen;
 	private MapEditorScreen mapEditorScreen;
 	private PlayScreen playScreen;
 	private Screen connectScreen;
@@ -27,7 +25,6 @@ public class FusionTD extends Game {
 	public void create () {
 		menuScreen = new MenuScreen(this);
 		optionScreen = new OptionScreen(this);
-		highscoreScreen = new HighscoreScreen(this);
 		mapEditorScreen = new MapEditorScreen(this);
 		mapSelectScreen = new MapSelectScreen(this);
 		connectScreen = new ConnectScreen(this);
@@ -41,7 +38,7 @@ public class FusionTD extends Game {
 		setScreen(playScreen);
 		//System.out.println("Runs startgame");
 		boolean mapExists = false;
-		FileHandle[] maps =  createFilehandle();
+		FileHandle[] maps = FileHandler.createFilehandle();
 		for (int i = 0; i < maps.length; i++) {
 			//System.out.println(maps[i].toString());
 			String[] map = maps[i].toString().split("[./]");
@@ -121,46 +118,6 @@ public class FusionTD extends Game {
 	public void stopMP(){
 		mpServer = null;
 		mpc = null;
-	}
-
-	public MPClient getMpc(){
-		return mpc;
-	}
-
-	private FileHandle[] createFilehandle(){
-		String locRoot = Gdx.files.getLocalStoragePath();
-		FileHandle[] assetMaps = Gdx.files.internal("maps/").list();
-		FileHandle[] createdMaps = Gdx.files.absolute(locRoot + "maps/").list();
-
-		boolean equalArrays = true;
-		if(assetMaps.length != createdMaps.length){
-			equalArrays = false;
-		} else{
-			for (int i = 0; i < assetMaps.length; i++) {
-				if(!assetMaps[i].nameWithoutExtension().equals(createdMaps[i].nameWithoutExtension())){
-					equalArrays = false;
-					break;
-				}
-
-			}
-		}
-		FileHandle[] files;
-		if(equalArrays){
-			files = assetMaps;
-		}
-		else{
-			files = new FileHandle[createdMaps.length + assetMaps.length];
-			int count = 0;
-			for(int i = 0; i<assetMaps.length; i++) {
-				files[i] = assetMaps[i];
-				count++;
-			}
-			for(int j = 0;j<createdMaps.length;j++) {
-				files[count++] = createdMaps[j];
-			}
-		}
-
-		return files;
 	}
 
 }

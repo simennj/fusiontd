@@ -15,12 +15,9 @@ public class EntityComponentManager extends Engine {
     private ImmutableArray<Entity> creeps = getEntitiesFor(Family.all(Geometry.class, Attackable.class, Durability.class).get());
     private ComponentMapper<Geometry> mPos = ComponentMapper.getFor(Geometry.class);
     private TowerBlueprints towerBlueprints = new TowerBlueprints();
-    private Player localPlayer, mulPlayer;
 
-    public EntityComponentManager(PlayScreen view, final Player localPlayer, Player mulPlayer) {
+    public EntityComponentManager(PlayScreen view, final Player localPlayer) {
         super();
-        this.localPlayer = localPlayer;
-        this.mulPlayer = mulPlayer;
         addSystems(view);
         addListeners(localPlayer);
     }
@@ -136,6 +133,10 @@ public class EntityComponentManager extends Engine {
 
     int getCost(String tower) {
         return towerBlueprints.get(tower).toEntity().getComponent(Value.class).cost;
+    }
+
+    TowerBlueprints getTowerBluePrints() {
+        return towerBlueprints;
     }
 
 }
